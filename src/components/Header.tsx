@@ -4,8 +4,8 @@ const navLinks = [
   { label: "Catálogo", href: "/catalogo" },
   { label: "Clasificados", href: "/clasificados" },
   { label: "Tiendas", href: "/tiendas" },
-  { label: "Servicios", href: "/servicios" },
-  { label: "Vender Auto", href: "/vender" },
+  { label: "Adicionales", href: "/adicionales" },
+  { label: "Posventa", href: "/posventa" },
 ];
 
 export default function Header() {
@@ -16,7 +16,9 @@ export default function Header() {
           <span className="text-xl font-bold text-umarti-navy">
             UMARTI<span className="text-umarti-orange">.com</span>
           </span>
-          <span className="text-xs tracking-widest text-gray-400">motor</span>
+          <span className="text-xs tracking-widest text-gray-400">
+            movilidad
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -31,11 +33,19 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-6">
-          <button className="hidden text-sm font-medium text-gray-700 md:inline-flex items-center gap-1">
-            Explorar Ecosistema
-            <span aria-hidden>▾</span>
-          </button>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/vender"
+            className="hidden rounded-md border border-umarti-navy px-4 py-2 text-sm font-semibold text-umarti-navy hover:bg-umarti-navy hover:text-white md:inline-flex items-center"
+          >
+            Vender mi auto
+          </Link>
+          <Link
+            href="/ecosistema-negocios"
+            className="hidden rounded-md bg-umarti-navy px-4 py-2 text-sm font-semibold text-white hover:bg-umarti-navyDark md:inline-flex items-center"
+          >
+            Ecosistema de Negocios
+          </Link>
           <Link
             href="/login"
             className="rounded-md bg-umarti-orange px-4 py-2 text-sm font-semibold text-white hover:opacity-90"
