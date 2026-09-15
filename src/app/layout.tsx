@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Umarti Autos | Marketplace automotriz en Argentina",
+  title: "Umarti Movilidad | Marketplace de autos, motos y camiones en Argentina",
   description:
-    "Comprá y vendé autos 0km y usados, encontrá adicionales y conocé concesionarias verificadas en Umarti Autos.",
+    "Comprá y vendé autos, motos y camiones 0km y usados, contratá adicionales, encontrá posventa y conocé concesionarias verificadas en Umarti Movilidad.",
 };
 
 export default function RootLayout({
