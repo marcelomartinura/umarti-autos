@@ -1,6 +1,6 @@
-# Umarti Autos
+# Umarti Movilidad
 
-Marketplace automotriz para Argentina — parte del ecosistema Umarti.
+Marketplace de movilidad (autos, motos y camiones) para Argentina — parte del ecosistema Umarti.
 
 ## Stack
 
@@ -19,4 +19,4 @@ Abrir [http://localhost:3000](http://localhost:3000).
 
 ## Estado del proyecto
 
-Ver el documento `Umarti Autos — Especificación técnica` en el proyecto de Claude para el mapa de sitio y el modelo de datos completo.
+Ver el documento `Umarti Movilidad — Especificación técnica` en el proyecto de Claude para el mapa de sitio y el modelo de datos completo.
