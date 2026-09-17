@@ -33,3 +33,19 @@ export interface VehiculoUsado {
   vendedor: "Concesionaria" | "Particular";
   imagen: string;
 }
+
+export interface PasoCompra {
+  numero: number;
+  titulo: string;
+  descripcion: string;
+}
+
+export interface PreguntaFrecuente {
+  pregunta: string;
+  respuesta: string;
+}
+
+export interface RangoPrecio {
+  label: string;
+  valorMaximo: number;
+}
