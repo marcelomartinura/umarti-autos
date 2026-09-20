@@ -1,4 +1,6 @@
 import {
+  EspecificacionGrupo,
+  OfertaConcesionaria,
   PasoCompra,
   PreguntaFrecuente,
   RangoPrecio,
@@ -10,6 +12,9 @@ import {
 // Datos de ejemplo — se van a reemplazar por datos reales desde Supabase
 // una vez que conectemos la base de datos.
 
+// Nota sobre "moneda": en el mercado argentino conviven vehículos publicados
+// en pesos (lo más habitual, sobre todo gama masiva/nacional) y en dólares
+// (frecuente en pickups y gama alta). Cada vehículo declara su propia moneda.
 export const vehiculosNuevos: VehiculoNuevo[] = [
   {
     id: "n1",
@@ -20,7 +25,8 @@ export const vehiculosNuevos: VehiculoNuevo[] = [
     anio: 2025,
     combustible: "Nafta",
     transmision: "Automática",
-    precioSugerido: 26000,
+    precioSugerido: 32000000,
+    moneda: "ARS",
     imagen: "",
   },
   {
@@ -32,7 +38,8 @@ export const vehiculosNuevos: VehiculoNuevo[] = [
     anio: 2024,
     combustible: "Nafta",
     transmision: "Automática",
-    precioSugerido: 22000,
+    precioSugerido: 28500000,
+    moneda: "ARS",
     imagen: "",
   },
   {
@@ -44,7 +51,8 @@ export const vehiculosNuevos: VehiculoNuevo[] = [
     anio: 2025,
     combustible: "Diesel",
     transmision: "Automática",
-    precioSugerido: 35000,
+    precioSugerido: 48000,
+    moneda: "USD",
     imagen: "",
   },
   {
@@ -56,7 +64,8 @@ export const vehiculosNuevos: VehiculoNuevo[] = [
     anio: 2024,
     combustible: "Nafta",
     transmision: "Automática",
-    precioSugerido: 20000,
+    precioSugerido: 24000000,
+    moneda: "ARS",
     imagen: "",
   },
 ];
@@ -128,6 +137,107 @@ export const rangosPrecio: RangoPrecio[] = [
   { label: "Hasta USD 20.000", valorMaximo: 20000 },
   { label: "Hasta USD 30.000", valorMaximo: 30000 },
   { label: "Hasta USD 40.000", valorMaximo: 40000 },
+];
+
+// Rangos de precio para el filtro del listado de catálogo. Mezclan ARS y USD
+// a propósito porque el mercado real mezcla ambas monedas — cuando conectemos
+// una cotización en vivo (Supabase) esto se va a normalizar a un solo valor
+// comparable.
+export const preciosFiltroUSD = ["Hasta USD 30.000", "Hasta USD 50.000"];
+export const preciosFiltroARS = ["Hasta $25.000.000", "Hasta $35.000.000"];
+
+// Ofertas de ejemplo para la ficha de un vehículo — genéricas por ahora
+// (no reflejan la moneda real de cada vehículo). Se reemplazan por ofertas
+// reales por vehículo/concesionaria cuando conectemos Supabase.
+export const ofertasConcesionariasEjemplo: OfertaConcesionaria[] = [
+  {
+    concesionaria: "Umarti Motors CABA",
+    ubicacion: "CABA, Buenos Aires",
+    precio: 24900,
+    moneda: "USD",
+    rating: 4.8,
+    opiniones: 156,
+    tags: ["Mejor precio", "Entrega inmediata"],
+    verificada: true,
+  },
+  {
+    concesionaria: "Kansai Pilar",
+    ubicacion: "Pilar, Buenos Aires",
+    precio: 25000,
+    moneda: "USD",
+    rating: 4.9,
+    opiniones: 312,
+    tags: ["Toma tu usado"],
+    verificada: true,
+  },
+  {
+    concesionaria: "AutoMax Premium",
+    ubicacion: "Rosario, Santa Fe",
+    precio: 25200,
+    moneda: "USD",
+    rating: 4.5,
+    opiniones: 89,
+    tags: ["Financiación exclusiva"],
+    verificada: true,
+  },
+];
+
+// Especificaciones técnicas de ejemplo — genéricas para cualquier vehículo
+// por ahora, hasta que carguemos fichas técnicas reales por modelo.
+export const especificacionesEjemplo: EspecificacionGrupo[] = [
+  {
+    titulo: "Motor",
+    items: [
+      { label: "Motor", valor: "2.0L 4 cilindros" },
+      { label: "Cilindrada", valor: "1987 cc" },
+      { label: "Potencia máxima", valor: "170 CV @ 6600 rpm" },
+      { label: "Torque máximo", valor: "200 Nm @ 4400-4800 rpm" },
+    ],
+  },
+  {
+    titulo: "Transmisión",
+    items: [
+      { label: "Caja de cambios", valor: "Automática CVT" },
+      { label: "Marchas simuladas", valor: "10 velocidades" },
+      { label: "Tracción", valor: "Delantera (FWD)" },
+    ],
+  },
+  {
+    titulo: "Dimensiones",
+    items: [
+      { label: "Largo", valor: "4630 mm" },
+      { label: "Ancho", valor: "1780 mm" },
+      { label: "Alto", valor: "1435 mm" },
+      { label: "Distancia entre ejes", valor: "2700 mm" },
+    ],
+  },
+  {
+    titulo: "Confort",
+    items: [
+      { label: "Climatizador", valor: "Automático bi-zona" },
+      {
+        label: "Sistema multimedia",
+        valor: 'Pantalla táctil 9" con Apple CarPlay y Android Auto',
+      },
+      { label: "Asientos", valor: "Tapizado de tela de alta calidad" },
+      { label: "Control de crucero", valor: "Adaptativo (ACC)" },
+    ],
+  },
+  {
+    titulo: "Seguridad",
+    items: [
+      {
+        label: "Airbags",
+        valor: "7 (frontales, laterales, cortina, rodilla conductor)",
+      },
+      {
+        label: "Frenos",
+        valor: "Discos ventilados / discos sólidos con ABS y EBD",
+      },
+      { label: "Control de estabilidad", valor: "VSC" },
+      { label: "Control de tracción", valor: "TRC" },
+    ],
+  },
 ];
 
 export const pasosCompra: PasoCompra[] = [

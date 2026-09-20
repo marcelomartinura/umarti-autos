@@ -1,5 +1,6 @@
 export type Combustible = "Nafta" | "Diesel" | "Híbrido" | "Eléctrico";
 export type Transmision = "Manual" | "Automática";
+export type Moneda = "ARS" | "USD";
 export type Segmento =
   | "Sedán"
   | "SUV"
@@ -18,6 +19,7 @@ export interface VehiculoNuevo {
   combustible: Combustible;
   transmision: Transmision;
   precioSugerido: number;
+  moneda: Moneda;
   imagen: string;
 }
 
@@ -48,4 +50,25 @@ export interface PreguntaFrecuente {
 export interface RangoPrecio {
   label: string;
   valorMaximo: number;
+}
+
+export interface OfertaConcesionaria {
+  concesionaria: string;
+  ubicacion: string;
+  precio: number;
+  moneda: Moneda;
+  rating: number;
+  opiniones: number;
+  tags: string[];
+  verificada: boolean;
+}
+
+export interface EspecificacionItem {
+  label: string;
+  valor: string;
+}
+
+export interface EspecificacionGrupo {
+  titulo: string;
+  items: EspecificacionItem[];
 }
