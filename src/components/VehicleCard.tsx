@@ -9,6 +9,11 @@ export default function VehicleCard({ vehiculo }: { vehiculo: VehiculoNuevo }) {
         <span className="absolute left-2 top-2 rounded bg-umarti-navy px-2 py-0.5 text-xs font-semibold text-white">
           {vehiculo.segmento}
         </span>
+        {vehiculo.planAhorro && (
+          <span className="absolute bottom-2 left-2 rounded-full bg-umarti-orange px-2 py-0.5 text-[11px] font-semibold text-white">
+            Plan de ahorro
+          </span>
+        )}
         <div className="absolute right-2 top-2 flex gap-1">
           <span
             aria-hidden

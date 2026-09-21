@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   marcas,
   preciosFiltroARS,
@@ -22,12 +23,31 @@ function parsePrecioLabel(label: string): { moneda: Moneda; valor: number } {
 }
 
 export default function CatalogoListado() {
+  const searchParams = useSearchParams();
+
   const [busqueda, setBusqueda] = useState("");
   const [marcasSel, setMarcasSel] = useState<string[]>([]);
   const [segmentosSel, setSegmentosSel] = useState<string[]>([]);
   const [combustiblesSel, setCombustiblesSel] = useState<string[]>([]);
   const [transmisionesSel, setTransmisionesSel] = useState<string[]>([]);
   const [precioSel, setPrecioSel] = useState<string[]>([]);
+  const [soloPlanAhorro, setSoloPlanAhorro] = useState(false);
+
+  // Deep-links desde la Home (buscador por marca/segmento y las categorías
+  // especiales de plan de ahorro / autos eléctricos) precargan el filtro
+  // correspondiente al entrar a /catalogo.
+  useEffect(() => {
+    const marca = searchParams.get("marca");
+    const segmento = searchParams.get("segmento");
+    const combustible = searchParams.get("combustible");
+    const planAhorro = searchParams.get("planAhorro");
+
+    if (marca) setMarcasSel([marca]);
+    if (segmento) setSegmentosSel([segmento]);
+    if (combustible) setCombustiblesSel([combustible]);
+    if (planAhorro === "1") setSoloPlanAhorro(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const vehiculosFiltrados = useMemo(() => {
     return vehiculosNuevos.filter((v) => {
@@ -47,6 +67,7 @@ export default function CatalogoListado() {
           const { moneda, valor } = parsePrecioLabel(label);
           return v.moneda === moneda && v.precioSugerido <= valor;
         });
+      const coincidePlanAhorro = !soloPlanAhorro || v.planAhorro === true;
 
       return (
         coincideBusqueda &&
@@ -54,10 +75,19 @@ export default function CatalogoListado() {
         coincideSegmento &&
         coincideCombustible &&
         coincideTransmision &&
-        coincidePrecio
+        coincidePrecio &&
+        coincidePlanAhorro
       );
     });
-  }, [busqueda, marcasSel, segmentosSel, combustiblesSel, transmisionesSel, precioSel]);
+  }, [
+    busqueda,
+    marcasSel,
+    segmentosSel,
+    combustiblesSel,
+    transmisionesSel,
+    precioSel,
+    soloPlanAhorro,
+  ]);
 
   const hayFiltrosActivos =
     marcasSel.length +
@@ -65,7 +95,7 @@ export default function CatalogoListado() {
       combustiblesSel.length +
       transmisionesSel.length +
       precioSel.length >
-    0;
+      0 || soloPlanAhorro;
 
   function limpiarFiltros() {
     setMarcasSel([]);
@@ -74,6 +104,7 @@ export default function CatalogoListado() {
     setTransmisionesSel([]);
     setPrecioSel([]);
     setBusqueda("");
+    setSoloPlanAhorro(false);
   }
 
   return (
@@ -113,6 +144,17 @@ export default function CatalogoListado() {
           seleccionadas={precioSel}
           onChange={setPrecioSel}
         />
+        <button
+          type="button"
+          onClick={() => setSoloPlanAhorro((v) => !v)}
+          className={`rounded-full border px-4 py-2 text-sm font-medium ${
+            soloPlanAhorro
+              ? "border-umarti-orange bg-umarti-orange/10 text-umarti-orange"
+              : "border-gray-200 text-gray-600"
+          }`}
+        >
+          Plan de ahorro
+        </button>
         {hayFiltrosActivos && (
           <button
             type="button"

@@ -7,6 +7,7 @@ import { formatPrecio } from "@/lib/format";
 import FiltrosClasificados from "./FiltrosClasificados";
 import UsedVehicleCard from "./UsedVehicleCard";
 import AdSlot from "./AdSlot";
+import BuscadorInteligente from "./BuscadorInteligente";
 import { AD_SLOTS } from "@/lib/adsense";
 
 const combustibles: Combustible[] = ["Nafta", "Diesel", "Híbrido", "Eléctrico"];
@@ -22,6 +23,7 @@ const FAVORITOS_KEY = "umarti_favoritos_clasificados";
 type Orden = "relevancia" | "precio-asc" | "precio-desc" | "anio-desc" | "km-asc";
 
 export default function ClasificadosListado() {
+  const [busqueda, setBusqueda] = useState("");
   const [marcasSel, setMarcasSel] = useState<string[]>([]);
   const [segmentosSel, setSegmentosSel] = useState<string[]>([]);
   const [combustiblesSel, setCombustiblesSel] = useState<string[]>([]);
@@ -105,6 +107,9 @@ export default function ClasificadosListado() {
 
   const vehiculosFiltrados = useMemo(() => {
     const filtrados = vehiculosUsados.filter((v) => {
+      const texto = `${v.marca} ${v.modelo}`.toLowerCase();
+      const coincideBusqueda =
+        busqueda.trim() === "" || texto.includes(busqueda.trim().toLowerCase());
       const coincideMarca = marcasSel.length === 0 || marcasSel.includes(v.marca);
       const coincideSegmento =
         segmentosSel.length === 0 || segmentosSel.includes(v.segmento);
@@ -116,6 +121,7 @@ export default function ClasificadosListado() {
         v.moneda !== moneda || (v.precio >= precioMin && v.precio <= precioMax);
 
       return (
+        coincideBusqueda &&
         coincideMarca &&
         coincideSegmento &&
         coincideCombustible &&
@@ -146,6 +152,7 @@ export default function ClasificadosListado() {
     }
     return ordenados;
   }, [
+    busqueda,
     marcasSel,
     segmentosSel,
     combustiblesSel,
@@ -164,6 +171,7 @@ export default function ClasificadosListado() {
       0 || precioMin !== LIMITE_INICIAL.min || precioMax !== LIMITE_INICIAL.max;
 
   function limpiarFiltros() {
+    setBusqueda("");
     setMarcasSel([]);
     setSegmentosSel([]);
     setCombustiblesSel([]);
@@ -206,6 +214,14 @@ export default function ClasificadosListado() {
       </div>
 
       <div>
+        <div className="mb-6 max-w-xl">
+          <BuscadorInteligente
+            valor={busqueda}
+            onChange={setBusqueda}
+            placeholder="Buscá por marca o modelo"
+          />
+        </div>
+
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-lg font-bold text-umarti-navy">
