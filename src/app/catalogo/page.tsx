@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import CatalogoListado from "@/components/CatalogoListado";
+import AdSlot from "@/components/AdSlot";
+import { AD_SLOTS } from "@/lib/adsense";
 
 export default function CatalogoPage() {
   return (
-    <main>
+    <main className="min-h-screen bg-umarti-cream">
       <Header />
       <div className="mx-auto max-w-7xl px-6 py-10">
         <nav className="mb-4 text-xs text-gray-400">
@@ -21,6 +23,10 @@ export default function CatalogoPage() {
           Autos, motos y camiones nuevos con garantía oficial. Filtrá por
           marca, segmento, motorización, transmisión o presupuesto.
         </p>
+
+        <div className="mt-8">
+          <AdSlot slot={AD_SLOTS.catalogoListado} />
+        </div>
 
         <div className="mt-8">
           <CatalogoListado />
