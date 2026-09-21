@@ -16,4 +16,6 @@ export const AD_SLOTS = {
   catalogoFicha: "0000000003",
   clasificadosListado: "0000000004",
   clasificadosFicha: "0000000005",
+  tiendasListado: "0000000006",
+  tiendaFicha: "0000000007",
 };

@@ -21,6 +21,7 @@ export interface VehiculoNuevo {
   precioSugerido: number;
   moneda: Moneda;
   imagen: string;
+  planAhorro?: boolean;
 }
 
 export interface VehiculoUsado {
@@ -74,4 +75,31 @@ export interface EspecificacionItem {
 export interface EspecificacionGrupo {
   titulo: string;
   items: EspecificacionItem[];
+}
+
+export type CategoriaTienda =
+  | "Concesionaria oficial"
+  | "Marca oficial"
+  | "Agencia";
+
+export interface Tienda {
+  id: string;
+  nombre: string;
+  categoria: CategoriaTienda;
+  ubicacion: string;
+  descripcion: string;
+  visualizaciones: number;
+  verificada: boolean;
+  whatsapp: string;
+  vehiculosNuevosIds: string[];
+  vehiculosUsadosIds: string[];
+}
+
+export interface VendedorDestacado {
+  id: string;
+  nombre: string;
+  tienda: string;
+  mensaje: string;
+  marca?: string;
+  whatsapp: string;
 }

@@ -5,8 +5,10 @@ import {
   PreguntaFrecuente,
   RangoPrecio,
   Segmento,
+  Tienda,
   VehiculoNuevo,
   VehiculoUsado,
+  VendedorDestacado,
 } from "./types";
 
 // Datos de ejemplo — se van a reemplazar por datos reales desde Supabase
@@ -28,6 +30,7 @@ export const vehiculosNuevos: VehiculoNuevo[] = [
     precioSugerido: 32000000,
     moneda: "ARS",
     imagen: "",
+    planAhorro: true,
   },
   {
     id: "n2",
@@ -66,6 +69,20 @@ export const vehiculosNuevos: VehiculoNuevo[] = [
     transmision: "Automática",
     precioSugerido: 24000000,
     moneda: "ARS",
+    imagen: "",
+    planAhorro: true,
+  },
+  {
+    id: "n5",
+    marca: "BYD",
+    modelo: "Dolphin Mini",
+    version: "Eléctrico Comfort",
+    segmento: "Hatchback",
+    anio: 2025,
+    combustible: "Eléctrico",
+    transmision: "Automática",
+    precioSugerido: 21000,
+    moneda: "USD",
     imagen: "",
   },
 ];
@@ -358,5 +375,118 @@ export const preguntasFrecuentes: PreguntaFrecuente[] = [
     pregunta: "¿Y si quiero vender mi auto?",
     respuesta:
       'Desde "Vender mi auto" podés publicar tu vehículo usado en minutos y llegar a miles de compradores interesados.',
+  },
+];
+
+// Tiendas de ejemplo — concesionarias oficiales, marcas oficiales y agencias
+// verificadas. El logo real de cada una se suma cuando conectemos Supabase
+// Storage; por ahora se muestra un círculo con las iniciales, igual que en
+// el buscador por marca de la Home.
+export const tiendas: Tienda[] = [
+  {
+    id: "t1",
+    nombre: "Toyota Buenos Aires",
+    categoria: "Concesionaria oficial",
+    ubicacion: "CABA, Buenos Aires",
+    descripcion:
+      "Concesionaria oficial Toyota con más de 20 años de experiencia. Venta de 0km, usados certificados y service oficial.",
+    visualizaciones: 1250,
+    verificada: true,
+    whatsapp: "5491122334400",
+    vehiculosNuevosIds: ["n1"],
+    vehiculosUsadosIds: ["u1"],
+  },
+  {
+    id: "t2",
+    nombre: "Ford Centro",
+    categoria: "Concesionaria oficial",
+    ubicacion: "Rosario, Santa Fe",
+    descripcion:
+      "Tu Ford 0km está acá. Excelentes planes de financiación y toma de tu usado como parte de pago.",
+    visualizaciones: 890,
+    verificada: true,
+    whatsapp: "5491122334401",
+    vehiculosNuevosIds: ["n3"],
+    vehiculosUsadosIds: ["u3", "u6"],
+  },
+  {
+    id: "t3",
+    nombre: "Chevrolet Argentina",
+    categoria: "Marca oficial",
+    ubicacion: "Vicente López, Buenos Aires",
+    descripcion:
+      "Tienda oficial de Chevrolet. Descubrí nuestros últimos lanzamientos y promociones exclusivas para clientes Umarti.",
+    visualizaciones: 5400,
+    verificada: true,
+    whatsapp: "5491122334402",
+    vehiculosNuevosIds: ["n4"],
+    vehiculosUsadosIds: [],
+  },
+  {
+    id: "t4",
+    nombre: "Volkswagen Directo",
+    categoria: "Marca oficial",
+    ubicacion: "General Pacheco, Buenos Aires",
+    descripcion:
+      "Canal de ventas directo de fábrica. Beneficios exclusivos, plan de ahorro y entrega prioritaria.",
+    visualizaciones: 4200,
+    verificada: true,
+    whatsapp: "5491122334403",
+    vehiculosNuevosIds: ["n2"],
+    vehiculosUsadosIds: ["u2"],
+  },
+  {
+    id: "t5",
+    nombre: "AutoMax Rosario",
+    categoria: "Agencia",
+    ubicacion: "Rosario, Santa Fe",
+    descripcion:
+      "Agencia multimarca especializada en usados seleccionados, todos con revisión mecánica de 120 puntos.",
+    visualizaciones: 610,
+    verificada: true,
+    whatsapp: "5491122334404",
+    vehiculosNuevosIds: [],
+    vehiculosUsadosIds: ["u4"],
+  },
+  {
+    id: "t6",
+    nombre: "Premium Motors CABA",
+    categoria: "Agencia",
+    ubicacion: "CABA, Buenos Aires",
+    descripcion:
+      "Agencia boutique de vehículos premium, 0km y usados de alta gama, con entrega a todo el país.",
+    visualizaciones: 980,
+    verificada: true,
+    whatsapp: "5491122334405",
+    vehiculosNuevosIds: ["n5"],
+    vehiculosUsadosIds: ["u5"],
+  },
+];
+
+// Vendedores destacados — perfiles individuales de vendedores verificados
+// dentro de las tiendas de arriba, para contacto directo por WhatsApp.
+export const vendedoresDestacados: VendedorDestacado[] = [
+  {
+    id: "v1",
+    nombre: "Lucas Fernández",
+    tienda: "Umarti Motors CABA",
+    mensaje:
+      "Consultame por el 0km que buscás, te asesoro sin compromiso.",
+    whatsapp: "5491122334455",
+  },
+  {
+    id: "v2",
+    nombre: "Martina Gómez",
+    tienda: "Kansai Pilar",
+    mensaje: "Financiación a medida y entrega inmediata. Escribime.",
+    marca: "Volkswagen",
+    whatsapp: "5491133445566",
+  },
+  {
+    id: "v3",
+    nombre: "Nicolás Ibáñez",
+    tienda: "AutoMax Premium",
+    mensaje: "Especialista en usados certificados. Te ayudo a elegir.",
+    whatsapp: "5491144556677",
   },
 ];
