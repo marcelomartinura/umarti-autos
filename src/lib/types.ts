@@ -27,10 +27,13 @@ export interface VehiculoUsado {
   id: string;
   marca: string;
   modelo: string;
+  segmento: Segmento;
+  combustible: Combustible;
   anio: number;
   km: number;
   transmision: Transmision;
   precio: number;
+  moneda: Moneda;
   ubicacion: string;
   vendedor: "Concesionaria" | "Particular";
   imagen: string;
