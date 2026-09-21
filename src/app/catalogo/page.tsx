@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import Header from "@/components/Header";
 import CatalogoListado from "@/components/CatalogoListado";
 import AdSlot from "@/components/AdSlot";
@@ -29,7 +30,9 @@ export default function CatalogoPage() {
         </div>
 
         <div className="mt-8">
-          <CatalogoListado />
+          <Suspense fallback={null}>
+            <CatalogoListado />
+          </Suspense>
         </div>
       </div>
     </main>
