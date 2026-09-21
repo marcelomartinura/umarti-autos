@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import CatalogoBuscador from "@/components/CatalogoBuscador";
+import CategoriasEspeciales from "@/components/CategoriasEspeciales";
 import FeaturedVehicles from "@/components/FeaturedVehicles";
 import ClasificadosDestacados from "@/components/ClasificadosDestacados";
 import EcosistemaCrossSell from "@/components/EcosistemaCrossSell";
@@ -15,6 +16,7 @@ export default function Home() {
       <Header />
       <Hero />
       <CatalogoBuscador />
+      <CategoriasEspeciales />
       <FeaturedVehicles />
       <ClasificadosDestacados />
       <div className="bg-white py-10">
