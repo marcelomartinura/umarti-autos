@@ -6,6 +6,8 @@ import GaleriaImagenes from "@/components/GaleriaImagenes";
 import EspecificacionesTecnicas from "@/components/EspecificacionesTecnicas";
 import OfertasConcesionarias from "@/components/OfertasConcesionarias";
 import ComoComprarDetalle from "@/components/ComoComprarDetalle";
+import AdSlot from "@/components/AdSlot";
+import { AD_SLOTS } from "@/lib/adsense";
 import {
   especificacionesEjemplo,
   ofertasConcesionariasEjemplo,
@@ -29,7 +31,7 @@ export default function VehiculoDetallePage({
     .slice(0, 3);
 
   return (
-    <main>
+    <main className="min-h-screen bg-umarti-cream">
       <Header />
       <div className="mx-auto max-w-7xl px-6 py-10">
         <nav className="mb-6 text-xs text-gray-400">
@@ -64,7 +66,7 @@ export default function VehiculoDetallePage({
           </div>
 
           <aside>
-            <div className="rounded-xl border border-umarti-navy/20 p-6">
+            <div className="rounded-xl border border-umarti-navy/20 bg-white p-6">
               <p className="text-xs uppercase text-gray-400">
                 Precio sugerido
               </p>
@@ -138,6 +140,10 @@ export default function VehiculoDetallePage({
             Especificaciones técnicas
           </h2>
           <EspecificacionesTecnicas grupos={especificacionesEjemplo} />
+        </div>
+
+        <div className="mt-14">
+          <AdSlot slot={AD_SLOTS.catalogoFicha} />
         </div>
 
         <div className="mt-14">
