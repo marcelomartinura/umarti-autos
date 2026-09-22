@@ -4,6 +4,7 @@ import {
   PasoCompra,
   PreguntaFrecuente,
   RangoPrecio,
+  SeccionEspecial,
   Segmento,
   Tienda,
   VehiculoNuevo,
@@ -488,5 +489,185 @@ export const vendedoresDestacados: VendedorDestacado[] = [
     tienda: "AutoMax Premium",
     mensaje: "Especialista en usados certificados. Te ayudo a elegir.",
     whatsapp: "5491144556677",
+  },
+];
+
+// Secciones especiales — hubs temáticos que combinan catálogo, clasificados,
+// notas editoriales y herramientas alrededor de un tema puntual. Las que
+// tienen "filtro" calculan sus vehículos dinámicamente sobre vehiculosNuevos
+// (y vehiculosUsados, solo por segmento/combustible); las que no, usan una
+// curación manual por ID hasta que existan atributos propios en los datos.
+//
+// Nota sobre "Mujeres en Ruta": Marcelo pidió algo en la línea de "Mujeres
+// al Volante", pero esa marca ya está registrada por otra empresa — se usa
+// acá un nombre de trabajo distinto a propósito. Falta que Marcelo confirme
+// el nombre final antes de publicarla.
+export const seccionesEspeciales: SeccionEspecial[] = [
+  {
+    slug: "planes-de-ahorro",
+    nombre: "Planes de ahorro",
+    resumen:
+      "Accedé a tu 0km con cuotas mensuales, sin necesidad de un crédito tradicional.",
+    descripcion:
+      "Los planes de ahorro te permiten adjudicar un vehículo 0km pagando cuotas mensuales, sin depender de la aprobación de un banco. Acá reunimos los vehículos disponibles en esta modalidad, notas para entender cómo funciona y herramientas para elegir el plan que más te conviene.",
+    filtro: { planAhorro: true },
+    articulos: [
+      {
+        titulo: "Cómo funciona un plan de ahorro para 0km",
+        resumen:
+          "Los pasos desde que te suscribís hasta que adjudicás tu vehículo: licitación, sorteo y autoahorro.",
+      },
+      {
+        titulo: "Plan de ahorro vs. crédito prendario: ventajas y diferencias",
+        resumen:
+          "Qué conviene según tu situación: cuota fija vs. financiación bancaria tradicional.",
+      },
+    ],
+    herramientas: [
+      {
+        titulo: "Simulador de cuotas",
+        descripcion:
+          "Calculá el valor aproximado de tu cuota según el modelo y el plazo del plan.",
+      },
+      {
+        titulo: "Comparador de planes",
+        descripcion:
+          "Compará condiciones entre las distintas concesionarias adheridas.",
+      },
+    ],
+  },
+  {
+    slug: "autos-electricos",
+    nombre: "Autos eléctricos",
+    resumen:
+      "La nueva generación de movilidad: 0 emisiones, menor costo por km y tecnología de punta.",
+    descripcion:
+      "El parque eléctrico argentino todavía es chico, pero crece rápido: más modelos disponibles, más puntos de carga y beneficios impositivos en varias provincias. Acá reunimos los eléctricos del catálogo y contenido para perder el miedo a dar el salto.",
+    filtro: { combustible: "Eléctrico" },
+    articulos: [
+      {
+        titulo: "Guía para cargar tu auto eléctrico en Argentina",
+        resumen:
+          "Carga en casa, en la vía pública y en rutas: qué necesitás y cuánto tarda cada una.",
+      },
+      {
+        titulo: "Incentivos y beneficios impositivos para vehículos eléctricos",
+        resumen:
+          "Qué provincias ya tienen exenciones de patente y otros beneficios vigentes.",
+      },
+    ],
+    herramientas: [
+      {
+        titulo: "Mapa de puntos de carga",
+        descripcion:
+          "Encontrá cargadores públicos cerca tuyo o en tu próximo viaje.",
+      },
+      {
+        titulo: "Calculadora de ahorro en combustible",
+        descripcion:
+          "Estimá cuánto ahorrás por mes cambiando de nafta a eléctrico según tu recorrido.",
+      },
+    ],
+  },
+  {
+    slug: "pickups-4x4",
+    nombre: "Pickups y 4x4",
+    resumen:
+      "Fuerza y versatilidad para el trabajo y la aventura, en 0km y usados verificados.",
+    descripcion:
+      "Trabajo, aventura o las dos cosas: reunimos las pickups y 4x4 del catálogo y de clasificados, con contenido para ayudarte a elegir la que mejor se adapta a lo que necesitás.",
+    filtro: { segmento: "Pickup" },
+    articulos: [
+      {
+        titulo: "Cómo elegir la pickup ideal según el uso",
+        resumen:
+          "Carga útil, cabina simple o doble, y qué mirar según sea para trabajo o uso familiar.",
+      },
+      {
+        titulo: "4x2 vs 4x4: cuál te conviene",
+        resumen:
+          "Diferencias reales de tracción, consumo y precio entre ambas configuraciones.",
+      },
+    ],
+    herramientas: [
+      {
+        titulo: "Comparador de capacidad de carga",
+        descripcion:
+          "Compará caja, capacidad de carga y peso remolcable entre modelos.",
+      },
+      {
+        titulo: "Guía de financiación para pickups",
+        descripcion:
+          "Opciones de crédito prendario y planes de ahorro específicos para utilitarios.",
+      },
+    ],
+  },
+  {
+    slug: "agro",
+    nombre: "Agro",
+    resumen:
+      "Vehículos y utilitarios pensados para el trabajo rural, con financiación para el sector.",
+    descripcion:
+      "Pickups y utilitarios preparados para el campo, pensados para productores y empresas agropecuarias. Por ahora compartimos catálogo con Pickups y 4x4 — a medida que sumemos inventario específico para el agro (utilitarios pesados, maquinaria) esta sección va a tener su propia curación.",
+    vehiculosNuevosIds: ["n3"],
+    vehiculosUsadosIds: [],
+    articulos: [
+      {
+        titulo: "Qué vehículo elegir para trabajo de campo",
+        resumen:
+          "Capacidad de carga, tracción y resistencia: las prioridades cambian respecto al uso urbano.",
+      },
+      {
+        titulo: "Financiación para productores agropecuarios",
+        resumen:
+          "Líneas de crédito y planes pensados para el sector, con condiciones especiales.",
+      },
+    ],
+    herramientas: [
+      {
+        titulo: "Directorio de concesionarias rurales",
+        descripcion:
+          "Encontrá concesionarias con entrega y service en zonas productivas.",
+      },
+      {
+        titulo: "Guía de patentamiento para uso rural",
+        descripcion:
+          "Trámites y exenciones que pueden aplicar según la provincia y el uso del vehículo.",
+      },
+    ],
+  },
+  {
+    slug: "mujeres-en-ruta",
+    nombre: "Mujeres en Ruta",
+    resumen:
+      "Una comunidad para comprar y vender con confianza: vendedores verificados, asesoramiento sin presión y tips de seguridad.",
+    descripcion:
+      "Una sección pensada para comprar o vender con más tranquilidad: vendedores verificados, asesoramiento sin presión, y contenido práctico sobre seguridad e inspección antes de comprar. Los vehículos de acá abajo son una selección de ejemplo — a futuro se va a curar según lo que la comunidad pida.",
+    vehiculosNuevosIds: ["n1", "n2", "n5"],
+    vehiculosUsadosIds: ["u2", "u6"],
+    articulos: [
+      {
+        titulo: "Guía para comprar tu primer auto con confianza",
+        resumen:
+          "Qué preguntar, qué documentación pedir y cómo evitar las estafas más comunes.",
+      },
+      {
+        titulo: "Qué mirar en una inspección antes de comprar un usado",
+        resumen:
+          "Un checklist simple para revisar (o hacer revisar) un auto antes de cerrar la compra.",
+      },
+    ],
+    herramientas: [
+      {
+        titulo: "Directorio de talleres de confianza",
+        descripcion:
+          "Talleres recomendados por la comunidad para revisar un usado antes de comprarlo.",
+      },
+      {
+        titulo: "Checklist de seguridad antes de viajar",
+        descripcion:
+          "Una lista simple para chequear tu auto antes de salir de viaje.",
+      },
+    ],
   },
 ];

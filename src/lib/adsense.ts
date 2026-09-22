@@ -18,4 +18,6 @@ export const AD_SLOTS = {
   clasificadosFicha: "0000000005",
   tiendasListado: "0000000006",
   tiendaFicha: "0000000007",
+  seccionesEspeciales: "0000000008",
+  seccionEspecialFicha: "0000000009",
 };

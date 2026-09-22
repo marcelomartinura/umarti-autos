@@ -103,3 +103,34 @@ export interface VendedorDestacado {
   marca?: string;
   whatsapp: string;
 }
+
+export interface FiltroSeccionEspecial {
+  segmento?: Segmento;
+  combustible?: Combustible;
+  planAhorro?: boolean;
+}
+
+export interface ArticuloEditorial {
+  titulo: string;
+  resumen: string;
+}
+
+export interface HerramientaUtil {
+  titulo: string;
+  descripcion: string;
+}
+
+export interface SeccionEspecial {
+  slug: string;
+  nombre: string;
+  resumen: string;
+  descripcion: string;
+  // Si hay filtro, los vehículos se calculan dinámicamente sobre el
+  // catálogo/clasificados. Si no, se usan los IDs curados a mano (para
+  // secciones que todavía no tienen un atributo propio en los datos).
+  filtro?: FiltroSeccionEspecial;
+  vehiculosNuevosIds?: string[];
+  vehiculosUsadosIds?: string[];
+  articulos: ArticuloEditorial[];
+  herramientas: HerramientaUtil[];
+}
