@@ -1,4 +1,5 @@
 import {
+  CategoriaAdicional,
   EspecificacionGrupo,
   OfertaConcesionaria,
   PasoCompra,
@@ -669,5 +670,148 @@ export const seccionesEspeciales: SeccionEspecial[] = [
           "Una lista simple para chequear tu auto antes de salir de viaje.",
       },
     ],
+  },
+];
+
+// Número de WhatsApp central de Umarti Movilidad para consultas sobre
+// servicios adicionales (no son concesionarias individuales, así que se
+// atienden desde un único canal de la plataforma). Reemplazar por el
+// número real cuando Marcelo lo confirme.
+export const UMARTI_WHATSAPP_ADICIONALES = "5491122334400";
+
+// Servicios adicionales — todo lo que rodea a la compra de un vehículo,
+// más allá del vehículo en sí. Se muestran en una sola página (/adicionales)
+// con una sección por categoría, para que sea fácil de imprimir o compartir
+// completa. Se dejó afuera "Servicios Posventa" (ya tiene su propia sección
+// en el menú, /posventa) para no duplicar contenido.
+export const categoriasAdicionales: CategoriaAdicional[] = [
+  {
+    slug: "seguros",
+    nombre: "Seguros",
+    resumen:
+      "Cobertura para tu 0km o usado, con las principales compañías del mercado.",
+    descripcion:
+      "Asegurá tu vehículo antes de retirarlo del concesionario o de recibir tu usado. Te ayudamos a comparar coberturas (terceros completo, todo riesgo, granizo) y a elegir la que mejor se ajusta a tu uso y presupuesto, con la posibilidad de pagar en cuotas.",
+    beneficios: [
+      "Cotización con varias compañías en una sola consulta",
+      "Cobertura todo riesgo, terceros completo o granizo",
+      "Pago en cuotas, sin cargo por gestión de Umarti",
+      "Asistencia al viajero y auto sustituto en las coberturas que lo incluyen",
+    ],
+    whatsapp: UMARTI_WHATSAPP_ADICIONALES,
+  },
+  {
+    slug: "financiamiento",
+    nombre: "Financiamiento",
+    resumen:
+      "Créditos prendarios y líneas de financiación para 0km y usados.",
+    descripcion:
+      "Si no vas a pagar de contado, te acercamos opciones de crédito prendario de bancos y financieras, además de la financiación propia de cada concesionaria. Usá el simulador de esta página para tener una primera estimación de cuota antes de avanzar con una consulta formal.",
+    beneficios: [
+      "Comparación entre distintas entidades financieras",
+      "Simulador de cuotas orientativo, sin compromiso",
+      "Asesoramiento para elegir plazo y anticipo convenientes",
+      "Aplica tanto para 0km como para usados certificados",
+    ],
+    whatsapp: UMARTI_WHATSAPP_ADICIONALES,
+  },
+  {
+    slug: "gestoria",
+    nombre: "Gestoría",
+    resumen:
+      "Transferencias, patentamiento y trámites, sin hacer colas.",
+    descripcion:
+      "Todo el papeleo de comprar o vender un vehículo (transferencia, patentamiento de 0km, informes de dominio, cambio de radicación) resuelto por gestores matriculados que trabajan con Umarti Movilidad, para que no tengas que ocuparte vos de las colas y el trámite.",
+    beneficios: [
+      "Transferencia de titularidad de punta a punta",
+      "Patentamiento de vehículos 0km",
+      "Informes de dominio y libre deuda de patentes",
+      "Seguimiento del trámite por WhatsApp",
+    ],
+    whatsapp: UMARTI_WHATSAPP_ADICIONALES,
+  },
+  {
+    slug: "garantias-extendidas",
+    nombre: "Garantías extendidas",
+    resumen: "Cobertura mecánica más allá de la garantía de fábrica.",
+    descripcion:
+      "Extendé la protección de tu vehículo una vez vencida la garantía oficial, con planes que cubren motor, caja y componentes principales. Especialmente recomendado para usados sin garantía vigente o para quienes van a hacer muchos kilómetros.",
+    beneficios: [
+      "Cobertura de motor, caja y tren delantero/trasero",
+      "Planes desde 1 hasta 3 años adicionales",
+      "Red de talleres habilitados en todo el país",
+      "Ideal para usados sin garantía de fábrica vigente",
+    ],
+    whatsapp: UMARTI_WHATSAPP_ADICIONALES,
+  },
+  {
+    slug: "blindajes",
+    nombre: "Blindajes",
+    resumen: "Blindaje homologado para mayor seguridad personal.",
+    descripcion:
+      "Para quienes buscan un nivel de protección adicional, trabajamos con talleres especializados en blindaje homologado (nivel III-A y superiores), con la documentación en regla para circular y con impacto medido en peso y manejo del vehículo.",
+    beneficios: [
+      "Blindaje homologado, con documentación en regla",
+      "Distintos niveles de protección según el uso",
+      "Talleres especializados con experiencia en el mercado local",
+      "Asesoramiento sobre impacto en peso, consumo y manejo",
+    ],
+    whatsapp: UMARTI_WHATSAPP_ADICIONALES,
+  },
+  {
+    slug: "accesorios",
+    nombre: "Accesorios",
+    resumen: "Equipamiento y personalización para tu vehículo.",
+    descripcion:
+      "Desde equipamiento práctico (barras, cubre alfombras, sensores de estacionamiento) hasta personalización estética, te conectamos con proveedores de accesorios originales y de calidad para completar tu vehículo 0km o usado.",
+    beneficios: [
+      "Accesorios originales y alternativos de calidad",
+      "Instalación coordinada por talleres recomendados",
+      "Ideal para completar la entrega de un 0km",
+      "Opciones para trabajo (utilitarios) y para uso particular",
+    ],
+    whatsapp: UMARTI_WHATSAPP_ADICIONALES,
+  },
+  {
+    slug: "alquiler-de-autos",
+    nombre: "Alquiler de autos",
+    resumen: "Para mientras esperás tu vehículo o para viajes puntuales.",
+    descripcion:
+      "Mientras se resuelve el patentamiento de tu 0km, o para un viaje puntual, te acercamos opciones de alquiler de vehículos a corto y mediano plazo con empresas asociadas, en distintas ciudades del país.",
+    beneficios: [
+      "Alquiler a corto y mediano plazo",
+      "Disponibilidad en las principales ciudades",
+      "Útil mientras se resuelve el patentamiento de tu 0km",
+      "Tarifas preferenciales para usuarios de Umarti Movilidad",
+    ],
+    whatsapp: UMARTI_WHATSAPP_ADICIONALES,
+  },
+];
+
+export const preguntasFrecuentesAdicionales: PreguntaFrecuente[] = [
+  {
+    pregunta: "¿Los servicios adicionales tienen costo por gestión de Umarti?",
+    respuesta:
+      "No. Umarti Movilidad te conecta con las empresas y profesionales que prestan cada servicio; las condiciones y el costo son los que ofrece cada proveedor, sin cargos extra de la plataforma.",
+  },
+  {
+    pregunta: "¿Puedo contratar un adicional sin haber comprado el vehículo en Umarti?",
+    respuesta:
+      "Sí. Seguros, financiamiento, gestoría, garantías extendidas, blindaje, accesorios y alquiler están disponibles aunque hayas comprado tu vehículo en otro lado.",
+  },
+  {
+    pregunta: "¿El simulador de financiamiento es una oferta en firme?",
+    respuesta:
+      "No, es una estimación orientativa para que tengas una idea del valor de la cuota. La oferta final depende de la evaluación crediticia de cada entidad financiera.",
+  },
+  {
+    pregunta: "¿Cuánto tarda una transferencia gestionada por Umarti?",
+    respuesta:
+      "Depende del trámite y la provincia, pero como referencia una transferencia estándar suele resolverse en pocos días hábiles una vez que está toda la documentación en regla.",
+  },
+  {
+    pregunta: "¿Puedo combinar varios adicionales para el mismo vehículo?",
+    respuesta:
+      "Sí, por ejemplo financiación más seguro más gestoría de patentamiento para un mismo 0km. Podés consultar por todos juntos desde un mismo contacto de WhatsApp.",
   },
 ];

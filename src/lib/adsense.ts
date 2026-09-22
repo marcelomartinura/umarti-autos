@@ -20,4 +20,7 @@ export const AD_SLOTS = {
   tiendaFicha: "0000000007",
   seccionesEspeciales: "0000000008",
   seccionEspecialFicha: "0000000009",
+  adicionalesTope: "0000000010",
+  adicionalesMedio: "0000000011",
+  adicionalesPie: "0000000012",
 };

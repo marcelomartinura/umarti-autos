@@ -120,6 +120,15 @@ export interface HerramientaUtil {
   descripcion: string;
 }
 
+export interface CategoriaAdicional {
+  slug: string;
+  nombre: string;
+  resumen: string;
+  descripcion: string;
+  beneficios: string[];
+  whatsapp: string;
+}
+
 export interface SeccionEspecial {
   slug: string;
   nombre: string;
