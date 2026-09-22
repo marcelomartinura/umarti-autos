@@ -4,6 +4,7 @@ const exploreLinks = [
   { label: "Catálogo", href: "/catalogo" },
   { label: "Clasificados", href: "/clasificados" },
   { label: "Tiendas", href: "/tiendas" },
+  { label: "Secciones especiales", href: "/secciones-especiales" },
   { label: "Adicionales", href: "/adicionales" },
   { label: "Posventa", href: "/posventa" },
   { label: "Vender mi auto", href: "/vender" },
