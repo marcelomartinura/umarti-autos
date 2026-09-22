@@ -10,7 +10,7 @@ const navLinks = [
 
 export default function Header() {
   return (
-    <header className="border-b border-gray-100">
+    <header className="border-b border-gray-100 bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex flex-col leading-none">
           <span className="text-xl font-bold text-umarti-navy">
