@@ -23,4 +23,7 @@ export const AD_SLOTS = {
   adicionalesTope: "0000000010",
   adicionalesMedio: "0000000011",
   adicionalesPie: "0000000012",
+  posventaTope: "0000000013",
+  posventaMedio: "0000000014",
+  posventaPie: "0000000015",
 };

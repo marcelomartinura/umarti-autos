@@ -129,6 +129,39 @@ export interface CategoriaAdicional {
   whatsapp: string;
 }
 
+export type EspecialidadTaller =
+  | "Multimarca"
+  | "Mecánica general"
+  | "Chapa y pintura"
+  | "Electricidad"
+  | "Neumáticos y alineación"
+  | "Aire acondicionado";
+
+export interface ServicioOficialMarca {
+  id: string;
+  marca: string;
+  nombre: string;
+  provincia: string;
+  ciudad: string;
+  descripcion: string;
+  servicios: string[];
+  whatsapp: string;
+  verificado: boolean;
+}
+
+export interface Taller {
+  id: string;
+  nombre: string;
+  especialidad: EspecialidadTaller;
+  // ["Todas"] para talleres multimarca, o una lista puntual de marcas.
+  marcasQueAtiende: string[];
+  provincia: string;
+  ciudad: string;
+  descripcion: string;
+  whatsapp: string;
+  verificado: boolean;
+}
+
 export interface SeccionEspecial {
   slug: string;
   nombre: string;

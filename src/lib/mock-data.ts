@@ -1,4 +1,5 @@
 import {
+  ArticuloEditorial,
   CategoriaAdicional,
   EspecificacionGrupo,
   OfertaConcesionaria,
@@ -7,6 +8,8 @@ import {
   RangoPrecio,
   SeccionEspecial,
   Segmento,
+  ServicioOficialMarca,
+  Taller,
   Tienda,
   VehiculoNuevo,
   VehiculoUsado,
@@ -785,6 +788,256 @@ export const categoriasAdicionales: CategoriaAdicional[] = [
       "Tarifas preferenciales para usuarios de Umarti Movilidad",
     ],
     whatsapp: UMARTI_WHATSAPP_ADICIONALES,
+  },
+];
+
+// Provincias argentinas (24 jurisdicciones) — se usan como filtro en
+// Posventa. Lista fija por ahora, no depende de la ubicación real de cada
+// concesionaria/taller hasta que carguemos datos reales.
+export const provinciasArgentina: string[] = [
+  "CABA",
+  "Buenos Aires",
+  "Catamarca",
+  "Chaco",
+  "Chubut",
+  "Córdoba",
+  "Corrientes",
+  "Entre Ríos",
+  "Formosa",
+  "Jujuy",
+  "La Pampa",
+  "La Rioja",
+  "Mendoza",
+  "Misiones",
+  "Neuquén",
+  "Río Negro",
+  "Salta",
+  "San Juan",
+  "San Luis",
+  "Santa Cruz",
+  "Santa Fe",
+  "Santiago del Estero",
+  "Tierra del Fuego",
+  "Tucumán",
+];
+
+// Posventa — service oficial de marca (leads para concesionarias). Cada
+// entrada es el centro de service oficial de una concesionaria para una
+// marca puntual; el listado se filtra por marca y por provincia. Separado
+// a propósito del listado de "tiendas" (que es para venta de 0km/usados) y
+// de "talleres" (independientes, no oficiales de una marca).
+export const serviciosOficiales: ServicioOficialMarca[] = [
+  {
+    id: "so1",
+    marca: "Toyota",
+    nombre: "Toyota Buenos Aires — Service Oficial",
+    provincia: "CABA",
+    ciudad: "CABA",
+    descripcion:
+      "Service programado con repuestos originales y técnicos certificados por la marca. Mantené la garantía de fábrica al día.",
+    servicios: ["Service programado", "Garantía de fábrica", "Repuestos originales"],
+    whatsapp: "5491122334420",
+    verificado: true,
+  },
+  {
+    id: "so2",
+    marca: "Volkswagen",
+    nombre: "Volkswagen Directo — Posventa",
+    provincia: "Buenos Aires",
+    ciudad: "General Pacheco",
+    descripcion:
+      "Centro de service oficial VW con turno online y auto de cortesía para services que superen el día.",
+    servicios: ["Service programado", "Auto de cortesía", "Repuestos originales"],
+    whatsapp: "5491122334421",
+    verificado: true,
+  },
+  {
+    id: "so3",
+    marca: "Ford",
+    nombre: "Ford Centro — Taller Oficial",
+    provincia: "Santa Fe",
+    ciudad: "Rosario",
+    descripcion:
+      "Taller oficial Ford para service, garantía extendida y reparaciones cubiertas por la marca.",
+    servicios: ["Service programado", "Garantía extendida", "Diagnóstico computarizado"],
+    whatsapp: "5491122334422",
+    verificado: true,
+  },
+  {
+    id: "so4",
+    marca: "Chevrolet",
+    nombre: "Chevrolet Argentina — Posventa",
+    provincia: "Buenos Aires",
+    ciudad: "Vicente López",
+    descripcion:
+      "Red oficial Chevrolet: service programado, campañas de seguridad y repuestos originales GM.",
+    servicios: ["Service programado", "Campañas de seguridad", "Repuestos originales"],
+    whatsapp: "5491122334423",
+    verificado: true,
+  },
+  {
+    id: "so5",
+    marca: "Peugeot",
+    nombre: "Peugeot Rosario — Service Oficial",
+    provincia: "Santa Fe",
+    ciudad: "Rosario",
+    descripcion:
+      "Mantenimiento oficial Peugeot con técnicos certificados y seguimiento del plan de service por vehículo.",
+    servicios: ["Service programado", "Garantía de fábrica", "Turno online"],
+    whatsapp: "5491122334424",
+    verificado: true,
+  },
+  {
+    id: "so6",
+    marca: "Jeep",
+    nombre: "Jeep Córdoba — Posventa",
+    provincia: "Córdoba",
+    ciudad: "Córdoba",
+    descripcion:
+      "Centro oficial Jeep para 4x4: service programado, preparación para ruta/off-road y repuestos originales.",
+    servicios: ["Service programado", "Preparación 4x4", "Repuestos originales"],
+    whatsapp: "5491122334425",
+    verificado: true,
+  },
+];
+
+// Talleres independientes — no dependen de una marca; algunos son
+// multimarca y otros se especializan en un rubro puntual (chapa, eléctrica,
+// neumáticos, etc.). Listado separado del de concesionarias, a pedido de
+// Marcelo.
+export const talleres: Taller[] = [
+  {
+    id: "ta1",
+    nombre: "Taller Belgrano",
+    especialidad: "Multimarca",
+    marcasQueAtiende: ["Todas"],
+    provincia: "CABA",
+    ciudad: "CABA",
+    descripcion:
+      "Mecánica general multimarca con más de 15 años de trayectoria en el barrio. Presupuesto sin cargo.",
+    whatsapp: "5491122334430",
+    verificado: true,
+  },
+  {
+    id: "ta2",
+    nombre: "ChapaExpress Rosario",
+    especialidad: "Chapa y pintura",
+    marcasQueAtiende: ["Todas"],
+    provincia: "Santa Fe",
+    ciudad: "Rosario",
+    descripcion:
+      "Chapa y pintura para siniestros y detalles estéticos, con gestión directa con las principales aseguradoras.",
+    whatsapp: "5491122334431",
+    verificado: true,
+  },
+  {
+    id: "ta3",
+    nombre: "ElectroAuto Mendoza",
+    especialidad: "Electricidad",
+    marcasQueAtiende: ["Volkswagen", "Ford", "Chevrolet"],
+    provincia: "Mendoza",
+    ciudad: "Mendoza",
+    descripcion:
+      "Especialistas en electricidad y electrónica automotriz: diagnóstico de fallas, alarmas y climatización.",
+    whatsapp: "5491122334432",
+    verificado: true,
+  },
+  {
+    id: "ta4",
+    nombre: "Neumáticos del Sur",
+    especialidad: "Neumáticos y alineación",
+    marcasQueAtiende: ["Todas"],
+    provincia: "Río Negro",
+    ciudad: "Bariloche",
+    descripcion:
+      "Venta e instalación de neumáticos, alineación y balanceo computarizado para autos y pickups.",
+    whatsapp: "5491122334433",
+    verificado: true,
+  },
+  {
+    id: "ta5",
+    nombre: "Taller Córdoba Capital",
+    especialidad: "Mecánica general",
+    marcasQueAtiende: ["Toyota", "Peugeot", "Jeep"],
+    provincia: "Córdoba",
+    ciudad: "Córdoba",
+    descripcion:
+      "Mecánica general y diagnóstico computarizado, con seguimiento del historial de service por WhatsApp.",
+    whatsapp: "5491122334434",
+    verificado: true,
+  },
+  {
+    id: "ta6",
+    nombre: "Clima Auto CABA",
+    especialidad: "Aire acondicionado",
+    marcasQueAtiende: ["Todas"],
+    provincia: "CABA",
+    ciudad: "CABA",
+    descripcion:
+      "Carga y reparación de aire acondicionado para todas las marcas, con diagnóstico previo sin cargo.",
+    whatsapp: "5491122334435",
+    verificado: true,
+  },
+];
+
+// Pasos para pedir un turno de service — mismo formato que pasosCompra,
+// pensado para el bloque "¿Cómo pido un turno de service?" en /posventa.
+export const pasosTurnoService: PasoCompra[] = [
+  {
+    numero: 1,
+    titulo: "Elegí marca y provincia",
+    descripcion:
+      "Filtrá entre service oficial de tu marca o talleres independientes cerca tuyo.",
+  },
+  {
+    numero: 2,
+    titulo: "Comparte las opciones",
+    descripcion:
+      "Mirá servicios ofrecidos, especialidad y si atiende tu marca antes de decidir.",
+  },
+  {
+    numero: 3,
+    titulo: "Coordiná por WhatsApp",
+    descripcion:
+      "Escribile directo al centro de service o al taller elegido para pedir el turno.",
+  },
+  {
+    numero: 4,
+    titulo: "Llevá tu vehículo el día pactado",
+    descripcion:
+      "Confirmá kilometraje y detalle de lo que necesitás antes de dejar el vehículo.",
+  },
+  {
+    numero: 5,
+    titulo: "Retirá con el detalle del service",
+    descripcion:
+      "Pedí el detalle de lo realizado para llevar un historial completo de mantenimiento.",
+  },
+];
+
+// Notas sobre posventa — contenido editorial de ejemplo, mismo patrón que
+// los "articulos" de cada sección especial (título + resumen, marcados
+// "Próximamente" hasta escribir la nota completa).
+export const articulosPosventa: ArticuloEditorial[] = [
+  {
+    titulo: "Cada cuánto hacer el service según el fabricante",
+    resumen:
+      "Los intervalos recomendados varían por marca y motor: guía rápida para no adelantarte ni atrasarte.",
+  },
+  {
+    titulo: "Service oficial vs. taller independiente: qué conviene",
+    resumen:
+      "Diferencias reales en precio, garantía y repuestos entre ambas opciones, según la antigüedad del vehículo.",
+  },
+  {
+    titulo: "Qué revisar antes de un viaje largo",
+    resumen:
+      "Un checklist simple de neumáticos, frenos, líquidos y batería antes de salir de viaje.",
+  },
+  {
+    titulo: "Cómo no perder la garantía de fábrica",
+    resumen:
+      "Qué exige cada marca en materia de service programado para no perder la cobertura del vehículo.",
   },
 ];
 
