@@ -28,4 +28,5 @@ export const AD_SLOTS = {
   posventaPie: "0000000015",
   ecosistemaTope: "0000000016",
   ecosistemaPie: "0000000017",
+  comunidad: "0000000018",
 };

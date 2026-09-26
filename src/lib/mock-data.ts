@@ -2,6 +2,7 @@ import {
   ArticuloDealers,
   ArticuloEditorial,
   CategoriaAdicional,
+  ComunidadCategoria,
   EspecificacionGrupo,
   HerramientaUtil,
   OfertaConcesionaria,
@@ -10,6 +11,7 @@ import {
   RangoPrecio,
   SeccionEspecial,
   Segmento,
+  ServicioIndustria,
   ServicioOficialMarca,
   Taller,
   Tienda,
@@ -1048,6 +1050,79 @@ export const articulosPosventa: ArticuloEditorial[] = [
 // a propósito, para que Marcelo pueda derivar estas consultas a otro canal/
 // responsable comercial. Reemplazar por el número real cuando lo confirme.
 export const UMARTI_WHATSAPP_ECOSISTEMA = "5491122334410";
+
+// Hub de servicios para la industria — inspirado en la página de referencia
+// que compartió Marcelo ("Servicios para Dealers"), adaptado a lo que ya
+// existe en Umarti (Publicidad, gestión de leads) más servicios de terceros
+// típicos de este tipo de portal B2B (marketing, IA, consultoría,
+// capacitación). Van primero en /ecosistema-negocios, antes que el resto,
+// a pedido de Marcelo.
+export const serviciosIndustria: ServicioIndustria[] = [
+  {
+    slug: "marketing-agencias",
+    nombre: "Marketing para agencias",
+    resumen: "Soluciones de marketing digital para concesionarias y agencias.",
+    descripcion:
+      "Campañas de pauta, redes sociales y contenido pensadas específicamente para vender vehículos, no productos genéricos.",
+  },
+  {
+    slug: "agentes-conversacionales",
+    nombre: "Agentes conversacionales",
+    resumen: "Automatizá ventas y atención al cliente con inteligencia artificial.",
+    descripcion:
+      "Respondé consultas de catálogo, agendá turnos de service y calificá leads las 24 horas, sin perder el tono de tu marca.",
+  },
+  {
+    slug: "consultoria-transformacion-digital",
+    nombre: "Consultoría en Transformación Digital",
+    resumen: "Modernizá tu negocio con soluciones tecnológicas innovadoras.",
+    descripcion:
+      "Un diagnóstico de tus procesos de venta y posventa, y un plan concreto para digitalizarlos sin descartar lo que ya funciona.",
+  },
+  {
+    slug: "publicidad-en-umarti",
+    nombre: "Publicidad en Umarti",
+    resumen: "Destacá tu concesionaria en catálogo, clasificados y tiendas.",
+    descripcion:
+      "Espacios de visibilidad dentro del sitio para que tu inventario aparezca primero frente a compradores activos.",
+  },
+  {
+    slug: "gestion-de-leads-crm",
+    nombre: "Gestión de leads y CRM",
+    resumen: "Centralizá y hacé seguimiento de las consultas que te llegan por Umarti.",
+    descripcion:
+      "Organizá los leads de WhatsApp, catálogo y clasificados en un solo lugar para no perder ninguna oportunidad de venta.",
+  },
+  {
+    slug: "capacitacion-comercial",
+    nombre: "Capacitación comercial",
+    resumen: "Entrená a tu equipo en atención digital y cierre de leads online.",
+    descripcion:
+      "Talleres prácticos para que tu equipo de ventas convierta más consultas de WhatsApp y catálogo en visitas reales.",
+  },
+];
+
+// Comunidad — versión 100% digital y todo el año de la idea de un evento
+// como "Auto.Tienda", separada por categoría. Por ahora es una landing con
+// lista de interés (sin backend todavía): primero contenido y validación,
+// después se define la plataforma final de conversación.
+export const categoriasComunidad: ComunidadCategoria[] = [
+  {
+    categoria: "Autos",
+    descripcion:
+      "Concesionarias, agencias y vendedores del mundo del auto de pasajeros.",
+  },
+  {
+    categoria: "Motos",
+    descripcion:
+      "Concesionarias e importadores de motos, y todo lo que rodea a las dos ruedas.",
+  },
+  {
+    categoria: "Camiones",
+    descripcion:
+      "Transporte de carga, logística y todo lo vinculado a vehículos pesados.",
+  },
+];
 
 // Blog para concesionarias y agencias — contenido pensado para quienes ya
 // son (o quieren ser) parte del ecosistema de negocios: cómo publicar bien

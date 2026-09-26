@@ -177,6 +177,20 @@ export interface ArticuloDealers {
   fecha: string;
 }
 
+export interface ServicioIndustria {
+  slug: string;
+  nombre: string;
+  resumen: string;
+  descripcion: string;
+}
+
+export type CategoriaComunidad = "Autos" | "Motos" | "Camiones";
+
+export interface ComunidadCategoria {
+  categoria: CategoriaComunidad;
+  descripcion: string;
+}
+
 export interface SeccionEspecial {
   slug: string;
   nombre: string;
