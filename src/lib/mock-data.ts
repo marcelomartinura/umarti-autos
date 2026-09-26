@@ -14,6 +14,7 @@ import {
   ServicioIndustria,
   ServicioOficialMarca,
   Taller,
+  TemaDebate,
   Tienda,
   VehiculoNuevo,
   VehiculoUsado,
@@ -1139,6 +1140,50 @@ export const categoriasComunidad: ComunidadCategoria[] = [
     categoria: "Camiones",
     descripcion:
       "Transporte de carga, logística y todo lo vinculado a vehículos pesados.",
+  },
+];
+
+// Zona de Conocimiento — temas para debatir dentro de la Comunidad (a
+// diferencia del blog de dealers, que es contenido ya escrito, acá la idea
+// es plantear un tema y que se debata entre los participantes). Primer paso
+// sin filtro por rol; Marcelo quiere sumar más adelante un filtro por
+// Líder/Vendedor, y tener cuidado de que esto no se vuelva un canal de
+// venta — de ahí la bajada de la sección en /comunidad.
+export const temasDebate: TemaDebate[] = [
+  {
+    slug: "customer-journey-0km",
+    categoria: "Customer Journey y Ventas",
+    titulo: "¿Cómo compra hoy un cliente de 0km?",
+    resumen:
+      "Del primer clic a la firma del contrato: ¿dónde se informa, dónde compara y qué lo termina de convencer?",
+  },
+  {
+    slug: "funnel-de-venta-leads",
+    categoria: "Customer Journey y Ventas",
+    titulo: "Funnel de venta: ¿dónde se caen más los leads?",
+    resumen:
+      "Compartí en qué etapa perdés más consultas y cómo la estás atacando en tu concesionaria o agencia.",
+  },
+  {
+    slug: "agentes-conversacionales-debate",
+    categoria: "Tecnología e IA",
+    titulo: "Agentes conversacionales: ¿reemplazan o potencian al vendedor?",
+    resumen:
+      "Experiencias reales usando IA para atención y calificación de leads, a favor y en contra.",
+  },
+  {
+    slug: "redes-sociales-o-portales",
+    categoria: "Marketing y Contenido",
+    titulo: "¿Vale más invertir en redes sociales o en portales?",
+    resumen:
+      "Dónde está poniendo cada uno su presupuesto de marketing y qué resultados está viendo.",
+  },
+  {
+    slug: "indicadores-clave-concesionaria",
+    categoria: "Gestión y Operaciones",
+    titulo: "Los indicadores que sí o sí deberías mirar cada semana",
+    resumen:
+      "Tiempo de respuesta, conversión por vendedor, rotación de stock: qué mira cada uno y por qué.",
   },
 ];
 

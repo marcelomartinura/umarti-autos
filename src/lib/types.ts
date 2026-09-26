@@ -191,6 +191,13 @@ export interface ComunidadCategoria {
   descripcion: string;
 }
 
+export interface TemaDebate {
+  slug: string;
+  categoria: string;
+  titulo: string;
+  resumen: string;
+}
+
 export interface SeccionEspecial {
   slug: string;
   nombre: string;
