@@ -13,6 +13,7 @@ const exploreLinks = [
 const empresaLinks = [
   { label: "Sobre nosotros", href: "/sobre-nosotros" },
   { label: "Ecosistema de Negocios", href: "/ecosistema-negocios" },
+  { label: "Comunidad", href: "/comunidad" },
   { label: "Noticias", href: "/noticias" },
   { label: "Contacto", href: "/contacto" },
 ];
