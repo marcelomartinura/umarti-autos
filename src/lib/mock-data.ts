@@ -1045,6 +1045,24 @@ export const articulosPosventa: ArticuloEditorial[] = [
   },
 ];
 
+// Número de WhatsApp central para publicaciones de "Vender mi auto" (leads
+// C2C de particulares, distinto de los canales B2B/Adicionales para que
+// Marcelo pueda derivar la moderación de publicaciones a otro responsable).
+export const UMARTI_WHATSAPP_VENDER = "5491122334440";
+
+// Colores de ejemplo para el formulario de "Vender mi auto" — lista fija
+// simple, no hace falta un tipo propio.
+export const coloresVehiculo: string[] = [
+  "Blanco",
+  "Negro",
+  "Gris",
+  "Plata",
+  "Rojo",
+  "Azul",
+  "Verde",
+  "Otro",
+];
+
 // Número de WhatsApp central para leads B2B (concesionarias, agencias y
 // proveedores que quieren sumarse al ecosistema). Distinto del de Adicionales
 // a propósito, para que Marcelo pueda derivar estas consultas a otro canal/
