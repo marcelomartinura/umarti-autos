@@ -3,10 +3,12 @@ import Header from "@/components/Header";
 import AdSlot from "@/components/AdSlot";
 import GeneradorDescripcion from "@/components/GeneradorDescripcion";
 import BlogDealersListado from "@/components/BlogDealersListado";
+import ServicioIndustriaCard from "@/components/ServicioIndustriaCard";
 import { AD_SLOTS } from "@/lib/adsense";
 import {
   UMARTI_WHATSAPP_ECOSISTEMA,
   herramientasDealers,
+  serviciosIndustria,
 } from "@/lib/mock-data";
 
 export const metadata = {
@@ -47,7 +49,41 @@ export default function EcosistemaNegociosPage() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6">
-        <div id="sumar-negocio" className="mt-8 grid scroll-mt-24 grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mt-8">
+          <h2 className="text-xl font-bold text-umarti-navy">
+            Servicios para la industria
+          </h2>
+          <p className="mt-1 text-sm text-gray-500">
+            Un hub de soluciones pensadas para concesionarias, agencias y
+            proveedores que quieren escalar su negocio.
+          </p>
+          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {serviciosIndustria.map((servicio) => (
+              <ServicioIndustriaCard key={servicio.slug} servicio={servicio} />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-12 flex flex-col items-center gap-4 rounded-2xl bg-gradient-to-r from-umarti-navy to-umarti-navyDark p-8 text-center sm:flex-row sm:justify-between sm:text-left">
+          <div>
+            <h2 className="text-xl font-bold text-white">
+              ¿Querés saber qué están haciendo en otros países?
+            </h2>
+            <p className="mt-1 max-w-xl text-sm text-blue-100">
+              Sumate a la Comunidad Umarti: un espacio para conversar sobre
+              la industria con colegas de habla hispana, separado por autos,
+              motos y camiones.
+            </p>
+          </div>
+          <Link
+            href="/comunidad"
+            className="shrink-0 rounded-full bg-white px-6 py-3 text-sm font-semibold text-umarti-navy hover:bg-blue-50"
+          >
+            Conocer la Comunidad →
+          </Link>
+        </div>
+
+        <div id="sumar-negocio" className="mt-12 grid scroll-mt-24 grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="rounded-2xl border border-gray-100 bg-white p-6">
             <h2 className="font-bold text-umarti-navy">
               Tenés una concesionaria o agencia
