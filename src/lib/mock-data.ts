@@ -1,7 +1,9 @@
 import {
+  ArticuloDealers,
   ArticuloEditorial,
   CategoriaAdicional,
   EspecificacionGrupo,
+  HerramientaUtil,
   OfertaConcesionaria,
   PasoCompra,
   PreguntaFrecuente,
@@ -1038,6 +1040,123 @@ export const articulosPosventa: ArticuloEditorial[] = [
     titulo: "Cómo no perder la garantía de fábrica",
     resumen:
       "Qué exige cada marca en materia de service programado para no perder la cobertura del vehículo.",
+  },
+];
+
+// Número de WhatsApp central para leads B2B (concesionarias, agencias y
+// proveedores que quieren sumarse al ecosistema). Distinto del de Adicionales
+// a propósito, para que Marcelo pueda derivar estas consultas a otro canal/
+// responsable comercial. Reemplazar por el número real cuando lo confirme.
+export const UMARTI_WHATSAPP_ECOSISTEMA = "5491122334410";
+
+// Blog para concesionarias y agencias — contenido pensado para quienes ya
+// son (o quieren ser) parte del ecosistema de negocios: cómo publicar bien
+// sus autos, cómo sumarse a posventa, cómo gestionar su tienda, cómo
+// anunciarse en el sitio, y novedades de la plataforma. Sin página de
+// detalle todavía (mismo patrón "Próximamente" que el resto del contenido
+// editorial del sitio) — están todos con fecha y categoría para que ya se
+// pueda filtrar y ordenar.
+export const articulosDealers: ArticuloDealers[] = [
+  {
+    slug: "como-publicar-tu-primer-vehiculo",
+    categoria: "Cómo publicar tus autos",
+    titulo: "Guía rápida: cómo publicar tu primer vehículo en Umarti",
+    resumen:
+      "Los datos mínimos que necesitás cargar y los errores más comunes que hacen que un aviso pase desapercibido.",
+    fecha: "2026-08-12",
+  },
+  {
+    slug: "fotos-que-venden-mas-rapido",
+    categoria: "Cómo publicar tus autos",
+    titulo: "5 tips de fotos que hacen vender más rápido",
+    resumen:
+      "Luz, ángulos y cantidad mínima de fotos recomendada para que tu publicación se destaque en el listado.",
+    fecha: "2026-08-26",
+  },
+  {
+    slug: "sumar-tu-concesionaria-a-service-oficial",
+    categoria: "Posventa para tu negocio",
+    titulo: "Cómo sumar tu concesionaria al listado de Service Oficial",
+    resumen:
+      "Qué información necesitamos para publicar tu centro de service oficial en /posventa y empezar a recibir turnos.",
+    fecha: "2026-09-23",
+  },
+  {
+    slug: "por-que-conviene-turnos-por-whatsapp",
+    categoria: "Posventa para tu negocio",
+    titulo: "Por qué conviene ofrecer turnos de service por WhatsApp",
+    resumen:
+      "Menos fricción para el cliente, respuesta más rápida y menos turnos perdidos que con un formulario tradicional.",
+    fecha: "2026-09-24",
+  },
+  {
+    slug: "mantener-actualizado-el-perfil-de-tu-tienda",
+    categoria: "Gestión de tu tienda",
+    titulo: "Cómo mantener actualizado el perfil de tu tienda",
+    resumen:
+      "Descripción, logo, ubicación y WhatsApp: la info que más impacta en que un comprador te elija a vos.",
+    fecha: "2026-09-02",
+  },
+  {
+    slug: "que-mirar-en-las-visualizaciones-de-tu-tienda",
+    categoria: "Gestión de tu tienda",
+    titulo: "Qué mirar en las estadísticas de visualizaciones de tu tienda",
+    resumen:
+      "Cómo interpretar las visualizaciones de tu perfil para saber si tu catálogo necesita un ajuste.",
+    fecha: "2026-09-10",
+  },
+  {
+    slug: "como-destacar-tu-concesionaria-en-los-listados",
+    categoria: "Publicidad en Umarti",
+    titulo: "Cómo destacar tu concesionaria en los listados",
+    resumen:
+      "Opciones para que tu tienda aparezca primero en Tiendas y en los resultados de Catálogo y Clasificados.",
+    fecha: "2026-09-15",
+  },
+  {
+    slug: "espacios-publicitarios-disponibles",
+    categoria: "Publicidad en Umarti",
+    titulo: "Espacios publicitarios disponibles en Umarti Movilidad",
+    resumen:
+      "Un recorrido por los espacios de publicidad del sitio y cómo consultar disponibilidad y condiciones.",
+    fecha: "2026-09-18",
+  },
+  {
+    slug: "lanzamos-secciones-especiales",
+    categoria: "Novedades y lanzamientos",
+    titulo: "Lanzamos Secciones especiales: nuevas formas de llegar a compradores",
+    resumen:
+      "Planes de ahorro, autos eléctricos, pickups y 4x4 y más: nuevas puertas de entrada a tu inventario.",
+    fecha: "2026-09-22",
+  },
+  {
+    slug: "lanzamos-posventa",
+    categoria: "Novedades y lanzamientos",
+    titulo: "Nueva sección de Posventa: sumate como service oficial o taller",
+    resumen:
+      "Ya podés generar leads de posventa filtrados por marca y por provincia, separados entre concesionarias y talleres.",
+    fecha: "2026-09-23",
+  },
+];
+
+// Herramientas para concesionarias — la de "Generador de descripciones" ya
+// funciona (ver GeneradorDescripcion.tsx); el resto son ideas ya definidas,
+// marcadas "Próximamente" hasta que las construyamos.
+export const herramientasDealers: HerramientaUtil[] = [
+  {
+    titulo: "Panel de estadísticas de tu tienda",
+    descripcion:
+      "Visualizaciones, consultas por WhatsApp y autos más vistos de tu inventario, en un solo panel.",
+  },
+  {
+    titulo: "Plantillas para redes sociales",
+    descripcion:
+      "Diseños listos para compartir tus vehículos destacados en Instagram y Facebook.",
+  },
+  {
+    titulo: "Calculadora de alcance publicitario",
+    descripcion:
+      "Estimá cuántas personas podrían ver tu concesionaria destacada según la categoría y la ubicación.",
   },
 ];
 

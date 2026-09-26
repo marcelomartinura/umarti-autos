@@ -162,6 +162,21 @@ export interface Taller {
   verificado: boolean;
 }
 
+export type CategoriaBlogDealers =
+  | "Cómo publicar tus autos"
+  | "Posventa para tu negocio"
+  | "Gestión de tu tienda"
+  | "Publicidad en Umarti"
+  | "Novedades y lanzamientos";
+
+export interface ArticuloDealers {
+  slug: string;
+  categoria: CategoriaBlogDealers;
+  titulo: string;
+  resumen: string;
+  fecha: string;
+}
+
 export interface SeccionEspecial {
   slug: string;
   nombre: string;

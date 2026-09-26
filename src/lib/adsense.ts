@@ -26,4 +26,6 @@ export const AD_SLOTS = {
   posventaTope: "0000000013",
   posventaMedio: "0000000014",
   posventaPie: "0000000015",
+  ecosistemaTope: "0000000016",
+  ecosistemaPie: "0000000017",
 };
