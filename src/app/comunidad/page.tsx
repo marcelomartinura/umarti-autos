@@ -2,8 +2,13 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import AdSlot from "@/components/AdSlot";
 import ComunidadCategoriaCard from "@/components/ComunidadCategoriaCard";
+import TemaDebateCard from "@/components/TemaDebateCard";
 import { AD_SLOTS } from "@/lib/adsense";
-import { UMARTI_WHATSAPP_ECOSISTEMA, categoriasComunidad } from "@/lib/mock-data";
+import {
+  UMARTI_WHATSAPP_ECOSISTEMA,
+  categoriasComunidad,
+  temasDebate,
+} from "@/lib/mock-data";
 
 export const metadata = {
   title: "Comunidad | Umarti Movilidad",
@@ -66,6 +71,60 @@ export default function ComunidadPage() {
                 key={categoria.categoria}
                 categoria={categoria}
               />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-14">
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-xl font-bold text-umarti-navy">
+                Zona de Conocimiento
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Temas para debatir entre colegas: subimos un tema y se
+                discute entre los participantes, como un Customer Journey,
+                un funnel de venta, o si los agentes conversacionales
+                reemplazan o potencian al vendedor.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <span className="rounded-full bg-umarti-navy px-4 py-2 text-xs font-semibold text-white">
+                Todos
+              </span>
+              <span
+                className="flex items-center gap-1.5 rounded-full border border-dashed border-gray-200 px-4 py-2 text-xs font-medium text-gray-400"
+                title="Próximamente"
+              >
+                Líder
+                <span className="rounded-full bg-gray-100 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-gray-400">
+                  Próx.
+                </span>
+              </span>
+              <span
+                className="flex items-center gap-1.5 rounded-full border border-dashed border-gray-200 px-4 py-2 text-xs font-medium text-gray-400"
+                title="Próximamente"
+              >
+                Vendedor
+                <span className="rounded-full bg-gray-100 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-gray-400">
+                  Próx.
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <div className="mb-6 rounded-xl border border-dashed border-umarti-navy/20 bg-white p-4 text-sm text-gray-600">
+            <span className="font-semibold text-umarti-navy">
+              Este espacio es para compartir conocimiento y debatir,
+            </span>{" "}
+            no para publicar avisos de venta ni autopromocionarse. Los temas
+            comerciales tienen su lugar en Ecosistema de Negocios; acá la
+            idea es aprender entre colegas de la industria.
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {temasDebate.map((tema) => (
+              <TemaDebateCard key={tema.slug} tema={tema} />
             ))}
           </div>
         </div>
