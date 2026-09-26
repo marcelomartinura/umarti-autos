@@ -29,4 +29,5 @@ export const AD_SLOTS = {
   ecosistemaTope: "0000000016",
   ecosistemaPie: "0000000017",
   comunidad: "0000000018",
+  comunidadCategoria: "0000000019",
 };

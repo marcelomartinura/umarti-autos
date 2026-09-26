@@ -188,6 +188,7 @@ export type CategoriaComunidad = "Autos" | "Motos" | "Camiones";
 
 export interface ComunidadCategoria {
   categoria: CategoriaComunidad;
+  slug: string;
   descripcion: string;
 }
 
@@ -196,6 +197,10 @@ export interface TemaDebate {
   categoria: string;
   titulo: string;
   resumen: string;
+  // A qué comunidad(es) pertenece este tema: la mayoría de los temas de
+  // gestión/tecnología/marketing aplican a las tres, pero un tema puede ser
+  // específico de una sola industria (ej. planes de ahorro en autos).
+  industrias: CategoriaComunidad[];
 }
 
 export interface SeccionEspecial {

@@ -1128,16 +1128,19 @@ export const serviciosIndustria: ServicioIndustria[] = [
 export const categoriasComunidad: ComunidadCategoria[] = [
   {
     categoria: "Autos",
+    slug: "autos",
     descripcion:
       "Concesionarias, agencias y vendedores del mundo del auto de pasajeros.",
   },
   {
     categoria: "Motos",
+    slug: "motos",
     descripcion:
       "Concesionarias e importadores de motos, y todo lo que rodea a las dos ruedas.",
   },
   {
     categoria: "Camiones",
+    slug: "camiones",
     descripcion:
       "Transporte de carga, logística y todo lo vinculado a vehículos pesados.",
   },
@@ -1156,6 +1159,7 @@ export const temasDebate: TemaDebate[] = [
     titulo: "¿Cómo compra hoy un cliente de 0km?",
     resumen:
       "Del primer clic a la firma del contrato: ¿dónde se informa, dónde compara y qué lo termina de convencer?",
+    industrias: ["Autos", "Motos", "Camiones"],
   },
   {
     slug: "funnel-de-venta-leads",
@@ -1163,6 +1167,7 @@ export const temasDebate: TemaDebate[] = [
     titulo: "Funnel de venta: ¿dónde se caen más los leads?",
     resumen:
       "Compartí en qué etapa perdés más consultas y cómo la estás atacando en tu concesionaria o agencia.",
+    industrias: ["Autos", "Motos", "Camiones"],
   },
   {
     slug: "agentes-conversacionales-debate",
@@ -1170,6 +1175,7 @@ export const temasDebate: TemaDebate[] = [
     titulo: "Agentes conversacionales: ¿reemplazan o potencian al vendedor?",
     resumen:
       "Experiencias reales usando IA para atención y calificación de leads, a favor y en contra.",
+    industrias: ["Autos", "Motos", "Camiones"],
   },
   {
     slug: "redes-sociales-o-portales",
@@ -1177,13 +1183,39 @@ export const temasDebate: TemaDebate[] = [
     titulo: "¿Vale más invertir en redes sociales o en portales?",
     resumen:
       "Dónde está poniendo cada uno su presupuesto de marketing y qué resultados está viendo.",
+    industrias: ["Autos", "Motos", "Camiones"],
   },
   {
     slug: "indicadores-clave-concesionaria",
     categoria: "Gestión y Operaciones",
     titulo: "Los indicadores que sí o sí deberías mirar cada semana",
     resumen:
-      "Tiempo de respuesta, conversión por vendedor, rotación de stock: qué mira cada uno y por qué.",
+      "Tiempo de respuesta, conversión por vendedor, rotación de stock: qué mira cada uno y por qué en tu negocio.",
+    industrias: ["Autos", "Motos", "Camiones"],
+  },
+  {
+    slug: "planes-de-ahorro-vs-financiacion",
+    categoria: "Customer Journey y Ventas",
+    titulo: "Planes de ahorro vs. financiación tradicional: ¿qué prefiere hoy el comprador?",
+    resumen:
+      "Un debate específico del mundo del auto de pasajeros: ventajas, objeciones y cómo lo estás explicando en el mostrador.",
+    industrias: ["Autos"],
+  },
+  {
+    slug: "motos-electricas-demanda",
+    categoria: "Tecnología e IA",
+    titulo: "Motos eléctricas: ¿cuánto está creciendo la demanda real?",
+    resumen:
+      "Compartí cómo viene la consulta por motos eléctricas en tu concesionaria y qué frenos le ves todavía al negocio.",
+    industrias: ["Motos"],
+  },
+  {
+    slug: "ciclos-de-venta-camiones",
+    categoria: "Customer Journey y Ventas",
+    titulo: "Ciclos de venta en camiones: cómo acortar una decisión que tarda meses",
+    resumen:
+      "En transporte de carga la decisión de compra es distinta a la de un particular: ¿qué te está funcionando para acelerarla?",
+    industrias: ["Camiones"],
   },
 ];
 
