@@ -4,9 +4,11 @@ import AdSlot from "@/components/AdSlot";
 import GeneradorDescripcion from "@/components/GeneradorDescripcion";
 import BlogDealersListado from "@/components/BlogDealersListado";
 import ServicioIndustriaCard from "@/components/ServicioIndustriaCard";
+import IconoCategoriaComunidad from "@/components/IconoCategoriaComunidad";
 import { AD_SLOTS } from "@/lib/adsense";
 import {
   UMARTI_WHATSAPP_ECOSISTEMA,
+  categoriasComunidad,
   herramientasDealers,
   serviciosIndustria,
 } from "@/lib/mock-data";
@@ -64,23 +66,39 @@ export default function EcosistemaNegociosPage() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center gap-4 rounded-2xl bg-gradient-to-r from-umarti-navy to-umarti-navyDark p-8 text-center sm:flex-row sm:justify-between sm:text-left">
-          <div>
-            <h2 className="text-xl font-bold text-white">
-              ¿Querés saber qué están haciendo en otros países?
+        <div className="mt-12 rounded-2xl bg-gradient-to-r from-umarti-navy to-umarti-navyDark p-8">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-white">
+              Comunidad de la industria
             </h2>
-            <p className="mt-1 max-w-xl text-sm text-blue-100">
-              Sumate a la Comunidad Umarti: un espacio para conversar sobre
-              la industria con colegas de habla hispana, separado por autos,
-              motos y camiones.
+            <p className="mx-auto mt-2 max-w-2xl text-sm text-blue-100">
+              ¿Querés ver qué está ocurriendo en la industria? ¿Querés
+              intercambiar conocimiento con colegas? ¿Querés ver qué están
+              haciendo en otras regiones? Ingresá al área de comunidad.
             </p>
           </div>
-          <Link
-            href="/comunidad"
-            className="shrink-0 rounded-full bg-white px-6 py-3 text-sm font-semibold text-umarti-navy hover:bg-blue-50"
-          >
-            Conocer la Comunidad →
-          </Link>
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {categoriasComunidad.map((categoria) => (
+              <Link
+                key={categoria.slug}
+                href={`/comunidad/${categoria.slug}`}
+                className="flex flex-col items-center rounded-xl bg-white/10 p-6 text-center hover:bg-white/20"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-umarti-navy">
+                  <IconoCategoriaComunidad categoria={categoria.categoria} />
+                </span>
+                <h3 className="mt-3 font-bold text-white">
+                  Comunidad de {categoria.categoria}
+                </h3>
+                <p className="mt-1 text-xs text-blue-100">
+                  {categoria.descripcion}
+                </p>
+                <span className="mt-4 text-sm font-semibold text-white">
+                  Entrar →
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
 
         <div id="sumar-negocio" className="mt-12 grid scroll-mt-24 grid-cols-1 gap-4 sm:grid-cols-2">
