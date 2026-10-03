@@ -17,12 +17,13 @@ function iniciales(nombre: string) {
     .toUpperCase();
 }
 
-export default function TiendaDetallePage({
+export default async function TiendaDetallePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const tienda = tiendas.find((t) => t.id === params.id);
+  const { id } = await params;
+  const tienda = tiendas.find((t) => t.id === id);
 
   if (!tienda) {
     notFound();

@@ -19,7 +19,7 @@ export async function iniciarSesionAdmin(
     return { error: "Completá tu email y tu contraseña." };
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,

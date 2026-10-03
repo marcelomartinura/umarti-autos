@@ -3,8 +3,8 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 
 // Cliente de Supabase para usar en Server Components, Server Actions y Route
 // Handlers. Lee/escribe la sesión desde las cookies de la request.
-export function createClient() {
-  const cookieStore = cookies();
+export async function createClient() {
+  const cookieStore = await cookies();
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

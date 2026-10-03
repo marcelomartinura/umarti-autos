@@ -15,12 +15,13 @@ import {
 } from "@/lib/mock-data";
 import { formatPrecio } from "@/lib/format";
 
-export default function VehiculoDetallePage({
+export default async function VehiculoDetallePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const vehiculo = vehiculosNuevos.find((v) => v.id === params.id);
+  const { id } = await params;
+  const vehiculo = vehiculosNuevos.find((v) => v.id === id);
 
   if (!vehiculo) {
     notFound();

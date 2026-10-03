@@ -1,6 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { iniciarSesionAdmin, type EstadoLoginAdmin } from "./actions";
 
 const estadoInicial: EstadoLoginAdmin = {};
@@ -19,7 +20,7 @@ function BotonIngresar() {
 }
 
 export default function LoginForm() {
-  const [estado, formAction] = useFormState(iniciarSesionAdmin, estadoInicial);
+  const [estado, formAction] = useActionState(iniciarSesionAdmin, estadoInicial);
 
   return (
     <form action={formAction} className="space-y-4">

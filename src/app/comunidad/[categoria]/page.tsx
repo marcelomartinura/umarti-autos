@@ -16,12 +16,13 @@ function getCategoria(slug: string) {
   return categoriasComunidad.find((c) => c.slug === slug);
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { categoria: string };
-}): Metadata {
-  const categoria = getCategoria(params.categoria);
+  params: Promise<{ categoria: string }>;
+}): Promise<Metadata> {
+  const { categoria: categoriaSlug } = await params;
+  const categoria = getCategoria(categoriaSlug);
   if (!categoria) return {};
   return {
     title: `Comunidad de ${categoria.categoria} | Umarti Movilidad`,
@@ -29,12 +30,13 @@ export function generateMetadata({
   };
 }
 
-export default function ComunidadCategoriaPage({
+export default async function ComunidadCategoriaPage({
   params,
 }: {
-  params: { categoria: string };
+  params: Promise<{ categoria: string }>;
 }) {
-  const categoria = getCategoria(params.categoria);
+  const { categoria: categoriaSlug } = await params;
+  const categoria = getCategoria(categoriaSlug);
 
   if (!categoria) {
     notFound();

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { ADMIN_LOGIN_PATH } from "@/lib/admin-config";
 import { cerrarSesionAdmin } from "./actions";
 
 export const metadata: Metadata = {
@@ -8,18 +10,27 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminDashboardPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: perfil } = user
-    ? await supabase
-        .from("profiles")
-        .select("nombre, rol")
-        .eq("id", user.id)
-        .single()
-    : { data: null };
+  // Revalidación propia de esta página (no depende solo del middleware):
+  // si no hay sesión, o la sesión no es de un admin, no se llega a ver nada
+  // de acá abajo.
+  if (!user) {
+    redirect(ADMIN_LOGIN_PATH);
+  }
+
+  const { data: perfil } = await supabase
+    .from("profiles")
+    .select("nombre, rol")
+    .eq("id", user.id)
+    .single();
+
+  if (perfil?.rol !== "admin") {
+    redirect(ADMIN_LOGIN_PATH);
+  }
 
   return (
     <main className="min-h-screen bg-umarti-cream">

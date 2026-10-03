@@ -15,12 +15,13 @@ import {
   vehiculosUsadosDeSeccion,
 } from "@/lib/secciones";
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
-}): Metadata {
-  const seccion = getSeccionEspecial(params.slug);
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const seccion = getSeccionEspecial(slug);
   if (!seccion) return {};
   return {
     title: `${seccion.nombre} | Umarti Movilidad`,
@@ -28,12 +29,13 @@ export function generateMetadata({
   };
 }
 
-export default function SeccionEspecialPage({
+export default async function SeccionEspecialPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const seccion = getSeccionEspecial(params.slug);
+  const { slug } = await params;
+  const seccion = getSeccionEspecial(slug);
 
   if (!seccion) {
     notFound();

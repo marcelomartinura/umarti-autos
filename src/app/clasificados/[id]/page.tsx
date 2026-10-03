@@ -14,12 +14,13 @@ import { formatPrecio } from "@/lib/format";
 // (no solo detrás de JavaScript) y datos estructurados (JSON-LD) para que
 // Google entienda que es un vehículo en venta.
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
-}): Metadata {
-  const vehiculo = vehiculosUsados.find((v) => v.id === params.id);
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const vehiculo = vehiculosUsados.find((v) => v.id === id);
   if (!vehiculo) return {};
 
   const titulo = `${vehiculo.marca} ${vehiculo.modelo} ${vehiculo.anio} usado en ${vehiculo.ubicacion} | Umarti Movilidad`;
@@ -40,12 +41,13 @@ export function generateMetadata({
   };
 }
 
-export default function ClasificadoDetallePage({
+export default async function ClasificadoDetallePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const vehiculo = vehiculosUsados.find((v) => v.id === params.id);
+  const { id } = await params;
+  const vehiculo = vehiculosUsados.find((v) => v.id === id);
 
   if (!vehiculo) {
     notFound();
