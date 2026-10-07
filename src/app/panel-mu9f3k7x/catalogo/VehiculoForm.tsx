@@ -1,26 +1,48 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState, type ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 import type { EstadoFormularioVehiculo } from "./actions";
-import type { VehiculoRow, OfertaRow } from "./tipos";
+import type { CatalogoMarca, ColorCatalogo, VehiculoRow } from "./tipos";
+import { formatearEspecificacionesParaTexto } from "./parsers";
 import {
-  formatearColoresParaTexto,
-  formatearEspecificacionesParaTexto,
-  formatearOfertasParaTexto,
-} from "./parsers";
+  MONEDAS,
+  MOTORIZACIONES,
+  SEGMENTOS,
+  TRANSMISIONES,
+  aniosDisponibles,
+} from "./constantes";
 
 type Props = {
   accion: (
     estadoPrevio: EstadoFormularioVehiculo,
     formData: FormData
   ) => Promise<EstadoFormularioVehiculo>;
+  catalogoMarcas: CatalogoMarca[];
+  catalogoColores: ColorCatalogo[];
   vehiculo?: VehiculoRow;
-  ofertas?: OfertaRow[];
+  marcaIdInicial?: string;
+  modeloIdInicial?: string;
+  coloresSeleccionadosInicial?: string[];
 };
 
-export default function VehiculoForm({ accion, vehiculo, ofertas }: Props) {
+export default function VehiculoForm({
+  accion,
+  catalogoMarcas,
+  catalogoColores,
+  vehiculo,
+  marcaIdInicial,
+  modeloIdInicial,
+  coloresSeleccionadosInicial,
+}: Props) {
   const [estado, formAction] = useActionState(accion, null);
+  const [marcaId, setMarcaId] = useState(marcaIdInicial ?? "");
+  const [modeloId, setModeloId] = useState(modeloIdInicial ?? "");
+
+  const marcaSeleccionada = catalogoMarcas.find((m) => m.id === marcaId);
+  const modelos = marcaSeleccionada?.modelos ?? [];
+  const modeloSeleccionado = modelos.find((m) => m.id === modeloId);
+  const versiones = modeloSeleccionado?.versiones ?? [];
 
   return (
     <form action={formAction} className="space-y-8">
@@ -31,36 +53,121 @@ export default function VehiculoForm({ accion, vehiculo, ofertas }: Props) {
       )}
 
       <section className="rounded-xl border border-gray-100 bg-white p-6">
+        <h2 className="mb-4 text-lg font-bold text-umarti-navy">Marca, modelo y versión</h2>
+        {catalogoMarcas.length === 0 ? (
+          <p className="text-sm text-red-600">
+            Todavía no hay marcas cargadas. Andá a{" "}
+            <a href="/panel-mu9f3k7x/catalogo/marcas" className="underline">
+              Marcas
+            </a>{" "}
+            y cargá al menos una marca, un modelo y una versión antes de crear un vehículo.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <label className="block text-sm">
+              <span className="mb-1 block font-medium text-gray-700">Marca</span>
+              <select
+                value={marcaId}
+                onChange={(e) => {
+                  setMarcaId(e.target.value);
+                  setModeloId("");
+                }}
+                className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-umarti-orange focus:outline-none"
+              >
+                <option value="">Elegí una marca</option>
+                {catalogoMarcas.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.nombre}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="block text-sm">
+              <span className="mb-1 block font-medium text-gray-700">Modelo</span>
+              <select
+                value={modeloId}
+                onChange={(e) => setModeloId(e.target.value)}
+                disabled={!marcaId}
+                className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-umarti-orange focus:outline-none disabled:bg-gray-50 disabled:text-gray-400"
+              >
+                <option value="">
+                  {marcaId ? "Elegí un modelo" : "Elegí una marca primero"}
+                </option>
+                {modelos.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.nombre}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="block text-sm">
+              <span className="mb-1 block font-medium text-gray-700">Versión</span>
+              <select
+                name="version_id"
+                defaultValue={vehiculo?.version_id ?? ""}
+                disabled={!modeloId}
+                required
+                className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-umarti-orange focus:outline-none disabled:bg-gray-50 disabled:text-gray-400"
+              >
+                <option value="">
+                  {modeloId ? "Elegí una versión" : "Elegí un modelo primero"}
+                </option>
+                {versiones.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.nombre}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        )}
+      </section>
+
+      <section className="rounded-xl border border-gray-100 bg-white p-6">
         <h2 className="mb-4 text-lg font-bold text-umarti-navy">Datos básicos</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Campo label="Marca" name="marca" defaultValue={vehiculo?.marca} required />
-          <Campo label="Modelo" name="modelo" defaultValue={vehiculo?.modelo} required />
-          <Campo label="Versión" name="version" defaultValue={vehiculo?.version} required />
-          <Campo
-            label="Año"
-            name="anio"
-            type="number"
-            defaultValue={vehiculo?.anio}
-            required
-          />
-          <Campo
-            label="Tipo / segmento"
-            name="tipo"
-            defaultValue={vehiculo?.tipo ?? ""}
-            placeholder="Ej: SUV Compacta"
-          />
-          <Campo
+          <Select label="Año" name="anio" defaultValue={vehiculo?.anio} required>
+            <option value="">Elegí un año</option>
+            {aniosDisponibles().map((a) => (
+              <option key={a} value={a}>
+                {a}
+              </option>
+            ))}
+          </Select>
+          <Select label="Segmento" name="tipo" defaultValue={vehiculo?.tipo ?? ""}>
+            <option value="">Sin especificar</option>
+            {SEGMENTOS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </Select>
+          <Select
             label="Motorización"
             name="motorizacion"
             defaultValue={vehiculo?.motorizacion ?? ""}
-            placeholder="Ej: Híbrido (HEV)"
-          />
-          <Campo
+          >
+            <option value="">Sin especificar</option>
+            {MOTORIZACIONES.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </Select>
+          <Select
             label="Transmisión"
             name="transmision"
             defaultValue={vehiculo?.transmision ?? ""}
-            placeholder="Ej: Automática CVT"
-          />
+          >
+            <option value="">Sin especificar</option>
+            {TRANSMISIONES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </Select>
           <Campo
             label="Origen"
             name="origen"
@@ -72,6 +179,30 @@ export default function VehiculoForm({ accion, vehiculo, ofertas }: Props) {
           <input type="checkbox" name="plan_ahorro" defaultChecked={vehiculo?.plan_ahorro} />
           Disponible en plan de ahorro
         </label>
+      </section>
+
+      <section className="rounded-xl border border-gray-100 bg-white p-6">
+        <h2 className="mb-2 text-lg font-bold text-umarti-navy">Precio</h2>
+        <p className="mb-2 text-xs text-gray-400">
+          Precio de referencia del vehículo (no una cotización de concesionaria — esas se
+          cargan desde Concesionarias).
+        </p>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <Campo
+            label="Monto"
+            name="precio"
+            type="number"
+            defaultValue={vehiculo?.precio ?? ""}
+            placeholder="Ej: 28600"
+          />
+          <Select label="Moneda" name="precio_moneda" defaultValue={vehiculo?.precio_moneda ?? "USD"}>
+            {MONEDAS.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </Select>
+        </div>
       </section>
 
       <section className="rounded-xl border border-gray-100 bg-white p-6">
@@ -118,14 +249,22 @@ export default function VehiculoForm({ accion, vehiculo, ofertas }: Props) {
       <section className="rounded-xl border border-gray-100 bg-white p-6">
         <h2 className="mb-2 text-lg font-bold text-umarti-navy">Colores disponibles</h2>
         <p className="mb-2 text-xs text-gray-400">
-          Uno por línea: Nombre | #código de color | disponibilidad (esto último es opcional).
+          Mantené presionado Ctrl (o Cmd en Mac) para elegir más de un color. Si falta algún
+          color, pedímelo y lo sumo al catálogo.
         </p>
-        <CampoTextarea
+        <select
           name="colores"
-          defaultValue={vehiculo?.colores ? formatearColoresParaTexto(vehiculo.colores) : ""}
-          placeholder={"Gris | #9ca3af | A consultar\nBlanco | #ffffff"}
-          rows={4}
-        />
+          multiple
+          size={Math.min(8, Math.max(4, catalogoColores.length))}
+          defaultValue={coloresSeleccionadosInicial ?? []}
+          className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-umarti-orange focus:outline-none"
+        >
+          {catalogoColores.map((c) => (
+            <option key={c.id} value={`${c.id}|${c.nombre}|${c.hex}`}>
+              {c.nombre} ({c.hex})
+            </option>
+          ))}
+        </select>
       </section>
 
       <section className="rounded-xl border border-gray-100 bg-white p-6">
@@ -197,22 +336,6 @@ export default function VehiculoForm({ accion, vehiculo, ofertas }: Props) {
       </section>
 
       <section className="rounded-xl border border-gray-100 bg-white p-6">
-        <h2 className="mb-2 text-lg font-bold text-umarti-navy">Cotizaciones</h2>
-        <p className="mb-2 text-xs text-gray-400">
-          Una cotización por bloque, separados por una línea con <code>---</code>. Campos:
-          Concesionaria, Ubicación, Precio, Moneda (ARS o USD), Disponibilidad, Forma de pago.
-        </p>
-        <CampoTextarea
-          name="ofertas"
-          defaultValue={ofertas ? formatearOfertasParaTexto(ofertas) : ""}
-          rows={10}
-          placeholder={
-            "Concesionaria: AutoNorte\nUbicación: GBA Norte\nPrecio: 28600\nMoneda: USD\nDisponibilidad: Inmediata / 30 días\nForma de pago: Contado o financiado, precio distinto\n---\nConcesionaria: AutoOeste\nPrecio: 30000\nMoneda: USD"
-          }
-        />
-      </section>
-
-      <section className="rounded-xl border border-gray-100 bg-white p-6">
         <h2 className="mb-4 text-lg font-bold text-umarti-navy">Publicación</h2>
         <label className="flex items-center gap-2 text-sm text-gray-600">
           <input type="checkbox" name="publicado" defaultChecked={vehiculo?.publicado} />
@@ -268,6 +391,34 @@ function Campo({
         placeholder={placeholder}
         className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-umarti-orange focus:outline-none"
       />
+    </label>
+  );
+}
+
+function Select({
+  label,
+  name,
+  defaultValue,
+  required,
+  children,
+}: {
+  label: string;
+  name: string;
+  defaultValue?: string | number;
+  required?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <label className="block text-sm">
+      <span className="mb-1 block font-medium text-gray-700">{label}</span>
+      <select
+        name={name}
+        defaultValue={defaultValue}
+        required={required}
+        className="w-full rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-umarti-orange focus:outline-none"
+      >
+        {children}
+      </select>
     </label>
   );
 }

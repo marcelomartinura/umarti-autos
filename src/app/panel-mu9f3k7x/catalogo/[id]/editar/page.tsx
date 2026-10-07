@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ADMIN_LOGIN_PATH } from "@/lib/admin-config";
 import VehiculoForm from "../../VehiculoForm";
 import { actualizarVehiculo } from "../../actions";
-import type { VehiculoRow, OfertaRow } from "../../tipos";
+import type { CatalogoMarca, ColorCatalogo, VehiculoConCadena } from "../../tipos";
 
 export default async function EditarVehiculoPage({
   params,
@@ -34,7 +34,7 @@ export default async function EditarVehiculoPage({
 
   const { data: vehiculo } = await supabase
     .from("vehiculos")
-    .select("*")
+    .select("*, versiones(id, nombre, modelo_id, modelos(id, nombre, marca_id, marcas(id, nombre)))")
     .eq("id", id)
     .single();
 
@@ -42,18 +42,34 @@ export default async function EditarVehiculoPage({
     notFound();
   }
 
-  const { data: ofertas } = await supabase
-    .from("ofertas_vehiculo")
-    .select("*")
-    .eq("vehiculo_id", id)
-    .order("orden", { ascending: true });
+  const vehiculoConCadena = vehiculo as unknown as VehiculoConCadena;
+  const modeloInfo = vehiculoConCadena.versiones?.modelos;
+
+  const { data: marcas } = await supabase
+    .from("marcas")
+    .select("id, nombre, modelos(id, nombre, versiones(id, nombre))")
+    .order("nombre");
+
+  const { data: colores } = await supabase
+    .from("colores_catalogo")
+    .select("id, nombre, hex, orden")
+    .order("orden");
+
+  const catalogoColores = (colores ?? []) as ColorCatalogo[];
+  const coloresSeleccionadosInicial = catalogoColores
+    .filter((c) => vehiculoConCadena.colores?.some((vc) => vc.nombre === c.nombre))
+    .map((c) => `${c.id}|${c.nombre}|${c.hex}`);
+
+  const nombreVehiculo = [modeloInfo?.marcas?.nombre, modeloInfo?.nombre]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <main className="min-h-screen bg-umarti-cream p-6">
       <div className="mx-auto max-w-3xl">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-umarti-navy">
-            Editar {vehiculo.marca} {vehiculo.modelo}
+            Editar {nombreVehiculo || "vehículo"}
           </h1>
           <Link
             href="/panel-mu9f3k7x/catalogo"
@@ -64,8 +80,12 @@ export default async function EditarVehiculoPage({
         </div>
         <VehiculoForm
           accion={actualizarVehiculo.bind(null, id)}
-          vehiculo={vehiculo as VehiculoRow}
-          ofertas={(ofertas ?? []) as OfertaRow[]}
+          vehiculo={vehiculoConCadena}
+          catalogoMarcas={(marcas ?? []) as unknown as CatalogoMarca[]}
+          catalogoColores={catalogoColores}
+          marcaIdInicial={modeloInfo?.marcas?.id}
+          modeloIdInicial={modeloInfo?.id}
+          coloresSeleccionadosInicial={coloresSeleccionadosInicial}
         />
       </div>
     </main>

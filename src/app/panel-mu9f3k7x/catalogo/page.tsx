@@ -27,10 +27,10 @@ export default async function CatalogoAdminPage() {
 
   const { data: vehiculos } = await supabase
     .from("vehiculos")
-    .select("id, slug, marca, modelo, version, anio, publicado, destacado, created_at")
+    .select("id, slug, anio, publicado, destacado, created_at, versiones(nombre, modelos(nombre, marcas(nombre)))")
     .order("created_at", { ascending: false });
 
-  const listado = (vehiculos ?? []) as VehiculoListado[];
+  const listado = (vehiculos ?? []) as unknown as VehiculoListado[];
 
   return (
     <main className="min-h-screen bg-umarti-cream p-6">
@@ -42,26 +42,49 @@ export default async function CatalogoAdminPage() {
             </p>
             <h1 className="text-2xl font-bold text-umarti-navy">Catálogo de vehículos</h1>
           </div>
-          <div className="flex gap-2">
-            <Link
-              href="/panel-mu9f3k7x"
-              className="rounded-md border border-umarti-navy px-4 py-2 text-sm font-semibold text-umarti-navy hover:bg-umarti-navy hover:text-white"
-            >
-              ← Volver al panel
-            </Link>
-            <Link
-              href="/panel-mu9f3k7x/catalogo/nuevo"
-              className="rounded-md bg-umarti-orange px-4 py-2 text-sm font-semibold text-white hover:opacity-90"
-            >
-              + Nuevo vehículo
-            </Link>
-          </div>
+          <Link
+            href="/panel-mu9f3k7x"
+            className="rounded-md border border-umarti-navy px-4 py-2 text-sm font-semibold text-umarti-navy hover:bg-umarti-navy hover:text-white"
+          >
+            ← Volver al panel
+          </Link>
         </div>
+
+        <nav className="mb-6 flex flex-wrap gap-2">
+          <span className="rounded-md bg-umarti-navy px-4 py-2 text-sm font-semibold text-white">
+            Vehículos
+          </span>
+          <Link
+            href="/panel-mu9f3k7x/catalogo/marcas"
+            className="rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-umarti-navy hover:border-umarti-navy"
+          >
+            Marcas
+          </Link>
+          <Link
+            href="/panel-mu9f3k7x/catalogo/modelos"
+            className="rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-umarti-navy hover:border-umarti-navy"
+          >
+            Modelos
+          </Link>
+          <Link
+            href="/panel-mu9f3k7x/catalogo/versiones"
+            className="rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-umarti-navy hover:border-umarti-navy"
+          >
+            Versiones
+          </Link>
+          <Link
+            href="/panel-mu9f3k7x/catalogo/nuevo"
+            className="ml-auto rounded-md bg-umarti-orange px-4 py-2 text-sm font-semibold text-white hover:opacity-90"
+          >
+            + Nuevo vehículo
+          </Link>
+        </nav>
 
         <div className="overflow-hidden rounded-xl border border-gray-100 bg-white">
           {listado.length === 0 ? (
             <p className="p-8 text-center text-sm text-gray-400">
-              Todavía no cargaste ningún vehículo.
+              Todavía no cargaste ningún vehículo. Si es la primera vez, primero cargá al menos
+              una marca, un modelo y una versión en las pestañas de arriba.
             </p>
           ) : (
             <table className="w-full text-left text-sm">
@@ -75,40 +98,41 @@ export default async function CatalogoAdminPage() {
                 </tr>
               </thead>
               <tbody>
-                {listado.map((v) => (
-                  <tr key={v.id} className="border-t border-gray-100">
-                    <td className="px-4 py-3 font-medium text-umarti-navy">
-                      {v.marca} {v.modelo} {v.version}
-                    </td>
-                    <td className="px-4 py-3 text-gray-500">{v.anio}</td>
-                    <td className="px-4 py-3">
-                      {v.publicado ? (
-                        <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
-                          Publicado
-                        </span>
-                      ) : (
-                        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
-                          Borrador
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-gray-500">{v.destacado ? "✓" : "—"}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex justify-end gap-3">
-                        <Link
-                          href={`/panel-mu9f3k7x/catalogo/${v.id}/editar`}
-                          className="text-sm font-semibold text-umarti-orange hover:underline"
-                        >
-                          Editar
-                        </Link>
-                        <EliminarVehiculoBoton
-                          vehiculoId={v.id}
-                          nombre={`${v.marca} ${v.modelo}`}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {listado.map((v) => {
+                  const modelo = v.versiones?.modelos;
+                  const nombre = `${modelo?.marcas?.nombre ?? ""} ${modelo?.nombre ?? ""} ${v.versiones?.nombre ?? ""}`.trim();
+                  return (
+                    <tr key={v.id} className="border-t border-gray-100">
+                      <td className="px-4 py-3 font-medium text-umarti-navy">
+                        {nombre || "(sin versión asignada)"}
+                      </td>
+                      <td className="px-4 py-3 text-gray-500">{v.anio}</td>
+                      <td className="px-4 py-3">
+                        {v.publicado ? (
+                          <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
+                            Publicado
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
+                            Borrador
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-gray-500">{v.destacado ? "✓" : "—"}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex justify-end gap-3">
+                          <Link
+                            href={`/panel-mu9f3k7x/catalogo/${v.id}/editar`}
+                            className="text-sm font-semibold text-umarti-orange hover:underline"
+                          >
+                            Editar
+                          </Link>
+                          <EliminarVehiculoBoton vehiculoId={v.id} nombre={nombre || "vehículo"} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           )}

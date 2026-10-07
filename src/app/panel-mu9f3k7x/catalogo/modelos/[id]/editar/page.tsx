@@ -1,12 +1,18 @@
-import { redirect } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { ADMIN_LOGIN_PATH } from "@/lib/admin-config";
-import VehiculoForm from "../VehiculoForm";
-import { crearVehiculo } from "../actions";
-import type { CatalogoMarca, ColorCatalogo } from "../tipos";
+import ModeloForm from "../../ModeloForm";
+import { actualizarModelo } from "../../actions";
+import type { ModeloRow } from "../../../tipos";
 
-export default async function NuevoVehiculoPage() {
+export default async function EditarModeloPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -26,33 +32,37 @@ export default async function NuevoVehiculoPage() {
     redirect(ADMIN_LOGIN_PATH);
   }
 
+  const { data: modelo } = await supabase.from("modelos").select("*").eq("id", id).single();
+
+  if (!modelo) {
+    notFound();
+  }
+
   const { data: marcas } = await supabase
     .from("marcas")
-    .select("id, nombre, modelos(id, nombre, versiones(id, nombre))")
+    .select("id, nombre")
     .order("nombre");
-
-  const { data: colores } = await supabase
-    .from("colores_catalogo")
-    .select("id, nombre, hex, orden")
-    .order("orden");
 
   return (
     <main className="min-h-screen bg-umarti-cream p-6">
       <div className="mx-auto max-w-3xl">
         <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-umarti-navy">Nuevo vehículo</h1>
+          <h1 className="text-2xl font-bold text-umarti-navy">Editar modelo</h1>
           <Link
-            href="/panel-mu9f3k7x/catalogo"
+            href="/panel-mu9f3k7x/catalogo/modelos"
             className="text-sm font-semibold text-umarti-navy hover:underline"
           >
             ← Volver al listado
           </Link>
         </div>
-        <VehiculoForm
-          accion={crearVehiculo}
-          catalogoMarcas={(marcas ?? []) as unknown as CatalogoMarca[]}
-          catalogoColores={(colores ?? []) as ColorCatalogo[]}
-        />
+        <section className="rounded-xl border border-gray-100 bg-white p-6">
+          <ModeloForm
+            accion={actualizarModelo.bind(null, id)}
+            marcas={marcas ?? []}
+            modelo={modelo as ModeloRow}
+            textoBoton="Guardar cambios"
+          />
+        </section>
       </div>
     </main>
   );

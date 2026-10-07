@@ -4,12 +4,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { ADMIN_LOGIN_PATH } from "@/lib/admin-config";
-import {
-  parsearColores,
-  parsearEspecificaciones,
-  parsearLineas,
-  parsearOfertas,
-} from "./parsers";
+import { parsearEspecificaciones, parsearLineas } from "./parsers";
+import type { ColorVehiculo } from "./tipos";
 
 export type EstadoFormularioVehiculo = { error: string } | null;
 
@@ -36,15 +32,46 @@ async function requerirAdmin() {
   return { supabase, userId: user.id };
 }
 
-function generarSlug(marca: string, modelo: string, version: string, anio: number) {
-  const base = `${marca}-${modelo}-${version}-${anio}`
+function limpiarTexto(texto: string) {
+  return texto
     .toLowerCase()
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-+|-+$)/g, "");
+}
+
+/**
+ * El slug se arma a partir de los nombres de marca/modelo/versión de la
+ * versión elegida (que ahora vive en otra tabla), por eso hace falta traerla
+ * de la base antes de generarlo.
+ */
+async function generarSlug(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  versionId: string,
+  anio: number
+): Promise<{ slug?: string; error?: string }> {
+  const { data: version, error } = await supabase
+    .from("versiones")
+    .select("nombre, modelos(nombre, marcas(nombre))")
+    .eq("id", versionId)
+    .single();
+
+  if (error || !version) {
+    return { error: "No se encontró la versión elegida." };
+  }
+
+  const modelo = version.modelos as unknown as {
+    nombre: string;
+    marcas: { nombre: string } | null;
+  } | null;
+
+  const marcaNombre = modelo?.marcas?.nombre ?? "marca";
+  const modeloNombre = modelo?.nombre ?? "modelo";
+
+  const base = limpiarTexto(`${marcaNombre}-${modeloNombre}-${version.nombre}-${anio}`);
   const sufijo = Math.random().toString(36).slice(2, 7);
-  return `${base}-${sufijo}`;
+  return { slug: `${base}-${sufijo}` };
 }
 
 async function subirFotos(
@@ -72,18 +99,31 @@ async function subirFotos(
   return urls;
 }
 
+/** Cada <option> del multi-select de colores viaja como "id|nombre|hex". */
+function leerColoresSeleccionados(formData: FormData): ColorVehiculo[] {
+  return formData
+    .getAll("colores")
+    .map(String)
+    .map((valor) => {
+      const [, nombre, hex] = valor.split("|");
+      return { nombre: nombre || "", hex: hex || "#cccccc" };
+    })
+    .filter((c) => c.nombre);
+}
+
 function leerCamposComunes(formData: FormData) {
   const anioTexto = String(formData.get("anio") || "");
+  const precioTexto = String(formData.get("precio") || "").trim();
   return {
-    marca: String(formData.get("marca") || "").trim(),
-    modelo: String(formData.get("modelo") || "").trim(),
-    version: String(formData.get("version") || "").trim(),
+    version_id: String(formData.get("version_id") || "").trim(),
     anio: anioTexto ? Number(anioTexto) : NaN,
     tipo: String(formData.get("tipo") || "").trim() || null,
     motorizacion: String(formData.get("motorizacion") || "").trim() || null,
     transmision: String(formData.get("transmision") || "").trim() || null,
     origen: String(formData.get("origen") || "").trim() || null,
     plan_ahorro: formData.get("plan_ahorro") === "on",
+    precio: precioTexto ? Number(precioTexto) : null,
+    precio_moneda: String(formData.get("precio_moneda") || "USD").trim() || "USD",
     airbags_totales: formData.get("airbags_totales")
       ? Number(formData.get("airbags_totales"))
       : null,
@@ -91,7 +131,7 @@ function leerCamposComunes(formData: FormData) {
     apple_carplay: String(formData.get("apple_carplay") || "").trim() || null,
     android_auto: String(formData.get("android_auto") || "").trim() || null,
     adas: parsearLineas(String(formData.get("adas") || "")),
-    colores: parsearColores(String(formData.get("colores") || "")),
+    colores: leerColoresSeleccionados(formData),
     especificaciones: parsearEspecificaciones(
       String(formData.get("especificaciones") || "")
     ),
@@ -102,32 +142,6 @@ function leerCamposComunes(formData: FormData) {
   };
 }
 
-async function guardarOfertas(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  vehiculoId: string,
-  formData: FormData
-) {
-  await supabase.from("ofertas_vehiculo").delete().eq("vehiculo_id", vehiculoId);
-
-  const ofertas = parsearOfertas(String(formData.get("ofertas") || ""));
-  if (ofertas.length === 0) return null;
-
-  const { error } = await supabase.from("ofertas_vehiculo").insert(
-    ofertas.map((o, i) => ({
-      vehiculo_id: vehiculoId,
-      concesionaria_nombre: o.nombre,
-      concesionaria_ubicacion: o.ubicacion,
-      precio: o.precio,
-      moneda: o.moneda,
-      disponibilidad: o.disponibilidad,
-      forma_pago_nota: o.formaPagoNota,
-      orden: i,
-    }))
-  );
-
-  return error;
-}
-
 export async function crearVehiculo(
   _estadoPrevio: EstadoFormularioVehiculo,
   formData: FormData
@@ -135,11 +149,14 @@ export async function crearVehiculo(
   const { supabase, userId } = await requerirAdmin();
   const campos = leerCamposComunes(formData);
 
-  if (!campos.marca || !campos.modelo || !campos.version || Number.isNaN(campos.anio)) {
-    return { error: "Marca, modelo, versión y año son obligatorios (el año tiene que ser un número)." };
+  if (!campos.version_id || Number.isNaN(campos.anio)) {
+    return { error: "Elegí marca, modelo, versión y año antes de guardar." };
   }
 
-  const slug = generarSlug(campos.marca, campos.modelo, campos.version, campos.anio);
+  const { slug, error: errorSlug } = await generarSlug(supabase, campos.version_id, campos.anio);
+  if (!slug) {
+    return { error: errorSlug ?? "No se pudo generar el identificador del vehículo." };
+  }
 
   let fotos: string[] = [];
   try {
@@ -148,21 +165,14 @@ export async function crearVehiculo(
     return { error: e instanceof Error ? e.message : "No se pudieron subir las fotos." };
   }
 
-  const { data: vehiculo, error } = await supabase
+  const { error } = await supabase
     .from("vehiculos")
     .insert({ ...campos, slug, fotos, created_by: userId })
     .select("id")
     .single();
 
-  if (error || !vehiculo) {
-    return { error: `No se pudo crear el vehículo: ${error?.message ?? "error desconocido"}` };
-  }
-
-  const errorOfertas = await guardarOfertas(supabase, vehiculo.id, formData);
-  if (errorOfertas) {
-    return {
-      error: `El vehículo se creó, pero no se pudieron guardar las cotizaciones: ${errorOfertas.message}. Podés abrirlo en "Editar" y volver a cargarlas.`,
-    };
+  if (error) {
+    return { error: `No se pudo crear el vehículo: ${error.message}` };
   }
 
   revalidatePath("/panel-mu9f3k7x/catalogo");
@@ -177,8 +187,8 @@ export async function actualizarVehiculo(
   const { supabase } = await requerirAdmin();
   const campos = leerCamposComunes(formData);
 
-  if (!campos.marca || !campos.modelo || !campos.version || Number.isNaN(campos.anio)) {
-    return { error: "Marca, modelo, versión y año son obligatorios (el año tiene que ser un número)." };
+  if (!campos.version_id || Number.isNaN(campos.anio)) {
+    return { error: "Elegí marca, modelo, versión y año antes de guardar." };
   }
 
   const { data: existente, error: errorExistente } = await supabase
@@ -209,13 +219,6 @@ export async function actualizarVehiculo(
 
   if (error) {
     return { error: `No se pudo actualizar el vehículo: ${error.message}` };
-  }
-
-  const errorOfertas = await guardarOfertas(supabase, vehiculoId, formData);
-  if (errorOfertas) {
-    return {
-      error: `Se guardaron los cambios, pero no se pudieron actualizar las cotizaciones: ${errorOfertas.message}.`,
-    };
   }
 
   revalidatePath("/panel-mu9f3k7x/catalogo");
