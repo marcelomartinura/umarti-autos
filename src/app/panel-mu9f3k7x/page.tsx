@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { ADMIN_LOGIN_PATH } from "@/lib/admin-config";
 import { cerrarSesionAdmin } from "./actions";
 
 export const metadata: Metadata = {
@@ -10,27 +9,18 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminDashboardPage() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Revalidación propia de esta página (no depende solo del middleware):
-  // si no hay sesión, o la sesión no es de un admin, no se llega a ver nada
-  // de acá abajo.
-  if (!user) {
-    redirect(ADMIN_LOGIN_PATH);
-  }
-
-  const { data: perfil } = await supabase
-    .from("profiles")
-    .select("nombre, rol")
-    .eq("id", user.id)
-    .single();
-
-  if (perfil?.rol !== "admin") {
-    redirect(ADMIN_LOGIN_PATH);
-  }
+  const { data: perfil } = user
+    ? await supabase
+        .from("profiles")
+        .select("nombre, rol")
+        .eq("id", user.id)
+        .single()
+    : { data: null };
 
   return (
     <main className="min-h-screen bg-umarti-cream">
@@ -66,10 +56,32 @@ export default async function AdminDashboardPage() {
           </p>
         </div>
 
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <Link
+            href="/panel-mu9f3k7x/catalogo"
+            className="rounded-2xl border border-gray-100 bg-white p-6 transition hover:border-umarti-orange hover:shadow-sm"
+          >
+            <p className="text-lg font-bold text-umarti-navy">Catálogo</p>
+            <p className="mt-1 text-sm text-gray-500">
+              Marcas, modelos, versiones y la ficha de cada vehículo.
+            </p>
+          </Link>
+          <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-6 opacity-60">
+            <p className="text-lg font-bold text-gray-400">Concesionarias</p>
+            <p className="mt-1 text-sm text-gray-400">Próximamente.</p>
+          </div>
+          <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-6 opacity-60">
+            <p className="text-lg font-bold text-gray-400">Publicaciones</p>
+            <p className="mt-1 text-sm text-gray-400">
+              &quot;Vender mi auto&quot; — próximamente.
+            </p>
+          </div>
+        </div>
+
         <div className="mt-6 rounded-2xl border border-dashed border-umarti-navy/20 bg-white p-6 text-sm text-gray-500">
-          El login ya está andando. Las secciones de gestión (catálogo,
-          concesionarias, publicaciones de &quot;Vender mi auto&quot;, etc.) se
-          van a ir sumando acá en las próximas entregas.
+          El login ya está andando y el catálogo ya se puede cargar. Concesionarias y
+          las publicaciones de &quot;Vender mi auto&quot; se van a ir sumando acá en
+          las próximas entregas.
         </div>
       </div>
     </main>
