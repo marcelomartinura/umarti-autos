@@ -8,7 +8,7 @@ import { seccionesEspeciales } from "@/lib/mock-data";
 export const metadata = {
   title: "Secciones especiales | Umarti Movilidad",
   description:
-    "Planes de ahorro, autos eléctricos, pickups y 4x4, agro y más: catálogo, clasificados y contenido agrupado por tema en Umarti Movilidad.",
+    "Planes de ahorro, electromovilidad, pickups y 4x4, agro y más: catálogo, clasificados y contenido agrupado por tema en Umarti Movilidad.",
 };
 
 export default function SeccionesEspecialesPage() {

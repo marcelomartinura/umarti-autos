@@ -17,7 +17,7 @@ export default function SeccionIcono({ slug }: { slug: string }) {
           <path d="M12 7v5l3 3" />
         </svg>
       );
-    case "autos-electricos":
+    case "electromovilidad":
       return (
         <svg {...props}>
           <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" />
@@ -42,7 +42,7 @@ export default function SeccionIcono({ slug }: { slug: string }) {
           <path d="M12 12c3-1 4-2.5 4-5-2.7 0-4.5.8-5.5 2.7" />
         </svg>
       );
-    case "mujeres-en-ruta":
+    case "ellas-al-volante":
       return (
         <svg {...props}>
           <path d="M12 3 4 6v6c0 5 3.4 8.2 8 9 4.6-.8 8-4 8-9V6l-8-3Z" />

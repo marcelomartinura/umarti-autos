@@ -111,14 +111,25 @@ export default function AdicionalesPage() {
                       ))}
                     </ul>
 
-                    <a
-                      href={`https://wa.me/${categoria.whatsapp}?text=${mensajeWhatsapp}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-5 inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
-                    >
-                      Consultar por {categoria.nombre}
-                    </a>
+                    <div className="mt-5 flex flex-wrap items-center gap-4">
+                      <a
+                        href={`https://wa.me/${categoria.whatsapp}?text=${mensajeWhatsapp}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
+                      >
+                        Consultar por {categoria.nombre}
+                      </a>
+
+                      {categoria.slug === "financiamiento" && (
+                        <Link
+                          href="/secciones-especiales/planes-de-ahorro"
+                          className="inline-flex items-center gap-1 text-sm font-semibold text-umarti-orange hover:underline"
+                        >
+                          ¿Buscás un plan de ahorro? Mirá los vehículos disponibles →
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
 

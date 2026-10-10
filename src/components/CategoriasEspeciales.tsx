@@ -9,10 +9,10 @@ const categorias = [
       "Accedé a tu 0km con cuotas mensuales, sin necesidad de un crédito tradicional.",
   },
   {
-    slug: "autos-electricos",
-    titulo: "Autos eléctricos",
+    slug: "electromovilidad",
+    titulo: "Electromovilidad",
     descripcion:
-      "La nueva generación de movilidad: 0 emisiones, menor costo por km y tecnología de punta.",
+      "La nueva generación de movilidad eléctrica: autos, motos y la infraestructura que los acompaña.",
   },
   {
     slug: "pickups-4x4",

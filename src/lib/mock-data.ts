@@ -546,16 +546,16 @@ export const seccionesEspeciales: SeccionEspecial[] = [
     ],
   },
   {
-    slug: "autos-electricos",
-    nombre: "Autos eléctricos",
+    slug: "electromovilidad",
+    nombre: "Electromovilidad",
     resumen:
-      "La nueva generación de movilidad: 0 emisiones, menor costo por km y tecnología de punta.",
+      "La nueva generación de movilidad eléctrica: autos, motos y la infraestructura que los acompaña.",
     descripcion:
-      "El parque eléctrico argentino todavía es chico, pero crece rápido: más modelos disponibles, más puntos de carga y beneficios impositivos en varias provincias. Acá reunimos los eléctricos del catálogo y contenido para perder el miedo a dar el salto.",
+      "El parque eléctrico argentino todavía es chico, pero crece rápido: más modelos disponibles, más puntos de carga y beneficios impositivos en varias provincias. Acá reunimos los autos eléctricos del catálogo y contenido para perder el miedo a dar el salto — a futuro se va a sumar también motos eléctricas e información sobre infraestructura de carga, en línea con que Umarti Movilidad cubre autos, motos y camiones.",
     filtro: { combustible: "Eléctrico" },
     articulos: [
       {
-        titulo: "Guía para cargar tu auto eléctrico en Argentina",
+        titulo: "Guía para cargar tu vehículo eléctrico en Argentina",
         resumen:
           "Carga en casa, en la vía pública y en rutas: qué necesitás y cuánto tarda cada una.",
       },
@@ -646,8 +646,8 @@ export const seccionesEspeciales: SeccionEspecial[] = [
     ],
   },
   {
-    slug: "mujeres-en-ruta",
-    nombre: "Mujeres en Ruta",
+    slug: "ellas-al-volante",
+    nombre: "Ellas al Volante",
     resumen:
       "Una comunidad para comprar y vender con confianza: vendedores verificados, asesoramiento sin presión y tips de seguridad.",
     descripcion:
