@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Catálogo", href: "/catalogo" },
@@ -12,13 +13,15 @@ export default function Header() {
   return (
     <header className="border-b border-gray-100 bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link href="/" className="flex flex-col leading-none">
-          <span className="text-xl font-bold text-umarti-navy">
-            UMARTI<span className="text-umarti-orange">.com</span>
-          </span>
-          <span className="text-xs tracking-widest text-gray-400">
-            movilidad
-          </span>
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/logo-header.png"
+            alt="Umarti Motors"
+            width={700}
+            height={506}
+            priority
+            className="h-10 w-auto sm:h-12"
+          />
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">

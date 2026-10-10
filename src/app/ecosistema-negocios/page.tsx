@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Header from "@/components/Header";
 import AdSlot from "@/components/AdSlot";
 import GeneradorDescripcion from "@/components/GeneradorDescripcion";
@@ -32,21 +33,31 @@ export default function EcosistemaNegociosPage() {
       <Header />
 
       <div className="bg-gradient-to-r from-umarti-navy to-umarti-navyDark py-14">
-        <div className="mx-auto max-w-7xl px-6">
-          <nav className="mb-4 text-xs text-blue-200">
-            <Link href="/" className="hover:text-white">
-              Inicio
-            </Link>{" "}
-            <span className="mx-1">›</span> Ecosistema de Negocios
-          </nav>
-          <h1 className="text-3xl font-bold text-white">
-            Ecosistema de Negocios
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm text-blue-100">
-            El espacio de Umarti Movilidad para concesionarias, agencias y
-            proveedores de la industria: herramientas, contenido y todo lo
-            que necesitás para sacarle el máximo provecho a la plataforma.
-          </p>
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-6 md:flex-row md:justify-between">
+          <div>
+            <nav className="mb-4 text-xs text-blue-200">
+              <Link href="/" className="hover:text-white">
+                Inicio
+              </Link>{" "}
+              <span className="mx-1">›</span> Ecosistema de Negocios
+            </nav>
+            <h1 className="text-3xl font-bold text-white">
+              Ecosistema de Negocios
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-blue-100">
+              El espacio de Umarti Movilidad para concesionarias, agencias y
+              proveedores de la industria: herramientas, contenido y todo lo
+              que necesitás para sacarle el máximo provecho a la plataforma.
+            </p>
+          </div>
+
+          <Image
+            src="/avatar-ecosistema.jpg"
+            alt="Asistente del Ecosistema de Negocios de Umarti Motors"
+            width={640}
+            height={640}
+            className="w-48 shrink-0 rounded-2xl shadow-2xl sm:w-60"
+          />
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const exploreLinks = [
   { label: "Catálogo", href: "/catalogo" },
@@ -37,12 +38,13 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-14">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
-            <span className="text-lg font-bold">
-              UMARTI<span className="text-umarti-orange">.com</span>
-            </span>
-            <p className="mt-1 text-xs tracking-widest text-blue-200">
-              movilidad
-            </p>
+            <Image
+              src="/logo-footer.png"
+              alt="Umarti Motors"
+              width={700}
+              height={508}
+              className="h-11 w-auto"
+            />
             <p className="mt-4 max-w-xs text-sm text-blue-100">
               El marketplace de movilidad de Argentina: autos, motos y
               camiones 0km y usados, adicionales, posventa y el ecosistema de
