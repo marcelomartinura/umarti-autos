@@ -32,8 +32,8 @@ export default function EcosistemaNegociosPage() {
     <main className="min-h-screen bg-umarti-cream pb-16">
       <Header />
 
-      <div className="bg-gradient-to-r from-umarti-navy to-umarti-navyDark py-14">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-6 md:flex-row md:justify-between">
+      <div className="bg-gradient-to-r from-umarti-navy to-umarti-navyDark py-10">
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-6 px-6 md:flex-row">
           <div>
             <nav className="mb-4 text-xs text-blue-200">
               <Link href="/" className="hover:text-white">
@@ -56,7 +56,7 @@ export default function EcosistemaNegociosPage() {
             alt="Asistente del Ecosistema de Negocios de Umarti Motors"
             width={640}
             height={640}
-            className="w-48 shrink-0 rounded-2xl shadow-2xl sm:w-60"
+            className="w-44 shrink-0 rounded-2xl shadow-2xl sm:w-52"
           />
         </div>
       </div>
