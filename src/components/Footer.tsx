@@ -43,7 +43,7 @@ export default function Footer() {
               alt="Umarti Motors"
               width={700}
               height={508}
-              className="h-16 w-auto"
+              className="h-24 w-auto sm:h-28"
             />
             <p className="mt-4 max-w-xs text-sm text-blue-100">
               El marketplace de movilidad de Argentina: autos, motos y

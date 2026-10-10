@@ -12,7 +12,7 @@ const navLinks = [
 export default function Header() {
   return (
     <header className="border-b border-gray-100 bg-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <Link href="/" className="flex items-center">
           <Image
             src="/logo-header.png"
@@ -20,7 +20,7 @@ export default function Header() {
             width={700}
             height={506}
             priority
-            className="h-14 w-auto sm:h-16"
+            className="h-16 w-auto sm:h-24"
           />
         </Link>
 

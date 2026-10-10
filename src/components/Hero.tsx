@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Hero() {
   return (
     <section className="bg-umarti-navy">
-      <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-6 px-6 py-8 md:flex-row md:py-10">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-6 py-8 md:flex-row md:justify-start md:py-10">
         <div className="max-w-xl">
           <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl">
             Encontrá el auto perfecto para vos
