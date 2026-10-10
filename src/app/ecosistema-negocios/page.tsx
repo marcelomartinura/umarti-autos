@@ -32,8 +32,8 @@ export default function EcosistemaNegociosPage() {
     <main className="min-h-screen bg-umarti-cream pb-16">
       <Header />
 
-      <div className="bg-gradient-to-r from-umarti-navy to-umarti-navyDark py-10">
-        <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-6 px-6 md:flex-row">
+      <div className="bg-gradient-to-r from-umarti-navy to-umarti-navyDark py-12">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-6 md:flex-row md:items-center md:justify-between">
           <div>
             <nav className="mb-4 text-xs text-blue-200">
               <Link href="/" className="hover:text-white">
@@ -41,29 +41,56 @@ export default function EcosistemaNegociosPage() {
               </Link>{" "}
               <span className="mx-1">›</span> Ecosistema de Negocios
             </nav>
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-4xl font-bold text-white md:text-5xl">
               Ecosistema de Negocios
             </h1>
-            <p className="mt-2 max-w-2xl text-sm text-blue-100">
+            <p className="mt-3 max-w-2xl text-base text-blue-100">
               El espacio de Umarti Movilidad para concesionarias, agencias y
               proveedores de la industria: herramientas, contenido y todo lo
               que necesitás para sacarle el máximo provecho a la plataforma.
             </p>
           </div>
 
-          <Image
-            src="/avatar-ecosistema.jpg"
-            alt="Asistente del Ecosistema de Negocios de Umarti Motors"
-            width={640}
-            height={640}
-            className="w-44 shrink-0 rounded-2xl shadow-2xl sm:w-52"
-          />
+          <div className="flex flex-col items-center gap-3 rounded-2xl bg-umarti-orange px-6 py-5 text-center shadow-lg sm:items-start sm:text-left">
+            <p className="text-base font-bold text-white">
+              ¿Tenés un negocio de la industria?
+            </p>
+            <p className="text-sm text-white/90">
+              Sumate al Ecosistema y llegá a miles de compradores y
+              concesionarias.
+            </p>
+            <Link
+              href="#sumar-negocio"
+              className="mt-1 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-umarti-orange hover:bg-umarti-cream"
+            >
+              Sumar mi negocio →
+            </Link>
+          </div>
+
+          <div className="relative aspect-[3/2] w-72 shrink-0 sm:w-96">
+            <Image
+              src="/ecosistema-fondo.png"
+              alt=""
+              fill
+              aria-hidden="true"
+              className="pointer-events-none select-none object-contain"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Image
+                src="/avatar-ecosistema.jpg"
+                alt="Asistente del Ecosistema de Negocios de Umarti Motors"
+                width={640}
+                height={640}
+                className="w-40 shrink-0 rounded-2xl shadow-2xl sm:w-48"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-6">
         <div className="mt-8">
-          <h2 className="text-xl font-bold text-umarti-navy">
+          <h2 className="text-2xl font-bold text-umarti-navy">
             Servicios para la industria
           </h2>
           <p className="mt-1 text-sm text-gray-500">

@@ -36,14 +36,14 @@ export default function Footer() {
   return (
     <footer className="bg-umarti-navy text-white">
       <div className="mx-auto max-w-7xl px-6 py-14">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
-          <div className="col-span-2 md:col-span-1">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
+          <div className="col-span-2 md:col-span-2">
             <Image
               src="/logo-footer.png"
               alt="Umarti Motors"
               width={700}
               height={508}
-              className="h-24 w-auto sm:h-28"
+              className="h-48 w-auto sm:h-56"
             />
             <p className="mt-4 max-w-xs text-sm text-blue-100">
               El marketplace de movilidad de Argentina: autos, motos y

@@ -20,7 +20,7 @@ export default function Header() {
             width={700}
             height={506}
             priority
-            className="h-16 w-auto sm:h-24"
+            className="h-32 w-auto sm:h-48"
           />
         </Link>
 
@@ -37,16 +37,16 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-2">
             <Link
               href="/mi-cuenta"
-              className="rounded-md bg-umarti-orange px-4 py-1.5 text-center text-xs font-semibold text-white hover:opacity-90"
+              className="rounded-md bg-umarti-orange px-5 py-2 text-center text-sm font-semibold text-white hover:opacity-90"
             >
               Mi Cuenta
             </Link>
             <Link
               href="/vender"
-              className="rounded-md border border-umarti-navy px-4 py-1.5 text-center text-xs font-semibold text-umarti-navy hover:bg-umarti-navy hover:text-white"
+              className="rounded-md border border-umarti-navy px-5 py-2 text-center text-sm font-semibold text-umarti-navy hover:bg-umarti-navy hover:text-white"
             >
               Vender mi auto
             </Link>
@@ -55,10 +55,10 @@ export default function Header() {
 
         <Link
           href="/ecosistema-negocios"
-          className="hidden flex-col items-center rounded-md bg-umarti-navy px-5 py-2.5 leading-tight text-white hover:bg-umarti-navyDark md:flex"
+          className="hidden flex-col items-center rounded-lg bg-umarti-navy px-8 py-4 leading-tight text-white shadow-md hover:bg-umarti-navyDark md:flex"
         >
-          <span className="text-sm font-bold">Ecosistema de Negocios</span>
-          <span className="text-[11px] font-normal text-white/70">
+          <span className="text-lg font-bold">Ecosistema de Negocios</span>
+          <span className="text-sm font-normal text-white/80">
             Soy de la Industria de la Movilidad
           </span>
         </Link>
