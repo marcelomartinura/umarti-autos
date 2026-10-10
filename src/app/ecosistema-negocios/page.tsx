@@ -51,22 +51,6 @@ export default function EcosistemaNegociosPage() {
             </p>
           </div>
 
-          <div className="flex flex-col items-center gap-3 rounded-2xl bg-umarti-orange px-6 py-5 text-center shadow-lg sm:items-start sm:text-left">
-            <p className="text-base font-bold text-white">
-              ¿Tenés un negocio de la industria?
-            </p>
-            <p className="text-sm text-white/90">
-              Sumate al Ecosistema y llegá a miles de compradores y
-              concesionarias.
-            </p>
-            <Link
-              href="#sumar-negocio"
-              className="mt-1 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-umarti-orange hover:bg-umarti-cream"
-            >
-              Sumar mi negocio →
-            </Link>
-          </div>
-
           <div className="relative aspect-[3/2] w-72 shrink-0 sm:w-96">
             <Image
               src="/ecosistema-fondo.png"

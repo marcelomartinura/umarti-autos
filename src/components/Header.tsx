@@ -12,15 +12,15 @@ const navLinks = [
 export default function Header() {
   return (
     <header className="border-b border-gray-100 bg-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2">
         <Link href="/" className="flex items-center">
           <Image
             src="/logo-header.png"
             alt="Umarti Motors"
-            width={700}
-            height={506}
+            width={641}
+            height={247}
             priority
-            className="h-32 w-auto sm:h-48"
+            className="h-16 w-auto sm:h-24"
           />
         </Link>
 
@@ -55,10 +55,10 @@ export default function Header() {
 
         <Link
           href="/ecosistema-negocios"
-          className="hidden flex-col items-center rounded-lg bg-umarti-navy px-8 py-4 leading-tight text-white shadow-md hover:bg-umarti-navyDark md:flex"
+          className="hidden flex-col items-center rounded-lg bg-umarti-navy px-6 py-3 leading-tight text-white shadow-md hover:bg-umarti-navyDark md:flex"
         >
-          <span className="text-lg font-bold">Ecosistema de Negocios</span>
-          <span className="text-sm font-normal text-white/80">
+          <span className="text-base font-bold">Ecosistema de Negocios</span>
+          <span className="text-xs font-normal text-white/80">
             Soy de la Industria de la Movilidad
           </span>
         </Link>

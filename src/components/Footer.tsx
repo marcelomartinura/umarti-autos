@@ -41,11 +41,11 @@ export default function Footer() {
             <Image
               src="/logo-footer.png"
               alt="Umarti Motors"
-              width={700}
-              height={508}
-              className="h-48 w-auto sm:h-56"
+              width={635}
+              height={246}
+              className="h-16 w-auto sm:h-20"
             />
-            <p className="mt-4 max-w-xs text-sm text-blue-100">
+            <p className="mt-3 max-w-xs text-sm text-blue-100">
               El marketplace de movilidad de Argentina: autos, motos y
               camiones 0km y usados, adicionales, posventa y el ecosistema de
               negocios de la industria.
