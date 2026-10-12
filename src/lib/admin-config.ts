@@ -3,9 +3,9 @@
 // de robots.txt (ver src/app/robots.ts), además de estar protegida por login
 // real tanto en el servidor (middleware) como en cada página.
 //
-// Para cambiarla: renombrar la carpeta src/app/panel-mu9f3k7x y actualizar
+// Para cambiarla: renombrar la carpeta src/app/panel y actualizar
 // este valor — es el único lugar donde está escrita.
-export const ADMIN_PATH_PREFIX = "/panel-mu9f3k7x";
+export const ADMIN_PATH_PREFIX = "/panel";
 export const ADMIN_LOGIN_PATH = `${ADMIN_PATH_PREFIX}/login`;
 
 // Página de un solo uso para crear la primera cuenta de administrador (ver

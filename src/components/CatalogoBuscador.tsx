@@ -1,7 +1,26 @@
 import Link from "next/link";
+import Image from "next/image";
 import { marcas, rangosPrecio, segmentos } from "@/lib/mock-data";
+import { createClient } from "@/lib/supabase/server";
 
-export default function CatalogoBuscador() {
+type MarcaConLogo = { nombre: string; logo_url: string | null };
+
+export default async function CatalogoBuscador() {
+  // Marcas reales cargadas desde el panel (con su logo, si tienen). Mientras
+  // no haya ninguna activa todavía, se muestran las de ejemplo de siempre
+  // para que esta sección nunca quede vacía.
+  const supabase = await createClient();
+  const { data: marcasReales } = await supabase
+    .from("marcas")
+    .select("nombre, logo_url")
+    .eq("activa", true)
+    .order("nombre");
+
+  const hayMarcasReales = (marcasReales?.length ?? 0) > 0;
+  const marcasAMostrar: MarcaConLogo[] = hayMarcasReales
+    ? (marcasReales as MarcaConLogo[])
+    : marcas.map((nombre) => ({ nombre, logo_url: null }));
+
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-6">
@@ -26,25 +45,39 @@ export default function CatalogoBuscador() {
             Buscá por marca
           </h3>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-            {marcas.map((marca) => (
+            {marcasAMostrar.map((marca) => (
               <Link
-                key={marca}
-                href={`/catalogo?marca=${encodeURIComponent(marca)}`}
+                key={marca.nombre}
+                href={`/catalogo?marca=${encodeURIComponent(marca.nombre)}`}
                 className="flex flex-col items-center gap-2 rounded-xl border border-gray-100 bg-umarti-cream/40 p-4 text-center hover:border-umarti-orange"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-umarti-navy text-sm font-bold text-white">
-                  {marca.slice(0, 2).toUpperCase()}
-                </span>
+                {marca.logo_url ? (
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white">
+                    <Image
+                      src={marca.logo_url}
+                      alt={marca.nombre}
+                      width={40}
+                      height={40}
+                      className="h-9 w-9 object-contain"
+                    />
+                  </span>
+                ) : (
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-umarti-navy text-sm font-bold text-white">
+                    {marca.nombre.slice(0, 2).toUpperCase()}
+                  </span>
+                )}
                 <span className="text-sm font-medium text-umarti-navy">
-                  {marca}
+                  {marca.nombre}
                 </span>
               </Link>
             ))}
           </div>
-          <p className="mt-3 text-xs text-gray-400">
-            Estas son algunas marcas a modo de ejemplo — el listado completo
-            se suma cuando conectemos el catálogo real.
-          </p>
+          {!hayMarcasReales && (
+            <p className="mt-3 text-xs text-gray-400">
+              Estas son algunas marcas a modo de ejemplo — en cuanto actives
+              marcas reales desde el panel, se muestran acá en su lugar.
+            </p>
+          )}
         </div>
 
         <div className="mt-10">
