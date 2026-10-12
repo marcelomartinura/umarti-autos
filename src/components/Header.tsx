@@ -5,6 +5,7 @@ const navLinks = [
   { label: "Catálogo", href: "/catalogo" },
   { label: "Clasificados", href: "/clasificados" },
   { label: "Tiendas", href: "/tiendas" },
+  { label: "Concesionarias", href: "/concesionarias" },
   { label: "Adicionales", href: "/adicionales" },
   { label: "Posventa", href: "/posventa" },
 ];
