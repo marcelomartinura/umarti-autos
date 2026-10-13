@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { ADMIN_LOGIN_PATH } from "@/lib/admin-config";
+import type { NovedadInput, SucursalInput } from "./tipos";
 
 export type EstadoFormularioConcesionaria = { error: string } | null;
 
@@ -39,20 +40,24 @@ function leerCampos(formData: FormData) {
       String(formData.get("whatsapp") || "")
         .trim()
         .replace(/[^0-9]/g, "") || null,
+    ofrece_plan_ahorro: formData.get("ofrece_plan_ahorro") === "on",
+    financiacion_nota: String(formData.get("financiacion_nota") || "").trim() || null,
     activa: formData.get("activa") === "on",
   };
 }
 
 /** "Toyota Buenos Aires" -> "toyota-buenos-aires" (sin tildes, sin símbolos). */
 function generarSlugBase(nombre: string) {
-  return nombre
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 60) || "concesionaria";
+  return (
+    nombre
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 60) || "concesionaria"
+  );
 }
 
 /**
@@ -70,10 +75,7 @@ async function generarSlugUnico(
   let intento = 0;
 
   while (true) {
-    let consulta = supabase
-      .from("concesionarias")
-      .select("id")
-      .eq("slug", candidato);
+    let consulta = supabase.from("concesionarias").select("id").eq("slug", candidato);
     if (idAIgnorar) {
       consulta = consulta.neq("id", idAIgnorar);
     }
@@ -116,6 +118,98 @@ async function subirImagenSiCorresponde(
   return data.publicUrl;
 }
 
+function leerMarcasSeleccionadas(formData: FormData): string[] {
+  return formData.getAll("marcas").map(String).filter(Boolean);
+}
+
+function leerJsonSeguro<T>(formData: FormData, campo: string): T[] {
+  const crudo = String(formData.get(campo) || "[]");
+  try {
+    const parseado = JSON.parse(crudo);
+    return Array.isArray(parseado) ? (parseado as T[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Reemplaza por completo las marcas vinculadas a una concesionaria. */
+async function sincronizarMarcas(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  concesionariaId: string,
+  marcaIds: string[]
+) {
+  await supabase.from("concesionaria_marcas").delete().eq("concesionaria_id", concesionariaId);
+  if (marcaIds.length > 0) {
+    const { error } = await supabase
+      .from("concesionaria_marcas")
+      .insert(marcaIds.map((marca_id) => ({ concesionaria_id: concesionariaId, marca_id })));
+    if (error) {
+      throw new Error(`No se pudieron guardar las marcas: ${error.message}`);
+    }
+  }
+}
+
+/** Reemplaza por completo las sucursales de una concesionaria. */
+async function sincronizarSucursales(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  concesionariaId: string,
+  sucursales: SucursalInput[]
+) {
+  await supabase
+    .from("concesionaria_sucursales")
+    .delete()
+    .eq("concesionaria_id", concesionariaId);
+
+  const validas = sucursales
+    .map((s) => ({
+      nombre: String(s.nombre || "").trim(),
+      direccion: String(s.direccion || "").trim() || null,
+      telefono: String(s.telefono || "").trim() || null,
+      email: String(s.email || "").trim() || null,
+    }))
+    .filter((s) => s.nombre);
+
+  if (validas.length > 0) {
+    const { error } = await supabase.from("concesionaria_sucursales").insert(
+      validas.map((s, indice) => ({
+        concesionaria_id: concesionariaId,
+        ...s,
+        orden: indice,
+      }))
+    );
+    if (error) {
+      throw new Error(`No se pudieron guardar las sucursales: ${error.message}`);
+    }
+  }
+}
+
+/** Reemplaza por completo las novedades de una concesionaria. */
+async function sincronizarNovedades(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  concesionariaId: string,
+  novedades: NovedadInput[]
+) {
+  await supabase.from("concesionaria_novedades").delete().eq("concesionaria_id", concesionariaId);
+
+  const validas = novedades
+    .map((n) => ({
+      titulo: String(n.titulo || "").trim(),
+      texto: String(n.texto || "").trim() || null,
+      fecha: String(n.fecha || "").trim() || new Date().toISOString().slice(0, 10),
+      link_url: String(n.link_url || "").trim() || null,
+    }))
+    .filter((n) => n.titulo);
+
+  if (validas.length > 0) {
+    const { error } = await supabase
+      .from("concesionaria_novedades")
+      .insert(validas.map((n) => ({ concesionaria_id: concesionariaId, ...n })));
+    if (error) {
+      throw new Error(`No se pudieron guardar las novedades: ${error.message}`);
+    }
+  }
+}
+
 export async function crearConcesionaria(
   _estadoPrevio: EstadoFormularioConcesionaria,
   formData: FormData
@@ -143,15 +237,37 @@ export async function crearConcesionaria(
 
   const slug = await generarSlugUnico(supabase, campos.nombre);
 
-  const { error } = await supabase.from("concesionarias").insert({
-    ...campos,
-    slug,
-    logo_url: logoUrl ?? null,
-    portada_url: portadaUrl ?? null,
-  });
+  const { data: creada, error } = await supabase
+    .from("concesionarias")
+    .insert({
+      ...campos,
+      slug,
+      logo_url: logoUrl ?? null,
+      portada_url: portadaUrl ?? null,
+    })
+    .select("id")
+    .single();
 
-  if (error) {
-    return { error: `No se pudo crear la concesionaria: ${error.message}` };
+  if (error || !creada) {
+    return {
+      error: `No se pudo crear la concesionaria: ${error?.message ?? "error desconocido"}`,
+    };
+  }
+
+  try {
+    await sincronizarMarcas(supabase, creada.id, leerMarcasSeleccionadas(formData));
+    await sincronizarSucursales(
+      supabase,
+      creada.id,
+      leerJsonSeguro<SucursalInput>(formData, "sucursales_json")
+    );
+    await sincronizarNovedades(
+      supabase,
+      creada.id,
+      leerJsonSeguro<NovedadInput>(formData, "novedades_json")
+    );
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "No se pudo guardar toda la información." };
   }
 
   revalidatePath("/panel/concesionarias");
@@ -210,6 +326,22 @@ export async function actualizarConcesionaria(
 
   if (error) {
     return { error: `No se pudo actualizar la concesionaria: ${error.message}` };
+  }
+
+  try {
+    await sincronizarMarcas(supabase, concesionariaId, leerMarcasSeleccionadas(formData));
+    await sincronizarSucursales(
+      supabase,
+      concesionariaId,
+      leerJsonSeguro<SucursalInput>(formData, "sucursales_json")
+    );
+    await sincronizarNovedades(
+      supabase,
+      concesionariaId,
+      leerJsonSeguro<NovedadInput>(formData, "novedades_json")
+    );
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : "No se pudo guardar toda la información." };
   }
 
   revalidatePath("/panel/concesionarias");

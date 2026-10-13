@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ADMIN_LOGIN_PATH } from "@/lib/admin-config";
 import ConcesionariaForm from "../../ConcesionariaForm";
 import { actualizarConcesionaria } from "../../actions";
-import type { ConcesionariaRow } from "../../tipos";
+import type { ConcesionariaRow, NovedadInput, SucursalInput } from "../../tipos";
 
 export default async function EditarConcesionariaPage({
   params,
@@ -42,6 +42,39 @@ export default async function EditarConcesionariaPage({
     notFound();
   }
 
+  const [{ data: marcas }, { data: marcasVinculadas }, { data: sucursales }, { data: novedades }] =
+    await Promise.all([
+      supabase.from("marcas").select("id, nombre").order("nombre"),
+      supabase.from("concesionaria_marcas").select("marca_id").eq("concesionaria_id", id),
+      supabase
+        .from("concesionaria_sucursales")
+        .select("*")
+        .eq("concesionaria_id", id)
+        .order("orden"),
+      supabase
+        .from("concesionaria_novedades")
+        .select("*")
+        .eq("concesionaria_id", id)
+        .order("fecha", { ascending: false }),
+    ]);
+
+  const marcasDisponibles = marcas ?? [];
+  const marcasSeleccionadas = (marcasVinculadas ?? []).map((m) => m.marca_id as string);
+
+  const sucursalesIniciales: SucursalInput[] = (sucursales ?? []).map((s) => ({
+    nombre: s.nombre ?? "",
+    direccion: s.direccion ?? "",
+    telefono: s.telefono ?? "",
+    email: s.email ?? "",
+  }));
+
+  const novedadesIniciales: NovedadInput[] = (novedades ?? []).map((n) => ({
+    titulo: n.titulo ?? "",
+    texto: n.texto ?? "",
+    fecha: n.fecha ?? "",
+    link_url: n.link_url ?? "",
+  }));
+
   return (
     <main className="min-h-screen bg-umarti-cream p-6">
       <div className="mx-auto max-w-3xl">
@@ -58,6 +91,10 @@ export default async function EditarConcesionariaPage({
           <ConcesionariaForm
             accion={actualizarConcesionaria.bind(null, id)}
             concesionaria={concesionaria as ConcesionariaRow}
+            marcasDisponibles={marcasDisponibles}
+            marcasSeleccionadas={marcasSeleccionadas}
+            sucursalesIniciales={sucursalesIniciales}
+            novedadesIniciales={novedadesIniciales}
             textoBoton="Guardar cambios"
           />
         </section>

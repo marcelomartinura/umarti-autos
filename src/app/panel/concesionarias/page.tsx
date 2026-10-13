@@ -33,6 +33,9 @@ export default async function ConcesionariasAdminPage() {
     .order("nombre");
   const listado = (concesionarias ?? []) as ConcesionariaRow[];
 
+  const { data: marcas } = await supabase.from("marcas").select("id, nombre").order("nombre");
+  const marcasDisponibles = marcas ?? [];
+
   return (
     <main className="min-h-screen bg-umarti-cream p-6">
       <div className="mx-auto max-w-4xl">
@@ -54,9 +57,10 @@ export default async function ConcesionariasAdminPage() {
         <p className="mb-6 text-sm text-gray-500">
           Cada concesionaria que actives acá se publica automáticamente como una
           landing propia en{" "}
-          <span className="font-mono text-xs text-umarti-navy">/concesionarias</span>. Por
-          ahora la landing muestra logo, portada, descripción y contacto — la carga de
-          vehículos por concesionaria se suma en una próxima etapa.
+          <span className="font-mono text-xs text-umarti-navy">/concesionarias</span>: logo,
+          portada, descripción, contacto, marcas que vende, financiación, sucursales y
+          novedades propias. La carga de vehículos por concesionaria se suma en una
+          próxima etapa.
         </p>
 
         <div className="mb-6 overflow-hidden rounded-xl border border-gray-100 bg-white">
@@ -122,7 +126,11 @@ export default async function ConcesionariasAdminPage() {
 
         <section className="rounded-xl border border-gray-100 bg-white p-6">
           <h2 className="mb-4 text-lg font-bold text-umarti-navy">Nueva concesionaria</h2>
-          <ConcesionariaForm accion={crearConcesionaria} textoBoton="Crear concesionaria" />
+          <ConcesionariaForm
+            accion={crearConcesionaria}
+            marcasDisponibles={marcasDisponibles}
+            textoBoton="Crear concesionaria"
+          />
         </section>
       </div>
     </main>
