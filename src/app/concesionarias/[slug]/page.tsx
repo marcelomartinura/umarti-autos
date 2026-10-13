@@ -62,9 +62,13 @@ export default async function ConcesionariaDetallePage({
         .order("fecha", { ascending: false }),
     ]);
 
-  const marcas = (marcasVinculadas ?? [])
-    .map((m) => m.marcas as { nombre: string; logo_url: string | null } | null)
-    .filter((m): m is { nombre: string; logo_url: string | null } => Boolean(m));
+  type MarcaEmbebida = { nombre: string; logo_url: string | null } | null;
+  const marcasVinculadasTipadas = (marcasVinculadas ?? []) as unknown as {
+    marcas: MarcaEmbebida;
+  }[];
+  const marcas = marcasVinculadasTipadas
+    .map((m) => m.marcas)
+    .filter((m): m is NonNullable<MarcaEmbebida> => Boolean(m));
 
   const listaSucursales = sucursales ?? [];
   const listaNovedades = novedades ?? [];
