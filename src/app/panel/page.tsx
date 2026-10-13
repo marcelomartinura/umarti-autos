@@ -56,7 +56,7 @@ export default async function AdminDashboardPage() {
           </p>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Link
             href="/panel/catalogo"
             className="rounded-2xl border border-gray-100 bg-white p-6 transition hover:border-umarti-orange hover:shadow-sm"
@@ -66,10 +66,24 @@ export default async function AdminDashboardPage() {
               Marcas, modelos, versiones y la ficha de cada vehículo.
             </p>
           </Link>
-          <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-6 opacity-60">
-            <p className="text-lg font-bold text-gray-400">Concesionarias</p>
-            <p className="mt-1 text-sm text-gray-400">Próximamente.</p>
-          </div>
+          <Link
+            href="/panel/concesionarias"
+            className="rounded-2xl border border-gray-100 bg-white p-6 transition hover:border-umarti-orange hover:shadow-sm"
+          >
+            <p className="text-lg font-bold text-umarti-navy">Concesionarias</p>
+            <p className="mt-1 text-sm text-gray-500">
+              Landing propia para cada agencia: logo, portada, descripción y contacto.
+            </p>
+          </Link>
+          <Link
+            href="/panel/vendedores"
+            className="rounded-2xl border border-gray-100 bg-white p-6 transition hover:border-umarti-orange hover:shadow-sm"
+          >
+            <p className="text-lg font-bold text-umarti-navy">Vendedores</p>
+            <p className="mt-1 text-sm text-gray-500">
+              Miniwebs individuales, de concesionaria o independientes.
+            </p>
+          </Link>
           <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-6 opacity-60">
             <p className="text-lg font-bold text-gray-400">Publicaciones</p>
             <p className="mt-1 text-sm text-gray-400">
@@ -79,9 +93,9 @@ export default async function AdminDashboardPage() {
         </div>
 
         <div className="mt-6 rounded-2xl border border-dashed border-umarti-navy/20 bg-white p-6 text-sm text-gray-500">
-          El login ya está andando y el catálogo ya se puede cargar. Concesionarias y
-          las publicaciones de &quot;Vender mi auto&quot; se van a ir sumando acá en
-          las próximas entregas.
+          El login ya está andando, el catálogo ya se puede cargar, las landings de
+          Concesionarias y ahora también el prototipo de Vendedores. Las publicaciones de
+          &quot;Vender mi auto&quot; se van a ir sumando acá en las próximas entregas.
         </div>
       </div>
     </main>

@@ -44,7 +44,7 @@ export default async function ConcesionariaDetallePage({
     notFound();
   }
 
-  const [{ data: marcasVinculadas }, { data: sucursales }, { data: novedades }] =
+  const [{ data: marcasVinculadas }, { data: sucursales }, { data: novedades }, { data: vendedores }] =
     await Promise.all([
       supabase
         .from("concesionaria_marcas")
@@ -60,6 +60,12 @@ export default async function ConcesionariaDetallePage({
         .select("*")
         .eq("concesionaria_id", concesionaria.id)
         .order("fecha", { ascending: false }),
+      supabase
+        .from("vendedores")
+        .select("slug, nombre_completo, concesionaria_sucursales(nombre), marcas(nombre)")
+        .eq("concesionaria_id", concesionaria.id)
+        .eq("activo", true)
+        .order("nombre_completo"),
     ]);
 
   type MarcaEmbebida = { nombre: string; logo_url: string | null } | null;
@@ -72,6 +78,14 @@ export default async function ConcesionariaDetallePage({
 
   const listaSucursales = sucursales ?? [];
   const listaNovedades = novedades ?? [];
+
+  type VendedorEmbebido = {
+    slug: string;
+    nombre_completo: string;
+    concesionaria_sucursales: { nombre: string } | null;
+    marcas: { nombre: string } | null;
+  };
+  const listaVendedores = (vendedores ?? []) as unknown as VendedorEmbebido[];
 
   const mensajeWhatsapp = encodeURIComponent(
     `Hola, te contacto desde tu perfil en Umarti Movilidad (${concesionaria.nombre}).`
@@ -240,6 +254,35 @@ export default async function ConcesionariaDetallePage({
                     </a>
                   )}
                 </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {listaVendedores.length > 0 && (
+          <div className="mt-10">
+            <h2 className="mb-4 text-xl font-bold text-umarti-navy">
+              Vendedores de {concesionaria.nombre}
+            </h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {listaVendedores.map((v) => (
+                <Link
+                  key={v.slug}
+                  href={`/vendedores/${v.slug}`}
+                  className="group rounded-xl border border-gray-100 bg-white p-5 transition hover:border-umarti-orange hover:shadow-sm"
+                >
+                  <p className="font-bold text-umarti-navy group-hover:text-umarti-orange">
+                    {v.nombre_completo}
+                  </p>
+                  {v.concesionaria_sucursales && (
+                    <p className="mt-1 text-sm text-gray-500">{v.concesionaria_sucursales.nombre}</p>
+                  )}
+                  {v.marcas && (
+                    <span className="mt-2 inline-block rounded-full bg-umarti-cream px-2 py-0.5 text-[11px] font-medium text-umarti-navy">
+                      Vende {v.marcas.nombre}
+                    </span>
+                  )}
+                </Link>
               ))}
             </div>
           </div>
