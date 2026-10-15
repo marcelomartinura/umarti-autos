@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import Header from "@/components/Header";
 import AdSlot from "@/components/AdSlot";
-import GeneradorDescripcion from "@/components/GeneradorDescripcion";
 import BlogDealersListado from "@/components/BlogDealersListado";
 import ServicioIndustriaCard from "@/components/ServicioIndustriaCard";
 import IconoCategoriaComunidad from "@/components/IconoCategoriaComunidad";
@@ -32,41 +31,84 @@ export default function EcosistemaNegociosPage() {
     <main className="min-h-screen bg-umarti-cream pb-16">
       <Header />
 
-      <div className="bg-gradient-to-r from-umarti-navy to-umarti-navyDark py-12">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-6 md:flex-row md:items-center md:justify-between">
-          <div>
-            <nav className="mb-4 text-xs text-blue-200">
-              <Link href="/" className="hover:text-white">
-                Inicio
-              </Link>{" "}
-              <span className="mx-1">›</span> Ecosistema de Negocios
-            </nav>
-            <h1 className="text-4xl font-bold text-white md:text-5xl">
-              Ecosistema de Negocios
-            </h1>
-            <p className="mt-3 max-w-2xl text-base text-blue-100">
-              El espacio de Umarti Movilidad para concesionarias, agencias y
-              proveedores de la industria: herramientas, contenido y todo lo
-              que necesitás para sacarle el máximo provecho a la plataforma.
-            </p>
+      <div className="bg-gradient-to-r from-umarti-navy to-umarti-navyDark py-8">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="flex flex-col items-center gap-8 md:flex-row md:items-center md:justify-between">
+            <div>
+              <nav className="mb-4 text-xs text-blue-200">
+                <Link href="/" className="hover:text-white">
+                  Inicio
+                </Link>{" "}
+                <span className="mx-1">›</span> Ecosistema de Negocios
+              </nav>
+              <h1 className="text-4xl font-bold text-white md:text-5xl">
+                Ecosistema de Negocios
+              </h1>
+              <p className="mt-3 max-w-2xl text-base text-blue-100">
+                El espacio de Umarti Movilidad para concesionarias, agencias y
+                proveedores de la industria: herramientas, contenido y todo lo
+                que necesitás para sacarle el máximo provecho a la plataforma.
+              </p>
+            </div>
+
+            <div className="relative aspect-[3/2] w-56 shrink-0 sm:w-72">
+              <Image
+                src="/ecosistema-fondo.png"
+                alt=""
+                fill
+                aria-hidden="true"
+                className="pointer-events-none select-none object-contain"
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Image
+                  src="/avatar-ecosistema.jpg"
+                  alt="Asistente del Ecosistema de Negocios de Umarti Motors"
+                  width={640}
+                  height={640}
+                  className="w-32 shrink-0 rounded-2xl shadow-2xl sm:w-36"
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="relative aspect-[3/2] w-72 shrink-0 sm:w-96">
-            <Image
-              src="/ecosistema-fondo.png"
-              alt=""
-              fill
-              aria-hidden="true"
-              className="pointer-events-none select-none object-contain"
-            />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Image
-                src="/avatar-ecosistema.jpg"
-                alt="Asistente del Ecosistema de Negocios de Umarti Motors"
-                width={640}
-                height={640}
-                className="w-40 shrink-0 rounded-2xl shadow-2xl sm:w-48"
-              />
+          <div
+            id="sumar-negocio"
+            className="mt-8 grid scroll-mt-24 grid-cols-1 gap-4 sm:grid-cols-2"
+          >
+            <div className="rounded-2xl bg-white p-6">
+              <h2 className="font-bold text-umarti-navy">
+                Tenés una concesionaria o agencia
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Sumá tu negocio, publicá tu inventario y aparecé en Tiendas,
+                Catálogo y Clasificados.
+              </p>
+              <a
+                href={`https://wa.me/${UMARTI_WHATSAPP_ECOSISTEMA}?text=${mensajeConcesionaria}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
+              >
+                Sumar mi concesionaria o agencia
+              </a>
+            </div>
+
+            <div className="rounded-2xl bg-white p-6">
+              <h2 className="font-bold text-umarti-navy">
+                Sos proveedor de la industria
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Seguros, financiación, accesorios, talleres y más: llegá a
+                miles de compradores y concesionarias.
+              </p>
+              <a
+                href={`https://wa.me/${UMARTI_WHATSAPP_ECOSISTEMA}?text=${mensajeProveedor}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
+              >
+                Quiero ser proveedor
+              </a>
             </div>
           </div>
         </div>
@@ -123,44 +165,6 @@ export default function EcosistemaNegociosPage() {
           </div>
         </div>
 
-        <div id="sumar-negocio" className="mt-12 grid scroll-mt-24 grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl border border-gray-100 bg-white p-6">
-            <h2 className="font-bold text-umarti-navy">
-              Tenés una concesionaria o agencia
-            </h2>
-            <p className="mt-1 text-sm text-gray-500">
-              Sumá tu negocio, publicá tu inventario y aparecé en Tiendas,
-              Catálogo y Clasificados.
-            </p>
-            <a
-              href={`https://wa.me/${UMARTI_WHATSAPP_ECOSISTEMA}?text=${mensajeConcesionaria}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
-            >
-              Sumar mi concesionaria o agencia
-            </a>
-          </div>
-
-          <div className="rounded-2xl border border-gray-100 bg-white p-6">
-            <h2 className="font-bold text-umarti-navy">
-              Sos proveedor de la industria
-            </h2>
-            <p className="mt-1 text-sm text-gray-500">
-              Seguros, financiación, accesorios, talleres y más: llegá a
-              miles de compradores y concesionarias.
-            </p>
-            <a
-              href={`https://wa.me/${UMARTI_WHATSAPP_ECOSISTEMA}?text=${mensajeProveedor}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
-            >
-              Quiero ser proveedor
-            </a>
-          </div>
-        </div>
-
         <div className="mt-10">
           <AdSlot slot={AD_SLOTS.ecosistemaTope} />
         </div>
@@ -173,9 +177,7 @@ export default function EcosistemaNegociosPage() {
             Recursos pensados para concesionarias y agencias.
           </p>
 
-          <GeneradorDescripcion />
-
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {herramientasDealers.map((herramienta) => (
               <div
                 key={herramienta.titulo}

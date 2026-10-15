@@ -1315,9 +1315,10 @@ export const articulosDealers: ArticuloDealers[] = [
   },
 ];
 
-// Herramientas para concesionarias — la de "Generador de descripciones" ya
-// funciona (ver GeneradorDescripcion.tsx); el resto son ideas ya definidas,
-// marcadas "Próximamente" hasta que las construyamos.
+// Herramientas para concesionarias — todas marcadas "Próximamente" hasta que
+// las construyamos. El generador de descripciones (que sí llegó a funcionar)
+// se sacó de acá el 2026-10-15: va a pasar a ser parte de Mi Cuenta más
+// adelante, no una herramienta del Ecosistema de Negocios.
 export const herramientasDealers: HerramientaUtil[] = [
   {
     titulo: "Panel de estadísticas de tu tienda",
@@ -1333,6 +1334,26 @@ export const herramientasDealers: HerramientaUtil[] = [
     titulo: "Calculadora de alcance publicitario",
     descripcion:
       "Estimá cuántas personas podrían ver tu concesionaria destacada según la categoría y la ubicación.",
+  },
+  {
+    titulo: "Subastas",
+    descripcion:
+      "Comprá y vendé vehículos entre concesionarias en un espacio de subastas pensado para la industria.",
+  },
+  {
+    titulo: "Renting",
+    descripcion:
+      "Sumá el alquiler a largo plazo como una opción más para tus clientes, con gestión simple desde tu tienda.",
+  },
+  {
+    titulo: "Seguros",
+    descripcion:
+      "Ofrecé cotizaciones de seguro al cierre de cada venta, con compañías asociadas a Umarti Movilidad.",
+  },
+  {
+    titulo: "Financiamiento",
+    descripcion:
+      "Acercá opciones de crédito prendario y planes de financiación a tus clientes sin salir de tu panel.",
   },
 ];
 
