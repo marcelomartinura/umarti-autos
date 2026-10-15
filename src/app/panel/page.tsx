@@ -56,7 +56,7 @@ export default async function AdminDashboardPage() {
           </p>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Link
             href="/panel/catalogo"
             className="rounded-2xl border border-gray-100 bg-white p-6 transition hover:border-umarti-orange hover:shadow-sm"
@@ -84,6 +84,16 @@ export default async function AdminDashboardPage() {
               Miniwebs individuales, de concesionaria o independientes.
             </p>
           </Link>
+          <Link
+            href="/panel/registros"
+            className="rounded-2xl border border-gray-100 bg-white p-6 transition hover:border-umarti-orange hover:shadow-sm"
+          >
+            <p className="text-lg font-bold text-umarti-navy">Registros</p>
+            <p className="mt-1 text-sm text-gray-500">
+              Particulares y concesionarias que dejaron sus datos en Mi
+              Cuenta.
+            </p>
+          </Link>
           <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-6 opacity-60">
             <p className="text-lg font-bold text-gray-400">Publicaciones</p>
             <p className="mt-1 text-sm text-gray-400">
@@ -94,8 +104,9 @@ export default async function AdminDashboardPage() {
 
         <div className="mt-6 rounded-2xl border border-dashed border-umarti-navy/20 bg-white p-6 text-sm text-gray-500">
           El login ya está andando, el catálogo ya se puede cargar, las landings de
-          Concesionarias y ahora también el prototipo de Vendedores. Las publicaciones de
-          &quot;Vender mi auto&quot; se van a ir sumando acá en las próximas entregas.
+          Concesionarias, el prototipo de Vendedores y ahora los Registros de Mi Cuenta.
+          Las publicaciones de &quot;Vender mi auto&quot; se van a ir sumando acá en las
+          próximas entregas.
         </div>
       </div>
     </main>

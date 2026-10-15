@@ -20,9 +20,6 @@ export const metadata = {
 };
 
 export default function EcosistemaNegociosPage() {
-  const mensajeConcesionaria = encodeURIComponent(
-    "Hola, quiero sumar mi concesionaria/agencia a Umarti Movilidad."
-  );
   const mensajeProveedor = encodeURIComponent(
     "Hola, soy proveedor de la industria de la movilidad y quiero sumarme al ecosistema de Umarti."
   );
@@ -83,14 +80,12 @@ export default function EcosistemaNegociosPage() {
                 Sumá tu negocio, publicá tu inventario y aparecé en Tiendas,
                 Catálogo y Clasificados.
               </p>
-              <a
-                href={`https://wa.me/${UMARTI_WHATSAPP_ECOSISTEMA}?text=${mensajeConcesionaria}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/mi-cuenta/concesionaria"
                 className="mt-4 inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
               >
                 Sumar mi concesionaria o agencia
-              </a>
+              </Link>
             </div>
 
             <div className="rounded-2xl bg-white p-6">

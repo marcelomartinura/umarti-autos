@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import VenderAutoWizard from "@/components/VenderAutoWizard";
+import AvisoConcesionariaVender from "@/components/AvisoConcesionariaVender";
 
 export const metadata = {
   title: "Vender mi auto | Umarti Movilidad",
@@ -36,6 +37,8 @@ export default function VenderPage() {
               publicación
             </span>
           </div>
+
+          <AvisoConcesionariaVender />
         </div>
       </div>
 
