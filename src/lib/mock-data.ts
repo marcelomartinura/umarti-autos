@@ -1090,13 +1090,19 @@ export const serviciosIndustria: ServicioIndustria[] = [
     resumen: "Automatizá ventas y atención al cliente con inteligencia artificial.",
     descripcion:
       "Respondé consultas de catálogo, agendá turnos de service y calificá leads las 24 horas, sin perder el tono de tu marca.",
+    enlaceExterno: "https://www.umartidigital.com/servicios/automatizacion-ia/",
+    logoExterno: "https://www.umartidigital.com/assets/img/umarti-logo.png",
+    nombreExterno: "Umarti Digital",
   },
   {
     slug: "consultoria-transformacion-digital",
-    nombre: "Consultoría en Transformación Digital",
+    nombre: "Consultoría en Evolución Digital",
     resumen: "Modernizá tu negocio con soluciones tecnológicas innovadoras.",
     descripcion:
       "Un diagnóstico de tus procesos de venta y posventa, y un plan concreto para digitalizarlos sin descartar lo que ya funciona.",
+    enlaceExterno: "https://consultoria.umartidigital.com/",
+    logoExterno: "https://www.umartidigital.com/assets/img/umarti-logo.png",
+    nombreExterno: "Umarti Digital",
   },
   {
     slug: "publicidad-en-umarti",

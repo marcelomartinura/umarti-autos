@@ -119,8 +119,8 @@ export default async function ConcesionariaDetallePage({
             Inicio
           </Link>{" "}
           <span className="mx-1">›</span>{" "}
-          <Link href="/concesionarias" className="hover:text-umarti-orange">
-            Concesionarias
+          <Link href="/tiendas" className="hover:text-umarti-orange">
+            Tiendas
           </Link>{" "}
           <span className="mx-1">›</span> {concesionaria.nombre}
         </nav>

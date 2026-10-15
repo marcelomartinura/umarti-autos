@@ -65,8 +65,8 @@ export default async function VendedorDetallePage({
             Inicio
           </Link>{" "}
           <span className="mx-1">›</span>{" "}
-          <Link href="/vendedores" className="hover:text-umarti-orange">
-            Vendedores
+          <Link href="/tiendas" className="hover:text-umarti-orange">
+            Tiendas
           </Link>{" "}
           <span className="mx-1">›</span> {vendedorTipado.nombre_completo}
         </nav>

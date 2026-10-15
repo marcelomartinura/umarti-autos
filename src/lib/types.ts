@@ -182,6 +182,13 @@ export interface ServicioIndustria {
   nombre: string;
   resumen: string;
   descripcion: string;
+  // Opcional: cuando el servicio lo presta un partner externo (ej. Umarti
+  // Digital), se suma un link a su landing real y su logo, y la tarjeta
+  // muestra un segundo botón "Ver más información" además del "Consultar"
+  // de WhatsApp de siempre.
+  enlaceExterno?: string;
+  logoExterno?: string;
+  nombreExterno?: string;
 }
 
 export type CategoriaComunidad = "Autos" | "Motos" | "Camiones";
