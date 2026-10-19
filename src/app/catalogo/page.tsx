@@ -4,8 +4,23 @@ import Header from "@/components/Header";
 import CatalogoListado from "@/components/CatalogoListado";
 import AdSlot from "@/components/AdSlot";
 import { AD_SLOTS } from "@/lib/adsense";
+import { createClient } from "@/lib/supabase/server";
+import { aVehiculoPlano, VehiculoRealCrudo } from "./tipos";
 
-export default function CatalogoPage() {
+export default async function CatalogoPage() {
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("vehiculos")
+    .select(
+      "id, slug, anio, tipo, motorizacion, transmision, precio, precio_moneda, plan_ahorro, destacado, fotos, versiones(nombre, modelos(nombre, marcas(nombre, logo_url)))"
+    )
+    .eq("publicado", true)
+    .order("created_at", { ascending: false });
+
+  const crudos = (data ?? []) as unknown as VehiculoRealCrudo[];
+  const vehiculos = crudos.map(aVehiculoPlano);
+
   return (
     <main className="min-h-screen bg-umarti-cream">
       <Header />
@@ -31,7 +46,7 @@ export default function CatalogoPage() {
 
         <div className="mt-8">
           <Suspense fallback={null}>
-            <CatalogoListado />
+            <CatalogoListado vehiculos={vehiculos} />
           </Suspense>
         </div>
       </div>

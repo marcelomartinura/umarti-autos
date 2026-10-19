@@ -2,28 +2,62 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import {
-  marcas,
-  preciosFiltroARS,
-  preciosFiltroUSD,
-  segmentos,
-  vehiculosNuevos,
-} from "@/lib/mock-data";
-import { Combustible, Moneda, Transmision } from "@/lib/types";
-import VehicleCard from "./VehicleCard";
+import { VehiculoPlano } from "@/app/catalogo/tipos";
+import VehicleCardReal from "./VehicleCardReal";
 import FiltroDropdown from "./FiltroDropdown";
 import BuscadorInteligente from "./BuscadorInteligente";
 
-const combustibles: Combustible[] = ["Nafta", "Diesel", "Híbrido", "Eléctrico"];
-const transmisiones: Transmision[] = ["Manual", "Automática"];
+// Mismo vocabulario controlado que usa el panel (src/app/panel/catalogo/constantes.ts)
+// para los menús desplegables de Segmento/Motorización/Transmisión al cargar un vehículo.
+const SEGMENTOS = [
+  "Hatchback",
+  "Sedán",
+  "SUV Compacta",
+  "SUV Mediana",
+  "SUV Grande",
+  "Pickup",
+  "Furgón / Utilitario",
+  "Coupé",
+  "Minivan / Monovolumen",
+  "Deportivo",
+];
 
-function parsePrecioLabel(label: string): { moneda: Moneda; valor: number } {
+const MOTORIZACIONES = [
+  "Nafta",
+  "Diésel",
+  "Híbrido (HEV)",
+  "Híbrido enchufable (PHEV)",
+  "Eléctrico (EV)",
+  "GNC",
+];
+
+const TRANSMISIONES = [
+  "Manual",
+  "Automática",
+  "Automática CVT",
+  "Automática DCT",
+  "Automática secuencial",
+];
+
+const preciosFiltroUSD = ["Hasta USD 30.000", "Hasta USD 50.000"];
+const preciosFiltroARS = ["Hasta $25.000.000", "Hasta $35.000.000"];
+
+function parsePrecioLabel(label: string): { moneda: string; valor: number } {
   const valor = Number(label.replace(/[^\d]/g, ""));
   return label.includes("USD") ? { moneda: "USD", valor } : { moneda: "ARS", valor };
 }
 
-export default function CatalogoListado() {
+export default function CatalogoListado({
+  vehiculos,
+}: {
+  vehiculos: VehiculoPlano[];
+}) {
   const searchParams = useSearchParams();
+
+  const marcasDisponibles = useMemo(
+    () => [...new Set(vehiculos.map((v) => v.marca))].sort(),
+    [vehiculos]
+  );
 
   const [busqueda, setBusqueda] = useState("");
   const [marcasSel, setMarcasSel] = useState<string[]>([]);
@@ -50,7 +84,7 @@ export default function CatalogoListado() {
   }, []);
 
   const vehiculosFiltrados = useMemo(() => {
-    return vehiculosNuevos.filter((v) => {
+    return vehiculos.filter((v) => {
       const texto = `${v.marca} ${v.modelo} ${v.version}`.toLowerCase();
       const coincideBusqueda =
         busqueda.trim() === "" || texto.includes(busqueda.trim().toLowerCase());
@@ -65,7 +99,7 @@ export default function CatalogoListado() {
         precioSel.length === 0 ||
         precioSel.some((label) => {
           const { moneda, valor } = parsePrecioLabel(label);
-          return v.moneda === moneda && v.precioSugerido <= valor;
+          return v.moneda === moneda && v.precio != null && v.precio <= valor;
         });
       const coincidePlanAhorro = !soloPlanAhorro || v.planAhorro === true;
 
@@ -80,6 +114,7 @@ export default function CatalogoListado() {
       );
     });
   }, [
+    vehiculos,
     busqueda,
     marcasSel,
     segmentosSel,
@@ -107,6 +142,15 @@ export default function CatalogoListado() {
     setSoloPlanAhorro(false);
   }
 
+  if (vehiculos.length === 0) {
+    return (
+      <div className="rounded-xl border border-dashed border-gray-200 p-12 text-center text-sm text-gray-400">
+        Todavía no hay vehículos publicados en el catálogo. Se están
+        cargando desde el panel de administración.
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="mb-6 max-w-xl">
@@ -116,25 +160,25 @@ export default function CatalogoListado() {
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <FiltroDropdown
           label="Marca"
-          opciones={marcas}
+          opciones={marcasDisponibles}
           seleccionadas={marcasSel}
           onChange={setMarcasSel}
         />
         <FiltroDropdown
           label="Segmento"
-          opciones={segmentos}
+          opciones={SEGMENTOS}
           seleccionadas={segmentosSel}
           onChange={setSegmentosSel}
         />
         <FiltroDropdown
           label="Motorización"
-          opciones={combustibles}
+          opciones={MOTORIZACIONES}
           seleccionadas={combustiblesSel}
           onChange={setCombustiblesSel}
         />
         <FiltroDropdown
           label="Transmisión"
-          opciones={transmisiones}
+          opciones={TRANSMISIONES}
           seleccionadas={transmisionesSel}
           onChange={setTransmisionesSel}
         />
@@ -179,7 +223,7 @@ export default function CatalogoListado() {
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {vehiculosFiltrados.map((v) => (
-            <VehicleCard key={v.id} vehiculo={v} />
+            <VehicleCardReal key={v.id} vehiculo={v} />
           ))}
         </div>
       )}
