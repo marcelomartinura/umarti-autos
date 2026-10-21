@@ -18,6 +18,15 @@ export default function IconoServicioIndustria({ slug }: { slug: string }) {
           <path d="M17.5 5.5a8 8 0 0 1 0 13" />
         </svg>
       );
+    case "gestion-marketplaces":
+      return (
+        <svg {...props}>
+          <path d="M3 9h18" />
+          <path d="M4 9v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9" />
+          <path d="M8 9V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v4" />
+          <path d="M9 20v-6h6v6" />
+        </svg>
+      );
     case "agentes-conversacionales":
       return (
         <svg {...props}>
@@ -35,23 +44,18 @@ export default function IconoServicioIndustria({ slug }: { slug: string }) {
           <path d="M12 2a7 7 0 0 0-4 12.7c.6.4 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2Z" />
         </svg>
       );
-    case "publicidad-en-umarti":
-      return (
-        <svg {...props}>
-          <path d="M3 11v3a1 1 0 0 0 1 1h1l1 5h2l-.6-5H10l7 4V7l-7 4H4a1 1 0 0 0-1 1Z" />
-        </svg>
-      );
     case "gestion-de-leads-crm":
       return (
         <svg {...props}>
           <path d="M22 3H2l8 9.5V19l4 2v-8.5L22 3Z" />
         </svg>
       );
-    case "capacitacion-comercial":
+    case "empleos-industria":
       return (
         <svg {...props}>
-          <path d="M2 9 12 4l10 5-10 5-10-5Z" />
-          <path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" />
+          <path d="M4 7h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" />
+          <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+          <path d="M3 12h18" />
         </svg>
       );
     default:

@@ -1079,14 +1079,23 @@ export const UMARTI_WHATSAPP_ECOSISTEMA = "5491122334410";
 export const serviciosIndustria: ServicioIndustria[] = [
   {
     slug: "marketing-agencias",
-    nombre: "Marketing para agencias",
-    resumen: "Soluciones de marketing digital para concesionarias y agencias.",
+    nombre: "Marketing Digital / Generación de Leads",
+    resumen:
+      "Soluciones de marketing digital y generación de leads para concesionarias y agencias.",
     descripcion:
-      "Campañas de pauta, redes sociales y contenido pensadas específicamente para vender vehículos, no productos genéricos.",
+      "Campañas de pauta, redes sociales y contenido pensadas específicamente para vender vehículos, con foco en traerte consultas reales y calificadas, no solo visitas.",
+  },
+  {
+    slug: "gestion-marketplaces",
+    nombre: "Gestión con Marketplaces",
+    resumen:
+      "Publicá y gestioná tu inventario en los principales marketplaces desde un solo lugar.",
+    descripcion:
+      "Sincronizá tu stock con MercadoLibre, Facebook Marketplace y otros portales, para multiplicar tu alcance sin duplicar la carga de cada aviso.",
   },
   {
     slug: "agentes-conversacionales",
-    nombre: "Agentes conversacionales",
+    nombre: "Agentes conversacionales con IA",
     resumen: "Automatizá ventas y atención al cliente con inteligencia artificial.",
     descripcion:
       "Respondé consultas de catálogo, agendá turnos de service y calificá leads las 24 horas, sin perder el tono de tu marca.",
@@ -1105,25 +1114,20 @@ export const serviciosIndustria: ServicioIndustria[] = [
     nombreExterno: "Umarti Digital",
   },
   {
-    slug: "publicidad-en-umarti",
-    nombre: "Publicidad en Umarti",
-    resumen: "Destacá tu concesionaria en catálogo, clasificados y tiendas.",
-    descripcion:
-      "Espacios de visibilidad dentro del sitio para que tu inventario aparezca primero frente a compradores activos.",
-  },
-  {
     slug: "gestion-de-leads-crm",
-    nombre: "Gestión de leads y CRM",
-    resumen: "Centralizá y hacé seguimiento de las consultas que te llegan por Umarti.",
+    nombre: "CRM / ERP",
+    resumen:
+      "Centralizá tus leads y tu gestión comercial en un solo sistema, integrado con Umarti.",
     descripcion:
-      "Organizá los leads de WhatsApp, catálogo y clasificados en un solo lugar para no perder ninguna oportunidad de venta.",
+      "Organizá los leads de WhatsApp, catálogo y clasificados y conectalos con tu CRM o ERP, para no perder ninguna oportunidad de venta ni duplicar la carga de datos.",
   },
   {
-    slug: "capacitacion-comercial",
-    nombre: "Capacitación comercial",
-    resumen: "Entrená a tu equipo en atención digital y cierre de leads online.",
+    slug: "empleos-industria",
+    nombre: "Empleos para la industria",
+    resumen:
+      "Un espacio para publicar y encontrar búsquedas laborales específicas del rubro automotriz.",
     descripcion:
-      "Talleres prácticos para que tu equipo de ventas convierta más consultas de WhatsApp y catálogo en visitas reales.",
+      "Concesionarias y agencias publican sus búsquedas (vendedores, asesores, técnicos) y quienes buscan trabajo en la industria encuentran oportunidades reales, todo en un mismo lugar.",
   },
 ];
 
@@ -1318,7 +1322,9 @@ export const articulosDealers: ArticuloDealers[] = [
 // Herramientas para concesionarias — todas marcadas "Próximamente" hasta que
 // las construyamos. El generador de descripciones (que sí llegó a funcionar)
 // se sacó de acá el 2026-10-15: va a pasar a ser parte de Mi Cuenta más
-// adelante, no una herramienta del Ecosistema de Negocios.
+// adelante, no una herramienta del Ecosistema de Negocios. "Publicidad en
+// Umarti" se sumó acá el 2026-10-21, movida desde "Servicios para la
+// industria" a pedido de Marcelo.
 export const herramientasDealers: HerramientaUtil[] = [
   {
     titulo: "Panel de estadísticas de tu tienda",
@@ -1354,6 +1360,11 @@ export const herramientasDealers: HerramientaUtil[] = [
     titulo: "Financiamiento",
     descripcion:
       "Acercá opciones de crédito prendario y planes de financiación a tus clientes sin salir de tu panel.",
+  },
+  {
+    titulo: "Publicidad en Umarti",
+    descripcion:
+      "Espacios de visibilidad dentro del sitio para que tu inventario aparezca primero frente a compradores activos.",
   },
 ];
 
