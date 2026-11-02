@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ADMIN_LOGIN_PATH } from "@/lib/admin-config";
-import EliminarVersionBoton from "./EliminarVersionBoton";
+import ListadoVersiones from "./ListadoVersiones";
 import VersionForm from "./VersionForm";
 import { crearVersion } from "./actions";
 import type { VersionListado } from "../tipos";
@@ -127,77 +127,15 @@ export default async function VersionesAdminPage() {
           </p>
         ) : (
           <>
-            <div className="mb-6 overflow-hidden rounded-xl border border-gray-100 bg-white">
-              {listado.length === 0 ? (
+            {listado.length === 0 ? (
+              <div className="mb-6 overflow-hidden rounded-xl border border-gray-100 bg-white">
                 <p className="p-8 text-center text-sm text-gray-400">
                   Todavía no hay versiones cargadas. Usá el formulario de abajo.
                 </p>
-              ) : (
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-gray-50 text-xs uppercase text-gray-400">
-                    <tr>
-                      <th className="px-4 py-3">Versión</th>
-                      <th className="px-4 py-3">Estado</th>
-                      <th className="px-4 py-3" />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {arbolOrdenado.flatMap((grupoMarca) => [
-                      <tr key={`marca-${grupoMarca.marca}`} className="border-t border-gray-100 bg-gray-50">
-                        <td
-                          colSpan={3}
-                          className="px-4 py-2 text-xs font-bold uppercase tracking-wide text-umarti-navy"
-                        >
-                          {grupoMarca.marca}
-                        </td>
-                      </tr>,
-                      ...grupoMarca.modelos.flatMap((grupoModelo) => [
-                        <tr
-                          key={`modelo-${grupoMarca.marca}-${grupoModelo.modelo}`}
-                          className="border-t border-gray-100"
-                        >
-                          <td
-                            colSpan={3}
-                            className="px-4 py-1.5 pl-6 text-xs font-semibold uppercase tracking-wide text-gray-400"
-                          >
-                            {grupoModelo.modelo}
-                          </td>
-                        </tr>,
-                        ...grupoModelo.versiones.map((v) => (
-                          <tr key={v.id} className="border-t border-gray-100">
-                            <td className="px-4 py-3 pl-10 font-medium text-umarti-navy">
-                              {v.nombre}
-                            </td>
-                            <td className="px-4 py-3">
-                              {v.activa ? (
-                                <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
-                                  Activa
-                                </span>
-                              ) : (
-                                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
-                                  Inactiva
-                                </span>
-                              )}
-                            </td>
-                            <td className="px-4 py-3">
-                              <div className="flex justify-end gap-3">
-                                <Link
-                                  href={`/panel/catalogo/versiones/${v.id}/editar`}
-                                  className="text-sm font-semibold text-umarti-orange hover:underline"
-                                >
-                                  Editar
-                                </Link>
-                                <EliminarVersionBoton versionId={v.id} nombre={v.nombre} />
-                              </div>
-                            </td>
-                          </tr>
-                        )),
-                      ]),
-                    ])}
-                  </tbody>
-                </table>
-              )}
-            </div>
+              </div>
+            ) : (
+              <ListadoVersiones arbol={arbolOrdenado} />
+            )}
 
             <section className="rounded-xl border border-gray-100 bg-white p-6">
               <h2 className="mb-4 text-lg font-bold text-umarti-navy">Nueva versión</h2>

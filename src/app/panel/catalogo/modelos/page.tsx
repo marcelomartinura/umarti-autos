@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ADMIN_LOGIN_PATH } from "@/lib/admin-config";
-import EliminarModeloBoton from "./EliminarModeloBoton";
+import ListadoModelos from "./ListadoModelos";
 import ModeloForm from "./ModeloForm";
 import { crearModelo } from "./actions";
 import type { ModeloListado } from "../tipos";
@@ -57,6 +57,10 @@ export default async function ModelosAdminPage() {
       a.nombre.localeCompare(b.nombre, "es", { sensitivity: "base" })
     );
   }
+  const grupos = marcasConModelos.map((marca) => ({
+    marca,
+    modelos: gruposPorMarca.get(marca)!,
+  }));
 
   return (
     <main className="min-h-screen bg-umarti-cream p-6">
@@ -110,64 +114,15 @@ export default async function ModelosAdminPage() {
           </p>
         ) : (
           <>
-            <div className="mb-6 overflow-hidden rounded-xl border border-gray-100 bg-white">
-              {listado.length === 0 ? (
+            {listado.length === 0 ? (
+              <div className="mb-6 overflow-hidden rounded-xl border border-gray-100 bg-white">
                 <p className="p-8 text-center text-sm text-gray-400">
                   Todavía no hay modelos cargados. Usá el formulario de abajo.
                 </p>
-              ) : (
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-gray-50 text-xs uppercase text-gray-400">
-                    <tr>
-                      <th className="px-4 py-3">Modelo</th>
-                      <th className="px-4 py-3">Estado</th>
-                      <th className="px-4 py-3" />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {marcasConModelos.flatMap((marca) => [
-                      <tr key={`marca-${marca}`} className="border-t border-gray-100 bg-gray-50">
-                        <td
-                          colSpan={3}
-                          className="px-4 py-2 text-xs font-bold uppercase tracking-wide text-umarti-navy"
-                        >
-                          {marca}
-                        </td>
-                      </tr>,
-                      ...gruposPorMarca.get(marca)!.map((m) => (
-                        <tr key={m.id} className="border-t border-gray-100">
-                          <td className="px-4 py-3 pl-8 font-medium text-umarti-navy">
-                            {m.nombre}
-                          </td>
-                          <td className="px-4 py-3">
-                            {m.activo ? (
-                              <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
-                                Activo
-                              </span>
-                            ) : (
-                              <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
-                                Inactivo
-                              </span>
-                            )}
-                          </td>
-                          <td className="px-4 py-3">
-                            <div className="flex justify-end gap-3">
-                              <Link
-                                href={`/panel/catalogo/modelos/${m.id}/editar`}
-                                className="text-sm font-semibold text-umarti-orange hover:underline"
-                              >
-                                Editar
-                              </Link>
-                              <EliminarModeloBoton modeloId={m.id} nombre={m.nombre} />
-                            </div>
-                          </td>
-                        </tr>
-                      )),
-                    ])}
-                  </tbody>
-                </table>
-              )}
-            </div>
+              </div>
+            ) : (
+              <ListadoModelos grupos={grupos} />
+            )}
 
             <section className="rounded-xl border border-gray-100 bg-white p-6">
               <h2 className="mb-4 text-lg font-bold text-umarti-navy">Nuevo modelo</h2>
