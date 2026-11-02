@@ -40,6 +40,24 @@ export default async function ModelosAdminPage() {
   const listadoMarcas = marcas ?? [];
   const listado = (modelos ?? []) as unknown as ModeloListado[];
 
+  // Agrupar los modelos por marca (marcas en orden alfabético, y los
+  // modelos de cada marca también en orden alfabético) para que el
+  // listado se pueda recorrer/buscar más rápido — a pedido de Marcelo.
+  const gruposPorMarca = new Map<string, ModeloListado[]>();
+  for (const m of listado) {
+    const marca = m.marcas?.nombre ?? "Sin marca";
+    if (!gruposPorMarca.has(marca)) gruposPorMarca.set(marca, []);
+    gruposPorMarca.get(marca)!.push(m);
+  }
+  const marcasConModelos = Array.from(gruposPorMarca.keys()).sort((a, b) =>
+    a.localeCompare(b, "es", { sensitivity: "base" })
+  );
+  for (const modelosDeMarca of gruposPorMarca.values()) {
+    modelosDeMarca.sort((a, b) =>
+      a.nombre.localeCompare(b.nombre, "es", { sensitivity: "base" })
+    );
+  }
+
   return (
     <main className="min-h-screen bg-umarti-cream p-6">
       <div className="mx-auto max-w-4xl">
@@ -102,40 +120,50 @@ export default async function ModelosAdminPage() {
                   <thead className="bg-gray-50 text-xs uppercase text-gray-400">
                     <tr>
                       <th className="px-4 py-3">Modelo</th>
-                      <th className="px-4 py-3">Marca</th>
                       <th className="px-4 py-3">Estado</th>
                       <th className="px-4 py-3" />
                     </tr>
                   </thead>
                   <tbody>
-                    {listado.map((m) => (
-                      <tr key={m.id} className="border-t border-gray-100">
-                        <td className="px-4 py-3 font-medium text-umarti-navy">{m.nombre}</td>
-                        <td className="px-4 py-3 text-gray-500">{m.marcas?.nombre ?? "—"}</td>
-                        <td className="px-4 py-3">
-                          {m.activo ? (
-                            <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
-                              Activo
-                            </span>
-                          ) : (
-                            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
-                              Inactivo
-                            </span>
-                          )}
+                    {marcasConModelos.flatMap((marca) => [
+                      <tr key={`marca-${marca}`} className="border-t border-gray-100 bg-gray-50">
+                        <td
+                          colSpan={3}
+                          className="px-4 py-2 text-xs font-bold uppercase tracking-wide text-umarti-navy"
+                        >
+                          {marca}
                         </td>
-                        <td className="px-4 py-3">
-                          <div className="flex justify-end gap-3">
-                            <Link
-                              href={`/panel/catalogo/modelos/${m.id}/editar`}
-                              className="text-sm font-semibold text-umarti-orange hover:underline"
-                            >
-                              Editar
-                            </Link>
-                            <EliminarModeloBoton modeloId={m.id} nombre={m.nombre} />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                      </tr>,
+                      ...gruposPorMarca.get(marca)!.map((m) => (
+                        <tr key={m.id} className="border-t border-gray-100">
+                          <td className="px-4 py-3 pl-8 font-medium text-umarti-navy">
+                            {m.nombre}
+                          </td>
+                          <td className="px-4 py-3">
+                            {m.activo ? (
+                              <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
+                                Activo
+                              </span>
+                            ) : (
+                              <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
+                                Inactivo
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex justify-end gap-3">
+                              <Link
+                                href={`/panel/catalogo/modelos/${m.id}/editar`}
+                                className="text-sm font-semibold text-umarti-orange hover:underline"
+                              >
+                                Editar
+                              </Link>
+                              <EliminarModeloBoton modeloId={m.id} nombre={m.nombre} />
+                            </div>
+                          </td>
+                        </tr>
+                      )),
+                    ])}
                   </tbody>
                 </table>
               )}

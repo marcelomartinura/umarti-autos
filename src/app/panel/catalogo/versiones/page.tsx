@@ -45,6 +45,36 @@ export default async function VersionesAdminPage() {
   const hayModelos = listadoMarcas.some((m) => m.modelos.length > 0);
   const listado = (versiones ?? []) as unknown as VersionListado[];
 
+  // Agrupar las versiones por marca y, dentro de cada marca, por modelo
+  // (marcas y modelos en orden alfabético) para que el listado se pueda
+  // recorrer/buscar más rápido — a pedido de Marcelo.
+  type GrupoModelo = { modelo: string; versiones: VersionListado[] };
+  const gruposPorMarca = new Map<string, Map<string, VersionListado[]>>();
+  for (const v of listado) {
+    const marca = v.modelos?.marcas?.nombre ?? "Sin marca";
+    const modelo = v.modelos?.nombre ?? "Sin modelo";
+    if (!gruposPorMarca.has(marca)) gruposPorMarca.set(marca, new Map());
+    const gruposPorModelo = gruposPorMarca.get(marca)!;
+    if (!gruposPorModelo.has(modelo)) gruposPorModelo.set(modelo, []);
+    gruposPorModelo.get(modelo)!.push(v);
+  }
+  const marcasOrdenadas = Array.from(gruposPorMarca.keys()).sort((a, b) =>
+    a.localeCompare(b, "es", { sensitivity: "base" })
+  );
+  const arbolOrdenado = marcasOrdenadas.map((marca) => {
+    const gruposPorModelo = gruposPorMarca.get(marca)!;
+    const modelosOrdenados = Array.from(gruposPorModelo.keys()).sort((a, b) =>
+      a.localeCompare(b, "es", { sensitivity: "base" })
+    );
+    const modelos: GrupoModelo[] = modelosOrdenados.map((modelo) => ({
+      modelo,
+      versiones: gruposPorModelo
+        .get(modelo)!
+        .sort((a, b) => a.nombre.localeCompare(b.nombre, "es", { sensitivity: "base" })),
+    }));
+    return { marca, modelos };
+  });
+
   return (
     <main className="min-h-screen bg-umarti-cream p-6">
       <div className="mx-auto max-w-4xl">
@@ -107,44 +137,63 @@ export default async function VersionesAdminPage() {
                   <thead className="bg-gray-50 text-xs uppercase text-gray-400">
                     <tr>
                       <th className="px-4 py-3">Versión</th>
-                      <th className="px-4 py-3">Modelo</th>
-                      <th className="px-4 py-3">Marca</th>
                       <th className="px-4 py-3">Estado</th>
                       <th className="px-4 py-3" />
                     </tr>
                   </thead>
                   <tbody>
-                    {listado.map((v) => (
-                      <tr key={v.id} className="border-t border-gray-100">
-                        <td className="px-4 py-3 font-medium text-umarti-navy">{v.nombre}</td>
-                        <td className="px-4 py-3 text-gray-500">{v.modelos?.nombre ?? "—"}</td>
-                        <td className="px-4 py-3 text-gray-500">
-                          {v.modelos?.marcas?.nombre ?? "—"}
+                    {arbolOrdenado.flatMap((grupoMarca) => [
+                      <tr key={`marca-${grupoMarca.marca}`} className="border-t border-gray-100 bg-gray-50">
+                        <td
+                          colSpan={3}
+                          className="px-4 py-2 text-xs font-bold uppercase tracking-wide text-umarti-navy"
+                        >
+                          {grupoMarca.marca}
                         </td>
-                        <td className="px-4 py-3">
-                          {v.activa ? (
-                            <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
-                              Activa
-                            </span>
-                          ) : (
-                            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
-                              Inactiva
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex justify-end gap-3">
-                            <Link
-                              href={`/panel/catalogo/versiones/${v.id}/editar`}
-                              className="text-sm font-semibold text-umarti-orange hover:underline"
-                            >
-                              Editar
-                            </Link>
-                            <EliminarVersionBoton versionId={v.id} nombre={v.nombre} />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                      </tr>,
+                      ...grupoMarca.modelos.flatMap((grupoModelo) => [
+                        <tr
+                          key={`modelo-${grupoMarca.marca}-${grupoModelo.modelo}`}
+                          className="border-t border-gray-100"
+                        >
+                          <td
+                            colSpan={3}
+                            className="px-4 py-1.5 pl-6 text-xs font-semibold uppercase tracking-wide text-gray-400"
+                          >
+                            {grupoModelo.modelo}
+                          </td>
+                        </tr>,
+                        ...grupoModelo.versiones.map((v) => (
+                          <tr key={v.id} className="border-t border-gray-100">
+                            <td className="px-4 py-3 pl-10 font-medium text-umarti-navy">
+                              {v.nombre}
+                            </td>
+                            <td className="px-4 py-3">
+                              {v.activa ? (
+                                <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
+                                  Activa
+                                </span>
+                              ) : (
+                                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
+                                  Inactiva
+                                </span>
+                              )}
+                            </td>
+                            <td className="px-4 py-3">
+                              <div className="flex justify-end gap-3">
+                                <Link
+                                  href={`/panel/catalogo/versiones/${v.id}/editar`}
+                                  className="text-sm font-semibold text-umarti-orange hover:underline"
+                                >
+                                  Editar
+                                </Link>
+                                <EliminarVersionBoton versionId={v.id} nombre={v.nombre} />
+                              </div>
+                            </td>
+                          </tr>
+                        )),
+                      ]),
+                    ])}
                   </tbody>
                 </table>
               )}

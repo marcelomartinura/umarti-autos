@@ -32,6 +32,41 @@ export default async function CatalogoAdminPage() {
 
   const listado = (vehiculos ?? []) as unknown as VehiculoListado[];
 
+  // Agrupar los vehículos por marca y, dentro de cada marca, por modelo
+  // (marcas y modelos en orden alfabético), y dentro de cada modelo ordenar
+  // las versiones también alfabéticamente (y por año, el más nuevo primero)
+  // para que el listado se pueda recorrer/buscar más rápido — a pedido de Marcelo.
+  type GrupoModeloVehiculos = { modelo: string; vehiculos: VehiculoListado[] };
+  const gruposPorMarca = new Map<string, Map<string, VehiculoListado[]>>();
+  for (const v of listado) {
+    const marca = v.versiones?.modelos?.marcas?.nombre ?? "Sin marca";
+    const modelo = v.versiones?.modelos?.nombre ?? "Sin modelo";
+    if (!gruposPorMarca.has(marca)) gruposPorMarca.set(marca, new Map());
+    const gruposPorModelo = gruposPorMarca.get(marca)!;
+    if (!gruposPorModelo.has(modelo)) gruposPorModelo.set(modelo, []);
+    gruposPorModelo.get(modelo)!.push(v);
+  }
+  const marcasOrdenadas = Array.from(gruposPorMarca.keys()).sort((a, b) =>
+    a.localeCompare(b, "es", { sensitivity: "base" })
+  );
+  const arbolOrdenado = marcasOrdenadas.map((marca) => {
+    const gruposPorModelo = gruposPorMarca.get(marca)!;
+    const modelosOrdenados = Array.from(gruposPorModelo.keys()).sort((a, b) =>
+      a.localeCompare(b, "es", { sensitivity: "base" })
+    );
+    const modelos: GrupoModeloVehiculos[] = modelosOrdenados.map((modelo) => ({
+      modelo,
+      vehiculos: gruposPorModelo.get(modelo)!.sort((a, b) => {
+        const nombreA = a.versiones?.nombre ?? "";
+        const nombreB = b.versiones?.nombre ?? "";
+        const porNombre = nombreA.localeCompare(nombreB, "es", { sensitivity: "base" });
+        if (porNombre !== 0) return porNombre;
+        return (b.anio ?? 0) - (a.anio ?? 0);
+      }),
+    }));
+    return { marca, modelos };
+  });
+
   return (
     <main className="min-h-screen bg-umarti-cream p-6">
       <div className="mx-auto max-w-5xl">
@@ -90,7 +125,7 @@ export default async function CatalogoAdminPage() {
             <table className="w-full text-left text-sm">
               <thead className="bg-gray-50 text-xs uppercase text-gray-400">
                 <tr>
-                  <th className="px-4 py-3">Vehículo</th>
+                  <th className="px-4 py-3">Versión</th>
                   <th className="px-4 py-3">Año</th>
                   <th className="px-4 py-3">Estado</th>
                   <th className="px-4 py-3">Destacado</th>
@@ -98,41 +133,63 @@ export default async function CatalogoAdminPage() {
                 </tr>
               </thead>
               <tbody>
-                {listado.map((v) => {
-                  const modelo = v.versiones?.modelos;
-                  const nombre = `${modelo?.marcas?.nombre ?? ""} ${modelo?.nombre ?? ""} ${v.versiones?.nombre ?? ""}`.trim();
-                  return (
-                    <tr key={v.id} className="border-t border-gray-100">
-                      <td className="px-4 py-3 font-medium text-umarti-navy">
-                        {nombre || "(sin versión asignada)"}
+                {arbolOrdenado.flatMap((grupoMarca) => [
+                  <tr key={`marca-${grupoMarca.marca}`} className="border-t border-gray-100 bg-gray-50">
+                    <td
+                      colSpan={5}
+                      className="px-4 py-2 text-xs font-bold uppercase tracking-wide text-umarti-navy"
+                    >
+                      {grupoMarca.marca}
+                    </td>
+                  </tr>,
+                  ...grupoMarca.modelos.flatMap((grupoModelo) => [
+                    <tr
+                      key={`modelo-${grupoMarca.marca}-${grupoModelo.modelo}`}
+                      className="border-t border-gray-100"
+                    >
+                      <td
+                        colSpan={5}
+                        className="px-4 py-1.5 pl-6 text-xs font-semibold uppercase tracking-wide text-gray-400"
+                      >
+                        {grupoModelo.modelo}
                       </td>
-                      <td className="px-4 py-3 text-gray-500">{v.anio}</td>
-                      <td className="px-4 py-3">
-                        {v.publicado ? (
-                          <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
-                            Publicado
-                          </span>
-                        ) : (
-                          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
-                            Borrador
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-gray-500">{v.destacado ? "✓" : "—"}</td>
-                      <td className="px-4 py-3">
-                        <div className="flex justify-end gap-3">
-                          <Link
-                            href={`/panel/catalogo/${v.id}/editar`}
-                            className="text-sm font-semibold text-umarti-orange hover:underline"
-                          >
-                            Editar
-                          </Link>
-                          <EliminarVehiculoBoton vehiculoId={v.id} nombre={nombre || "vehículo"} />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                    </tr>,
+                    ...grupoModelo.vehiculos.map((v) => {
+                      const nombre = v.versiones?.nombre ?? "";
+                      return (
+                        <tr key={v.id} className="border-t border-gray-100">
+                          <td className="px-4 py-3 pl-10 font-medium text-umarti-navy">
+                            {nombre || "(sin versión asignada)"}
+                          </td>
+                          <td className="px-4 py-3 text-gray-500">{v.anio}</td>
+                          <td className="px-4 py-3">
+                            {v.publicado ? (
+                              <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
+                                Publicado
+                              </span>
+                            ) : (
+                              <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">
+                                Borrador
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-gray-500">{v.destacado ? "✓" : "—"}</td>
+                          <td className="px-4 py-3">
+                            <div className="flex justify-end gap-3">
+                              <Link
+                                href={`/panel/catalogo/${v.id}/editar`}
+                                className="text-sm font-semibold text-umarti-orange hover:underline"
+                              >
+                                Editar
+                              </Link>
+                              <EliminarVehiculoBoton vehiculoId={v.id} nombre={nombre || "vehículo"} />
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }),
+                  ]),
+                ])}
               </tbody>
             </table>
           )}
